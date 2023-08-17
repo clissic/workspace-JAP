@@ -20,9 +20,8 @@ document.getElementById("Carlos").addEventListener("click", async function () {
     try {
       const productosJson = await fetchData("https://japceibal.github.io/emercado-api/cats_products/101.json"); // Espera a que se resuelva la promesa
       console.log(" PRODUCTOS:");
-      console.log(productosJson.products[0
-    ]);
+      console.log(productosJson.products[0]);
     } catch (error) {
         console.error("Error:", error);
       }
-    });
+    }); 
