@@ -36,7 +36,7 @@ body {
     color: white;
 }
 
-#Boton { 
+#botonLogin { 
     width: 100%;
     background: #1f53c5;
     padding: 12px;
@@ -130,8 +130,3 @@ body {
     margin: 16px 0;
     font-size: 16px;
 }
-
-
-
-
-
