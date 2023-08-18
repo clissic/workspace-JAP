@@ -60,8 +60,8 @@ body{
 /*cartas individuales*/
 .item{
     border: 1px solid #b5b5b5;
-    width: 270px;
-    height: 368px;
+    width: 300px;
+    height: 500px;
     background-color: rgb(255, 255, 255);
     border-radius: 6px 6px 40px 6px;
     margin: 10px;
@@ -121,11 +121,15 @@ body{
 .vendidos{
     font-size: 15px;
     font-family: Arial;
+    align-items: center;
+    margin-top: 5px;
 }
 
 .contenedor-boton{
-    justify-content: right;
-    display: flex;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    margin: 0 15px 15px 0;
 }
 
 /*Boton de comprar*/
