@@ -31,13 +31,13 @@ async function fetchData(url) {
             <img src="${auto.image}" alt="">
           </div>
           <div class="contenedor-texto">
-            <p id="precio"><span id="divisa">${auto.currency} </span>${auto.cost}</p>
-            <p id="titulo">${auto.name}</p>
+            <p class="precio" id="precio${auto.id}"><span id="divisa">${auto.currency} </span>${auto.cost}</p>
+            <p class="titulo" id="titulo${auto.id}">${auto.name}</p>
             <p class="descripcion">${auto.description}</p>
             <p class="vendidos">Vendidos: <span class="cant-vendidos">${auto.soldCount}</span></p>
           </div>
           <div class="contenedor-boton">
-            <button id="boton">Comprar</button>
+            <button class="botonComprar" id="boton${auto.id}">Comprar</button>
           </div>
         </div>
       `;

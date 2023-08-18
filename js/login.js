@@ -1,7 +1,6 @@
 const botonLogin = document.getElementById("botonLogin");
 botonLogin.addEventListener("click", ValidarUsuario);
 
-const num = 2;
 function ValidarUsuario(){
     const mail = document.getElementById("mail").value;
     const password = document.getElementById("password").value;

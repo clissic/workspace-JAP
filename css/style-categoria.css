@@ -101,13 +101,13 @@ body{
     margin-bottom: auto;
 }
 
-.contenedor-texto #precio{
+.contenedor-texto .precio{
     font-size: 24px;
     font-weight: bold;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.contenedor-texto #titulo{
+.contenedor-texto .titulo{
     font-size: 24px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
@@ -133,7 +133,7 @@ body{
 }
 
 /*Boton de comprar*/
-#boton{
+.botonComprar{
     background-color: #ff8b64;
     border: none;
     border-radius: 6px 6px 40px 6px;
@@ -148,7 +148,7 @@ body{
     font-weight: bold;
 }
 
-#boton:hover{    
+.botonComprar:hover{    
     color: white;
     background-color: #ee5522;
     transform: scale(1.030);        /*Escala el boton*/
