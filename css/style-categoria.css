@@ -39,6 +39,45 @@ body{
     
 }
 
+/*Seccion de filtrados de busqueda*/
+.contenedor-div-filtros{
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor-filtros{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+    background-color: #d8d8d8;
+    padding: 4px;
+    border-radius: 5px 5px 0 0;
+}
+
+.filtros-de-orden button{
+    width: 110px;
+    background-color: #b8dcff;
+    border-color: #d8d8d8;
+}
+
+.contenedor-botones-busqueda{
+    margin-left: 10px;
+}
+
+.boton-filtros-busqueda{
+    width: 80px;
+    background-color: #65b2ff;
+    color: white;
+    border-color: #d8d8d8;
+}
+
+.contenedor-filtros button:hover{
+    background-color: #7fbfff;
+}
+
+
 /*contiene todas las cartas*/
 .contenedor-items{
     border: 1px solid #a0a0a0;
@@ -46,10 +85,9 @@ body{
     display: flex;
     padding: 20px;
     flex-flow: row wrap;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     justify-content: space-evenly;
-    margin-top: 20px;
     box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);
     -webkit-box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);
     -moz-box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);

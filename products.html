@@ -53,6 +53,25 @@
       </svg>
       <input id="searchInput" type="search" placeholder="Buscar...">
     </div>
+    <div class="contenedor-div-filtros">
+      <div class="contenedor-filtros">
+        <span>Filtrar: </span>
+        <div class="filtro-precio">
+          <input type="number" id="filtro-min-precio" name="filtro-min-precio" placeholder="Precio min...">
+          <input type="number" id="filtro-max-precio" name="filtro-max-precio" placeholder="Precio máx...">
+        </div>
+        <span>Ordenar: </span>
+        <div class="filtros-de-orden">
+          <button class="filtro-ascendente">Ascendente</button>
+          <button class="filtro-descendente">Descendente</button>
+          <button class="filtro-relevancia">Relevancia</button>
+        </div>
+        <div class="contenedor-botones-busqueda">
+          <button class="boton-filtros-busqueda">Filtrar</button>
+          <button class="boton-filtros-busqueda">Limpiar</button>
+        </div>
+      </div>
+    </div>
     <div id="contenedor-items" class="contenedor-items">
 
       <!-- ESTO SE VA A LLENAR CON JS -->
