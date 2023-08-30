@@ -14,8 +14,10 @@ async function fetchData(url) {
 }
 
 async function main() {
+  var selectedCategoryId = localStorage.getItem('catID'); // Obtener el identificador de categoría almacenado
+
   const productos = await fetchData(
-    `https://japceibal.github.io/emercado-api/cats_products/101.json`
+    `https://japceibal.github.io/emercado-api/cats_products/${selectedCategoryId}.json` // Usar el identificador en la URL
   );
   return productos;
 }
