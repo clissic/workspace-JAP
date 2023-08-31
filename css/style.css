@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(https://static.vecteezy.com/system/resources/previews/006/849/262/original/abstract-background-with-soft-gradient-color-and-dynamic-shadow-on-background-background-for-wallpaper-eps-10-free-vector.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.ingreso {
+    width: 400px;
+    background: rgb(36, 48, 60, 0.9);
+    padding: 30px;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: white;
+    box-shadow: 7px 13px 37px #000;
+
+}
+.controles {
+    width: 100%;
+    background: #24303c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #1f53c5;
+    font-family: 'calibri';
+    font-size: 18px;
+    color: white;
+}
+
+#botonLogin { 
+    width: 100%;
+    background: #1f53c5;
+    padding: 12px;
+    color: white;
+    margin: 16px 0;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.7);
+}
+#Login { 
+    margin-top: 20px;
+}
+
+.ingreso h1 {
+    margin: 0;
+    text-align: center;
+    height: 22px;
+    margin-bottom: 40px;
+    font-size: 25px;
+}
+
+
+.form-register {
+    width: 400px;
+    background: rgb(36, 48, 60, 0.9);
+    padding: 30px;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: white;
+    box-shadow: 7px 13px 37px #000;
+}
+
+.form-register h4 {
+    margin: 0;
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    height: 22px;
+}
+
+.controls {
+    width: 100%;
+    background: rgb(36, 48, 60, 0.96);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #1f53c5;
+    font-family: 'calibri';
+    font-size: 18px;
+    color: white;
+
+}
+
+.checkbox { 
+    width: 100%;
+    padding: none;
+    margin-bottom: 17px;
+    color: white;
+}
+.form-check-input {
+    margin: 12px; 
+    height:12px;
+}
+.form-register p {
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+}
+
+.form-register a {
+    color: white;
+    text-decoration: none;
+}
+
+.form-register a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.form-register .botons {
+    border-radius: 4px;
+    box-shadow: 7px 8px 15px #000;
+    width: 100%;
+    background: #1f53c5;
+    padding: 12px;
+    color: white;
+    margin: 16px 0;
+    font-size: 16px;
+}

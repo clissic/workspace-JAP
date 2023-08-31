@@ -1,61 +1,181 @@
-function fetchData(url) {
-    return fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Error al obtener los datos");
-        }
-      })
-      .then((data) => {
+async function fetchData(url) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
         return data;
-      })
-      .catch((error) => {
-        console.error("Error al cargar el archivo JSON:", error);
-      });
-  }
-
-document.addEventListener("DOMContentLoaded", async function(){
-  try {
-    const contenedor = document.getElementById("contenedor-item");
-    const productosJson = await fetchData("https://japceibal.github.io/emercado-api/cats_products/101.json");
-    for (var i=0; i<productosJson.products.length; i++){
-      //crear la tarjeta
-      var divitem = document.createElement("div");
-      //crear la imagen
-      var divimagen = document.createElement("div");//crea el espacio
-      var imagen = document.createElement("img");//crea la imagen
-      imagen.setAttribute("src", productosJson.products[i][6]);//carga la imagen del json
-      divimagen.appendChild(imagen); //agraga la imagen al div imagen
-      divitem.appendChild(divimagen); //agrega el div imagen al div item
-      //crear los textos
-      var divtexto = document.createElement("div");//crea el espacio
-      //precio
-      var parrprecio = document.createElement("p");//crea el párrafo vacio
-      var precio = document.createTextNode(productosJson.products[i][4] + productosJson.products[0][3]); //crea el contenido del parrafo
-      parrprecio.appendChild(precio);//carga el texto en el parafo 
-      divtexto.appendChild(parrprecio);//carga el parrafo en el texto
-      //titulo
-      var parrtitulo = document.createElement("p");//crea el párrafo vacio
-      var titulo = document.createTextNode(productosJson.products[i][1]); //crea el contenido del parrafo
-      parrtitulo.appendChild(titulo);//carga el texto en el parafo 
-      divtexto.appendChild(parrtitulo);//carga el parrafo en el texto
-      //descripción
-      var parrdesc = document.createElement("p");//crea el párrafo vacio
-      var desc = document.createTextNode(productosJson.products[i][2]); //crea el contenido del parrafo
-      parrdesc.appendChild(desc);//carga el texto en el parafo 
-      divtexto.appendChild(parrdesc);//carga el parrafo en el texto
-      //vendidos
-      var parrsold = document.createElement("p");//crea el párrafo vacio
-      var sold = document.createTextNode("Vendidos: "+productosJson.products[i][5]); //crea el contenido del parrafo
-      parrsold.appendChild(sold);//carga el texto en el parafo 
-      divtexto.appendChild(parrsold);//carga el parrafo en el texto
-      //carga los textos en el item 
-      divitem.appendChild(divtexto);
-      //agrega el item al contenedor 
-      contenedor.appendChild(divitem);
+      } else {
+        throw new Error("Error al obtener los datos");
+      }
+    } catch (error) {
+      console.error("Error al cargar el archivo JSON:", error);
     }
-  } catch (error) {
-    console.error("Error:", error);
   }
-});
+  
+  async function main() {
+    var selectedCategoryId = localStorage.getItem('catID'); // Obtener el identificador de categoría almacenado
+  
+    const productos = await fetchData(
+      `https://japceibal.github.io/emercado-api/cats_products/${selectedCategoryId}.json` // Usar el identificador en la URL
+    );
+    return productos;
+  }
+  
+  async function cargarProductosAlHTML() {
+    const contenedor = document.getElementById("contenedor-items");
+    const arrayProductos = await main();
+  
+    for (let producto of arrayProductos.products) {
+      contenedor.innerHTML += `
+          <div class="item">
+            <div class="contenedor-imagen">
+              <img src="${producto.image}" alt="">
+            </div>
+            <div class="contenedor-texto">
+              <p class="precio" id="precio${producto.id}"><span id="divisa">${producto.currency} </span>${producto.cost}</p>
+              <p class="titulo" id="titulo${producto.id}">${producto.name}</p>
+              <p class="descripcion">${producto.description}</p>
+              <p class="vendidos">Vendidos: <span class="cant-vendidos">${producto.soldCount}</span></p>
+            </div>
+            <div class="contenedor-boton">
+              <button class="botonComprar" id="boton${producto.id}">Comprar</button>
+            </div>
+          </div>
+        `;
+    }
+  }
+  
+  cargarProductosAlHTML();
+  
+  
+  async function search() {
+    const searchInput = document.getElementById("searchInput");
+    const contenedor = document.getElementById("contenedor-items");
+    const arrayProductos = await main();
+  
+    searchInput.addEventListener("input", () => {
+      const searchInputValue = searchInput.value.toLowerCase()
+      contenedor.innerHTML = ""
+  
+      arrayProductos.products.forEach(prod => {
+        if (
+          prod.name.toLowerCase().includes(searchInputValue) ||
+          prod.description.toLowerCase().includes(searchInputValue)
+        ) {
+          contenedor.innerHTML += `
+          <div class="item">
+            <div class="contenedor-imagen">
+              <img src="${prod.image}" alt="">
+            </div>
+            <div class="contenedor-texto">
+              <p class="precio" id="precio${prod.id}"><span id="divisa">${prod.currency} </span>${prod.cost}</p>
+              <p class="titulo" id="titulo${prod.id}">${prod.name}</p>
+              <p class="descripcion">${prod.description}</p>
+              <p class="vendidos">Vendidos: <span class="cant-vendidos">${prod.soldCount}</span></p>
+            </div>
+            <div class="contenedor-boton">
+              <button class="botonComprar" id="boton${prod.id}">Comprar</button>
+            </div>
+          </div>
+        ` 
+        }
+      });
+    });
+  }
+  
+  
+  search()
+  
+  
+  
+  async function ordenar () {
+    const botonAsc = document.getElementById("ascendente");
+    const botonDesc = document.getElementById("descendente");
+    const botonRelevancia = document.getElementById("relevancia");
+  
+  
+  
+    const contenedor = document.getElementById("contenedor-items");
+    const arrayProductos = await main();
+  
+    botonAsc.addEventListener("click", () => {
+      const arrayAsc = arrayProductos.products.sort((a, b) => a.cost - b.cost);
+      console.log(arrayAsc);
+      arrayProductos[2] = arrayAsc;
+      contenedor.innerHTML = ""
+      console.log(arrayProductos);
+      for (let producto of arrayProductos.products) {
+        contenedor.innerHTML += `
+            <div class="item">
+              <div class="contenedor-imagen">
+                <img src="${producto.image}" alt="">
+              </div>
+              <div class="contenedor-texto">
+                <p class="precio" id="precio${producto.id}"><span id="divisa">${producto.currency} </span>${producto.cost}</p>
+                <p class="titulo" id="titulo${producto.id}">${producto.name}</p>
+                <p class="descripcion">${producto.description}</p>
+                <p class="vendidos">Vendidos: <span class="cant-vendidos">${producto.soldCount}</span></p>
+              </div>
+              <div class="contenedor-boton">
+                <button class="botonComprar" id="boton${producto.id}">Comprar</button>
+              </div>
+            </div>
+          `;
+      }
+    })
+  
+    botonDesc.addEventListener("click", () => {
+      const arrayDesc = arrayProductos.products.sort((a, b) => b.cost - a.cost);
+      arrayProductos[2] = arrayDesc;
+      contenedor.innerHTML = ""
+      console.log(arrayProductos);
+      for (let producto of arrayProductos.products) {
+        contenedor.innerHTML += `
+            <div class="item">
+              <div class="contenedor-imagen">
+                <img src="${producto.image}" alt="">
+              </div>
+              <div class="contenedor-texto">
+                <p class="precio" id="precio${producto.id}"><span id="divisa">${producto.currency} </span>${producto.cost}</p>
+                <p class="titulo" id="titulo${producto.id}">${producto.name}</p>
+                <p class="descripcion">${producto.description}</p>
+                <p class="vendidos">Vendidos: <span class="cant-vendidos">${producto.soldCount}</span></p>
+              </div>
+              <div class="contenedor-boton">
+                <button class="botonComprar" id="boton${producto.id}">Comprar</button>
+              </div>
+            </div>
+          `;
+      }
+    })
+  
+    botonRelevancia.addEventListener("click", () => {
+      const arrayRel = arrayProductos.products.sort((a, b) => b.soldCount - a.soldCount);
+      arrayProductos[2] = arrayRel;
+      contenedor.innerHTML = ""
+      console.log(arrayProductos);
+      for (let producto of arrayProductos.products) {
+        contenedor.innerHTML += `
+            <div class="item">
+              <div class="contenedor-imagen">
+                <img src="${producto.image}" alt="">
+              </div>
+              <div class="contenedor-texto">
+                <p class="precio" id="precio${producto.id}"><span id="divisa">${producto.currency} </span>${producto.cost}</p>
+                <p class="titulo" id="titulo${producto.id}">${producto.name}</p>
+                <p class="descripcion">${producto.description}</p>
+                <p class="vendidos">Vendidos: <span class="cant-vendidos">${producto.soldCount}</span></p>
+              </div>
+              <div class="contenedor-boton">
+                <button class="botonComprar" id="boton${producto.id}">Comprar</button>
+              </div>
+            </div>
+          `;
+      }
+    })
+  
+  }
+  
+  ordenar();
+  

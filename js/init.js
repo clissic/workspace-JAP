@@ -39,3 +39,7 @@ let getJSONData = function(url){
         return result;
     });
 }
+
+const usuarioLogin = JSON.parse(localStorage.getItem("usuario"));
+const mailUsuario = document.getElementById("mailUsuario");
+mailUsuario.innerHTML = usuarioLogin.mail;
