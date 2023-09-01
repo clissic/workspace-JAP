@@ -119,7 +119,6 @@ async function ordenar() {
     const arrayDesc = arrayProductos.products.sort((a, b) => b.cost - a.cost);
     arrayProductos[2] = arrayDesc;
     contenedor.innerHTML = "";
-    console.log(arrayProductos);
     for (let producto of arrayProductos.products) {
       contenedor.innerHTML += `
             <div class="item">
@@ -146,7 +145,6 @@ async function ordenar() {
     );
     arrayProductos[2] = arrayRel;
     contenedor.innerHTML = "";
-    console.log(arrayProductos);
     for (let producto of arrayProductos.products) {
       contenedor.innerHTML += `
             <div class="item">
