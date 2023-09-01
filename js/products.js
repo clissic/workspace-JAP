@@ -12,6 +12,7 @@ async function fetchData(url) {
   }
 }
 
+// FUNCIÓN QUE HACE FETCH A LA API
 async function main() {
   var selectedCategoryId = localStorage.getItem("catID"); // Obtener el identificador de categoría almacenado
   const productos = await fetchData(
@@ -20,10 +21,15 @@ async function main() {
   return productos;
 }
 
+//FUNCIÓN QUE CARGA LOS PRODUCTOS EN EL HTML
 async function cargarProductosAlHTML() {
+  const categoriaTitulo = document.getElementById("categoria-titulo");
   const contenedor = document.getElementById("contenedor-items");
   const arrayProductos = await main();
-
+  contenedor.innerHTML = "";
+  categoriaTitulo.innerHTML = `CATEGORÍA ${arrayProductos.catName}`
+  document.getElementById("filtro-max-precio").value = "";
+  document.getElementById("filtro-min-precio").value = "";
   for (let producto of arrayProductos.products) {
     contenedor.innerHTML += `
           <div class="item">
@@ -46,6 +52,7 @@ async function cargarProductosAlHTML() {
 
 cargarProductosAlHTML();
 
+// FUNCIÓN DE LA BARRA DE BUSQUEDA
 async function search() {
   const searchInput = document.getElementById("searchInput");
   const contenedor = document.getElementById("contenedor-items");
@@ -83,10 +90,12 @@ async function search() {
 
 search();
 
+// FUNCIÓN QUE ORDENA POR ASCENDENTE Y DESCENDENTE SEGÚN EL PRECIO Y DESCENDENTE SEGÚN VENDIDOS
 async function ordenar() {
   const botonAsc = document.getElementById("ascendente");
   const botonDesc = document.getElementById("descendente");
   const botonRelevancia = document.getElementById("relevancia");
+  const botonLimpiar = document.getElementById("limpiar-filtros");
 
   const contenedor = document.getElementById("contenedor-items");
   const arrayProductos = await main();
@@ -164,52 +173,39 @@ async function ordenar() {
           `;
     }
   });
+
+  botonLimpiar.addEventListener("click", cargarProductosAlHTML);
 }
 
 ordenar();
 
-
-async function filtrarProductosPorPrecio() {
-  const precioMinimoUsuario = document.getElementById("filtro-min-precio").value;
-  const precioMaximoUsuario = document.getElementById("filtro-max-precio").value;
-  const arrayProductos = await main();
-
-  if (
-    isNaN(precioMinimoUsuario) ||
-    isNaN(precioMaximoUsuario) ||
-    precioMinimoUsuario >= precioMaximoUsuario
-  ) {
-    return [];
-  }
-
-  let productosFiltrados = []
-  productosFiltrados = arrayProductos.products.filter((producto) => {
-    return producto.cost >= precioMinimoUsuario && producto.cost <= precioMaximoUsuario;
-  });
-  return productosFiltrados;
-}
-
-const filtroRangoPrecios = document.getElementById("rango-precios")
-filtroRangoPrecios.addEventListener("click", async () => {
+// FUNCIÓN QUE FILTRA POR RANGO DE PRECIOS
+const botonFiltrar = document.getElementById("rango-precios");
+botonFiltrar.addEventListener("click", async () => {
+  const max = document.getElementById("filtro-max-precio").value;
+  const min = document.getElementById("filtro-min-precio").value;
   const contenedor = document.getElementById("contenedor-items");
-  contenedor.innerHTML = ""
-  const productosFiltrados = await filtrarProductosPorPrecio();
-  for (let producto of productosFiltrados) {
-    contenedor.innerHTML += `
-          <div class="item">
-            <div class="contenedor-imagen">
-              <img src="${producto.image}" alt="">
-            </div>
-            <div class="contenedor-texto">
-              <p class="precio" id="precio${producto.id}"><span id="divisa">${producto.currency} </span>${producto.cost}</p>
-              <p class="titulo" id="titulo${producto.id}">${producto.name}</p>
-              <p class="descripcion">${producto.description}</p>
-              <p class="vendidos">Vendidos: <span class="cant-vendidos">${producto.soldCount}</span></p>
-            </div>
-            <div class="contenedor-boton">
-              <button class="botonComprar" id="boton${producto.id}">Comprar</button>
-            </div>
-          </div>
-        `;
+  const arrayProductos = await main();
+  contenedor.innerHTML = "";
+  
+  for(producto of arrayProductos.products){
+    if(producto.cost >= min && producto.cost <= max ){
+      contenedor.innerHTML += `
+    <div class="item">
+      <div class="contenedor-imagen">
+        <img src="${producto.image}" alt="">
+      </div>
+      <div class="contenedor-texto">
+        <p class="precio" id="precio${producto.id}"><span id="divisa">${producto.currency} </span>${producto.cost}</p>
+        <p class="titulo" id="titulo${producto.id}">${producto.name}</p>
+        <p class="descripcion">${producto.description}</p>
+        <p class="vendidos">Vendidos: <span class="cant-vendidos">${producto.soldCount}</span></p>
+      </div>
+      <div class="contenedor-boton">
+        <button class="botonComprar" id="boton${producto.id}">Comprar</button>
+      </div>
+    </div>
+  ` ;
+    }
   }
 });
