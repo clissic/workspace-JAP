@@ -14,9 +14,9 @@ async function fetchData(url) {
 
 // FUNCIÓN QUE HACE FETCH A LA API
 async function main() {
-  var selectedCategoryId = localStorage.getItem("catID"); // Obtener el identificador de categoría almacenado
+  var selectedCategoryId = localStorage.getItem("catID");
   const productos = await fetchData(
-    `https://japceibal.github.io/emercado-api/cats_products/${selectedCategoryId}.json` // Usar el identificador en la URL
+    `https://japceibal.github.io/emercado-api/cats_products/${selectedCategoryId}.json`
   );
   return productos;
 }
@@ -53,12 +53,14 @@ async function cargarProductosAlHTML() {
 cargarProductosAlHTML();
 
 // FUNCIÓN DE LA BARRA DE BUSQUEDA
+
 async function search() {
   const searchInput = document.getElementById("searchInput");
   const contenedor = document.getElementById("contenedor-items");
   const arrayProductos = await main();
 
   searchInput.addEventListener("input", () => {
+
     const searchInputValue = searchInput.value.toLowerCase();
     contenedor.innerHTML = "";
 
@@ -68,6 +70,7 @@ async function search() {
         prod.description.toLowerCase().includes(searchInputValue)
       ) {
         contenedor.innerHTML += `
+
           <div class="item">
             <div class="contenedor-imagen">
               <img src="${prod.image}" alt="">
@@ -83,6 +86,7 @@ async function search() {
             </div>
           </div>
         `;
+
       }
     });
   });
@@ -209,3 +213,4 @@ botonFiltrar.addEventListener("click", async () => {
     }
   }
 });
+
