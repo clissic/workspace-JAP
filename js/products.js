@@ -14,7 +14,7 @@ async function fetchData(url) {
 }
 
 // FUNCIÓN QUE HACE FETCH A LA API SEGÚN LA CATEGORÍA
-async function main() {
+async function getCategory() {
   var selectedCategoryId = localStorage.getItem("catID"); // Obtener el identificador de categoría almacenado
   const productos = await fetchData(
     `https://japceibal.github.io/emercado-api/cats_products/${selectedCategoryId}.json` // Usar el identificador en la URL
@@ -57,7 +57,7 @@ function cartaProducto(producto) {
 
 //FUNCIÓN QUE CARGA LOS PRODUCTOS EN EL HTML
 const inicio = document.addEventListener("DOMContentLoaded", async () => {
-  const arrayProductos = await main();
+  const arrayProductos = await getCategory();
   contenedor.innerHTML = "";
   categoriaTitulo.innerHTML = `CATEGORÍA ${arrayProductos.catName}`;
   for (let producto of arrayProductos.products) {
@@ -65,36 +65,18 @@ const inicio = document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-
 //FUNCION QUE ESCUCHA LOS CLICS EN LOS PRODUCTOS Y GUARDA EL ID EN EL LOCALSTORAGE
- contenedor.addEventListener("click", e => {
-    var name = e.target.getAttribute("name");
-    setProductId(name);
- })
-
-// LISTENER QUE ORDENA POR ASCENDENTE
-botonAsc.addEventListener("click", async () => {
-  const arrayProductos = await main();
-  const arrayAsc = arrayProductos.products.sort((a, b) => a.cost - b.cost);
-  arrayProductos[2] = arrayAsc;
-  contenedor.innerHTML = "";
-  for (let producto of arrayProductos.products) {
-    contenedor.innerHTML += cartaProducto(producto);
-  }
+contenedor.addEventListener("click", (e) => {
+  var productId = e.target.getAttribute("name");
+  localStorage.setItem("productId", productId);
+  location.href = "./product-info.html";
 });
-
- //FUNCION QUE GUARDA UN ID DE PRODUCTO EN EL LOCALSTORAGE
- function setProductId(id) {
-    localStorage.setItem("productId", id);
-    location.href = "./product-info.html";
- }
-
 
 // LISTENER DE LA BARRA DE BUSQUEDA
 searchInput.addEventListener("input", async () => {
   const searchInputValue = searchInput.value.toLowerCase();
   contenedor.innerHTML = "";
-  const arrayProductos = await main();
+  const arrayProductos = await getCategory();
   arrayProductos.products.forEach((producto) => {
     if (
       producto.name.toLowerCase().includes(searchInputValue) ||
@@ -107,10 +89,9 @@ searchInput.addEventListener("input", async () => {
 
 // LISTENER QUE ORDENA POR ASCENDENTE
 botonAsc.addEventListener("click", async () => {
-  const arrayProductos = await main();
+  const arrayProductos = await getCategory();
   const arrayAsc = arrayProductos.products.sort((a, b) => a.cost - b.cost);
   arrayProductos[2] = arrayAsc;
-
   contenedor.innerHTML = "";
   for (let producto of arrayProductos.products) {
     contenedor.innerHTML += cartaProducto(producto);
@@ -119,7 +100,7 @@ botonAsc.addEventListener("click", async () => {
 
 // LISTENER QUE ORDENA POR DESCENDENTE
 botonDesc.addEventListener("click", async () => {
-  const arrayProductos = await main();
+  const arrayProductos = await getCategory();
   const arrayDesc = arrayProductos.products.sort((a, b) => b.cost - a.cost);
   arrayProductos[2] = arrayDesc;
   contenedor.innerHTML = "";
@@ -130,7 +111,7 @@ botonDesc.addEventListener("click", async () => {
 
 // LISTENER QUE ORDENA POR RELEVANCIA
 botonRelevancia.addEventListener("click", async () => {
-  const arrayProductos = await main();
+  const arrayProductos = await getCategory();
   const arrayRel = arrayProductos.products.sort(
     (a, b) => b.soldCount - a.soldCount
   );
@@ -145,7 +126,7 @@ botonRelevancia.addEventListener("click", async () => {
 botonLimpiar.addEventListener("click", async () => {
   document.getElementById("filtro-max-precio").value = "";
   document.getElementById("filtro-min-precio").value = "";
-  const arrayProductos = await main();
+  const arrayProductos = await getCategory();
   contenedor.innerHTML = "";
   for (let producto of arrayProductos.products) {
     contenedor.innerHTML += cartaProducto(producto);
@@ -158,7 +139,7 @@ botonFiltrar.addEventListener("click", async () => {
   const max = document.getElementById("filtro-max-precio").value;
   const min = document.getElementById("filtro-min-precio").value;
   const contenedor = document.getElementById("contenedor-items");
-  const arrayProductos = await main();
+  const arrayProductos = await getCategory();
   contenedor.innerHTML = "";
   for (producto of arrayProductos.products) {
     if (producto.cost >= min && producto.cost <= max) {
