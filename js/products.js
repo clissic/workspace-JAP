@@ -65,12 +65,23 @@ const inicio = document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+
 //FUNCION QUE ESCUCHA LOS CLICS EN LOS PRODUCTOS Y GUARDA EL ID EN EL LOCALSTORAGE
  contenedor.addEventListener("click", e => {
     var name = e.target.getAttribute("name");
     setProductId(name);
  })
 
+// LISTENER QUE ORDENA POR ASCENDENTE
+botonAsc.addEventListener("click", async () => {
+  const arrayProductos = await main();
+  const arrayAsc = arrayProductos.products.sort((a, b) => a.cost - b.cost);
+  arrayProductos[2] = arrayAsc;
+  contenedor.innerHTML = "";
+  for (let producto of arrayProductos.products) {
+    contenedor.innerHTML += cartaProducto(producto);
+  }
+});
 
  //FUNCION QUE GUARDA UN ID DE PRODUCTO EN EL LOCALSTORAGE
  function setProductId(id) {
@@ -99,6 +110,7 @@ botonAsc.addEventListener("click", async () => {
   const arrayProductos = await main();
   const arrayAsc = arrayProductos.products.sort((a, b) => a.cost - b.cost);
   arrayProductos[2] = arrayAsc;
+
   contenedor.innerHTML = "";
   for (let producto of arrayProductos.products) {
     contenedor.innerHTML += cartaProducto(producto);
