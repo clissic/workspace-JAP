@@ -1,4 +1,4 @@
-/* 
+ 
 
 // FUNCIÓN FETCH PARA OBTENER DATOS DE UNA API
 async function fetchData(url) {
@@ -40,4 +40,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log(comentarios)
 }) 
 
-*/
+
+//  OBTIENE LA INFORMACIÓN DE DICHO PRODUCTO Y LA PRESENTA
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // OBTENER EL PRODUCTO Y LOS COMENTARIOS
+    const producto = await getProduct();
+    const comentarios = await getComments();
+
+    // ACTUALIZAR LOS ELEMENTOS HTML EN PRODUCT-INFO.HTML CON LOS DATOS DEL PRODUCTO
+    document.getElementById("nombre-producto").textContent = producto.name;
+    document.getElementById("precio-producto").textContent = `${producto.cost} ${producto.currency}`;
+    document.getElementById("descripcion-producto").textContent = producto.description;
+    document.getElementById("categoria-producto").textContent = producto.category;
+    document.getElementById("vendidos-producto").textContent = producto.soldCount;
+
+    // ACTUALIZAR LAS IMÁGENES DEL PRODUCTO 
+    const contenedorImagenes = document.getElementById("contenedor-imagenes-producto");
+    producto.images.forEach((imagen) => {
+      const imgElement = document.createElement("img");
+      imgElement.src = imagen;
+      contenedorImagenes.appendChild(imgElement);
+    });
+
+    
+  } catch (error) {
+    console.error("Error al obtener o procesar los datos:", error);
+  }
+});
