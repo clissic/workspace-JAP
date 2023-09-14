@@ -42,4 +42,4 @@ let getJSONData = function(url){
 
 const usuarioLogin = JSON.parse(localStorage.getItem("usuario"));
 const mailUsuario = document.getElementById("mailUsuario");
-mailUsuario.innerHTML = usuarioLogin.mail;
+mailUsuario.innerText = usuarioLogin.mail;
