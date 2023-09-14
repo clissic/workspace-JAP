@@ -15,9 +15,9 @@ async function fetchData(url) {
 
 // FUNCIÓN QUE HACE FETCH A LA API SEGÚN LA CATEGORÍA
 async function getCategory() {
-  var selectedCategoryId = localStorage.getItem("catID"); // Obtener el identificador de categoría almacenado
+  var selectedCategoryId = localStorage.getItem("catID");
   const productos = await fetchData(
-    `https://japceibal.github.io/emercado-api/cats_products/${selectedCategoryId}.json` // Usar el identificador en la URL
+    `https://japceibal.github.io/emercado-api/cats_products/${selectedCategoryId}.json`
   );
   return productos;
 }
