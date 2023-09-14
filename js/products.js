@@ -39,16 +39,16 @@ function cartaProducto(producto) {
   const cartaProducto = `
   <div class="item">
     <div class="contenedor-imagen">
-      <img src="${producto.image}" alt="">
+      <img src="${producto.image}" alt="" name="${producto.id}">
     </div>
-    <div class="contenedor-texto">
-      <p class="precio" id="precio${producto.id}"><span id="divisa">${producto.currency} </span>${producto.cost}</p>
-      <p class="titulo" id="titulo${producto.id}">${producto.name}</p>
-      <p class="descripcion">${producto.description}</p>
-      <p class="vendidos">Vendidos: <span class="cant-vendidos">${producto.soldCount}</span></p>
+    <div class="contenedor-texto" name="${producto.id}">
+      <p class="precio" id="precio${producto.id}" name="${producto.id}"><span id="divisa" name="${producto.id}">${producto.currency} </span>${producto.cost}</p>
+      <p class="titulo" id="titulo${producto.id}" name="${producto.id}">${producto.name}</p>
+      <p class="descripcion" name="${producto.id}">${producto.description}</p>
+      <p class="vendidos" name="${producto.id}">Vendidos: <span class="cant-vendidos" name="${producto.id}">${producto.soldCount}</span></p>
     </div>
-    <div class="contenedor-boton">
-      <button class="botonComprar" id="boton${producto.id}">Comprar</button>
+    <div class="contenedor-boton" name="${producto.id}">
+      <button class="botonComprar" id="boton${producto.id}" name="${producto.id}">Comprar</button>
     </div>
   </div>
   `;
@@ -64,6 +64,20 @@ const inicio = document.addEventListener("DOMContentLoaded", async () => {
     contenedor.innerHTML += cartaProducto(producto);
   }
 });
+
+//FUNCION QUE ESCUCHA LOS CLICS EN LOS PRODUCTOS Y GUARDA EL ID EN EL LOCALSTORAGE
+ contenedor.addEventListener("click", e => {
+    var name = e.target.getAttribute("name");
+    setProductId(name);
+ })
+
+
+ //FUNCION QUE GUARDA UN ID DE PRODUCTO EN EL LOCALSTORAGE
+ function setProductId(id) {
+    localStorage.setItem("productId", id);
+    location.href = "./product-info.html";
+ }
+
 
 // LISTENER DE LA BARRA DE BUSQUEDA
 searchInput.addEventListener("input", async () => {
