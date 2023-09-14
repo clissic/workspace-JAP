@@ -223,7 +223,6 @@ a.custom-card:hover {
   -webkit-box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);
   -moz-box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);
   opacity: 90%;
-  
 }
 .titulos-info{
   font-weight: bold;
@@ -235,4 +234,28 @@ a.custom-card:hover {
 }
 .imagen-info{
   text-align: center;
+}
+
+#comentario {
+  padding: 12px;
+  width: 50%;
+  
+  border-radius: 6px;
+}
+
+#puntuacion {
+  padding: 5px;
+  width: 12%;
+}
+
+#botonComentario { 
+  width: 90px;
+  background: #1f53c5;
+  padding: 8px;
+  color: white;
+  margin: 16px 0;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.7);
 }
