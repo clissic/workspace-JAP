@@ -1,4 +1,40 @@
- 
+
+  // FUNCIÓN PARA MOSTRAR LOS COMENTARIOS EN EL HTML
+  function mostrarComentarios(comentarios) {
+    const comentariosContainer = document.getElementById("comentarios-producto");
+    comentariosContainer.innerHTML = ""; 
+  
+    comentarios.forEach((comentario) => {
+      const comentarioElement = document.createElement("div");
+      comentarioElement.classList.add("list-group-item");
+      comentarioElement.innerHTML = `
+        <h5 class="mb-1">${comentario.user} - ${comentario.dateTime}</h5>
+        <p class="mb-1">Puntuación: ${getStarRating(comentario.score)}</p>
+        <p class="mb-1">${comentario.description}</p>
+      `;
+      comentariosContainer.appendChild(comentarioElement);
+    });
+  }
+  
+  // FUNCIÓN PARA OBTENER EL FORMATO DE ESTRELLAS PARA LA PUNTUACIÓN
+  function getStarRating(rating) {
+    const starRating = [];
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        starRating.push('<span class="fa fa-star" id="estrella1" ></span>');
+      } else {
+        starRating.push('<span class="fa fa-star-o" id="estrella2" ></span>');
+      }
+    }
+    return starRating.join('');
+    
+  }
+  
+  
+
+
+
+
 
 // FUNCIÓN FETCH PARA OBTENER DATOS DE UNA API
 async function fetchData(url) {
@@ -63,8 +99,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       contenedorImagenes.appendChild(imgElement);
     });
 
-    
+
   } catch (error) {
     console.error("Error al obtener o procesar los datos:", error);
   }
+
+  mostrarComentarios(comentarios);
+
 });
