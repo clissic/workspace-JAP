@@ -4,6 +4,7 @@
 .site-header {
   font-family: 'Verdana', serif !important;
 }
+
 .jumbotron .display-4 {
   font-weight: bold;
 }
@@ -188,7 +189,7 @@ a.custom-card:hover {
   color: orange;
 }
 
-#searchInputContenedor{
+#searchInputContenedor {
   width: 40vw;
   margin: 1vh auto 0 auto;
   display: flex;
@@ -213,42 +214,46 @@ a.custom-card:hover {
   border-radius: 0 20px 20px 0;
 }
 
-.container-infoProducto{
+.container-infoProducto {
   margin-top: 30px;
   padding: 30px;
   background-color: white;
-  border-radius: 30px ;
+  border-radius: 30px;
   justify-content: space-evenly;
-  box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);
-  -webkit-box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);
-  -moz-box-shadow: 0px 6px 20px 4px rgba(0,0,0,0.71);
+  box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.71);
+  -webkit-box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.71);
+  -moz-box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.71);
   opacity: 90%;
 }
-.titulos-info{
+
+.titulos-info {
   font-weight: bold;
 }
-.container-infoProducto img{
+
+.container-infoProducto img {
   width: 20%;
   margin: 10px;
   border: 1px solid gray;
 }
-.imagen-info{
+
+.imagen-info {
   text-align: center;
 }
 
 #comentario {
   padding: 12px;
   width: 50%;
-  
+
   border-radius: 6px;
 }
 
 #puntuacion {
   padding: 5px;
   width: 12%;
+
 }
 
-#botonComentario { 
+#botonComentario {
   width: 90px;
   background: #1f53c5;
   padding: 8px;
@@ -258,4 +263,12 @@ a.custom-card:hover {
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.7);
+}
+
+#estrella1 {
+  color: orange
+}
+
+#estrella2 {
+  color: orange
 }
