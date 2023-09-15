@@ -265,10 +265,10 @@ a.custom-card:hover {
   box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.7);
 }
 
-#estrella1 {
-  color: orange
+.estrellas {
+  font-size: x-large;
 }
 
-#estrella2 {
-  color: orange
+.userYfecha {
+  font-size: small;
 }
