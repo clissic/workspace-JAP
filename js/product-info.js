@@ -1,40 +1,26 @@
+// FUNCIÓN PARA MOSTRAR LOS COMENTARIOS EN EL HTML
+function mostrarComentarios(comentarios) {
+  const comentariosContainer = document.getElementById("comentarios-producto");
+  comentariosContainer.innerHTML = "";
 
-  // FUNCIÓN PARA MOSTRAR LOS COMENTARIOS EN EL HTML
-  function mostrarComentarios(comentarios) {
-    const comentariosContainer = document.getElementById("comentarios-producto");
-    comentariosContainer.innerHTML = ""; 
-  
-    comentarios.forEach((comentario) => {
-      const comentarioElement = document.createElement("div");
-      comentarioElement.classList.add("list-group-item");
-      comentarioElement.innerHTML = `
-        <h5 class="mb-1">${comentario.user} - ${comentario.dateTime}</h5>
-        <p class="mb-1">Puntuación: ${getStarRating(comentario.score)}</p>
+  comentarios.forEach((comentario) => {
+    const comentarioElement = document.createElement("div");
+    comentarioElement.classList.add("list-group-item");
+    comentarioElement.innerHTML = `
+        <h5 class="mb-1 userYfecha">${comentario.user} - ${comentario.dateTime}</h5>
+        <p class="mb-1" estrellas>Puntuación: <span class="estrellas">${stars(comentario.score)}</span></p>
         <p class="mb-1">${comentario.description}</p>
       `;
-      comentariosContainer.appendChild(comentarioElement);
-    });
-  }
-  
-  // FUNCIÓN PARA OBTENER EL FORMATO DE ESTRELLAS PARA LA PUNTUACIÓN
-  function getStarRating(rating) {
-    const starRating = [];
-    for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        starRating.push('<span class="fa fa-star" id="estrella1" ></span>');
-      } else {
-        starRating.push('<span class="fa fa-star-o" id="estrella2" ></span>');
-      }
-    }
-    return starRating.join('');
-    
-  }
-  
-  
+    comentariosContainer.appendChild(comentarioElement);
+  });
+}
 
-
-
-
+// FUNCIÓN PARA OBTENER EL FORMATO DE ESTRELLAS PARA LA PUNTUACIÓN
+function stars(cantidadStars) {
+  const filledStars = '★'.repeat(cantidadStars);
+  const emptyStars = '☆'.repeat(5 - cantidadStars);
+  return `<span class="checked">${filledStars}</span>${emptyStars}`;
+}
 
 // FUNCIÓN FETCH PARA OBTENER DATOS DE UNA API
 async function fetchData(url) {
@@ -64,18 +50,17 @@ async function getProduct() {
 async function getComments() {
   var selectedProductId = localStorage.getItem("productId");
   const comentarios = await fetchData(
-      `https://japceibal.github.io/emercado-api/products_comments/${selectedProductId}.json`
-  )
-  return comentarios
+    `https://japceibal.github.io/emercado-api/products_comments/${selectedProductId}.json`
+  );
+  return comentarios;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  producto = await getProduct()
-  comentarios = await getComments()
-  console.log(producto)
-  console.log(comentarios)
-}) 
-
+  producto = await getProduct();
+  comentarios = await getComments();
+  console.log(producto);
+  console.log(comentarios);
+});
 
 //  OBTIENE LA INFORMACIÓN DE DICHO PRODUCTO Y LA PRESENTA
 document.addEventListener("DOMContentLoaded", async () => {
@@ -86,24 +71,51 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // ACTUALIZAR LOS ELEMENTOS HTML EN PRODUCT-INFO.HTML CON LOS DATOS DEL PRODUCTO
     document.getElementById("nombre-producto").textContent = producto.name;
-    document.getElementById("precio-producto").textContent = `${producto.cost} ${producto.currency}`;
-    document.getElementById("descripcion-producto").textContent = producto.description;
-    document.getElementById("categoria-producto").textContent = producto.category;
-    document.getElementById("vendidos-producto").textContent = producto.soldCount;
+    document.getElementById(
+      "precio-producto"
+    ).textContent = `${producto.cost} ${producto.currency}`;
+    document.getElementById("descripcion-producto").textContent =
+      producto.description;
+    document.getElementById("categoria-producto").textContent =
+      producto.category;
+    document.getElementById("vendidos-producto").textContent =
+      producto.soldCount;
 
-    // ACTUALIZAR LAS IMÁGENES DEL PRODUCTO 
-    const contenedorImagenes = document.getElementById("contenedor-imagenes-producto");
+    // ACTUALIZAR LAS IMÁGENES DEL PRODUCTO
+    const contenedorImagenes = document.getElementById(
+      "contenedor-imagenes-producto"
+    );
     producto.images.forEach((imagen) => {
       const imgElement = document.createElement("img");
       imgElement.src = imagen;
       contenedorImagenes.appendChild(imgElement);
     });
 
-
+    const botonComentario = document.getElementById("botonComentario");
+    botonComentario.addEventListener("click", (e) => {
+      e.preventDefault();
+      const valueComentario = document.getElementById("comentario").value;
+      const valuePuntuacion = document.getElementById("puntuacion").value;
+      const usuario = JSON.parse(localStorage.getItem("usuario")).mail;
+      const comentarioElement = document.createElement("div");
+      const fecha = new Date();
+      const comentariosContainer = document.getElementById(
+        "comentarios-producto"
+      );
+      comentarioElement.classList.add("list-group-item");
+      comentarioElement.innerHTML = `
+        <h5 class="mb-1 userYfecha">${usuario} - ${fecha
+        .toISOString()
+        .replace("T", " ")
+        .slice(0, 19)}</h5>
+        <p class="mb-1">Puntuación: <span class="estrellas">${stars(valuePuntuacion)}</span></p>
+        <p class="mb-1">${valueComentario}</p>
+      `;
+      comentariosContainer.appendChild(comentarioElement);
+    });
   } catch (error) {
     console.error("Error al obtener o procesar los datos:", error);
   }
 
   mostrarComentarios(comentarios);
-
 });
