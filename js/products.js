@@ -37,7 +37,7 @@ const botonLimpiar = document.getElementById("limpiar-filtros");
 // DISEÑO DE CARTAS EN HTML:
 function cartaProducto(producto) {
   const cartaProducto = `
-  <div class="item">
+  <div class="item" name="${producto.id}">
     <div class="contenedor-imagen">
       <img src="${producto.image}" alt="" name="${producto.id}">
     </div>
