@@ -24,9 +24,9 @@ body{
 /*Contenedor baner rojo que contiene el titulo*/
 .contenedor-baner{
     width: 100vw;
-    height: 20vh;
+    height: auto;
     background-color: #330033;
-    padding: 40px;
+    padding: 15px;
     opacity: 80%;
 }
 
