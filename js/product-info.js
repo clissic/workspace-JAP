@@ -99,18 +99,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       const usuario = JSON.parse(localStorage.getItem("usuario")).mail;
       const comentarioElement = document.createElement("div");
       const fecha = new Date();
-      const comentariosContainer = document.getElementById(
-        "comentarios-producto"
-      );
+      const comentariosContainer = document.getElementById("comentarios-producto");
       comentarioElement.classList.add("list-group-item");
       comentarioElement.innerHTML = `
         <h5 class="mb-1 userYfecha">${usuario} - ${fecha
         .toISOString()
         .replace("T", " ")
         .slice(0, 19)}</h5>
-        <p class="mb-1">Puntuación: <span class="estrellas">${stars(valuePuntuacion)}</span></p>
-        <p class="mb-1">${valueComentario}</p>
+        <p class="mb-1">Puntuación: <span class="estrellas">${stars(
+        valuePuntuacion
+      )}</span></p>
       `;
+
+      const comentarioTextoElement = document.createElement("p");
+      comentarioTextoElement.classList.add("mb-1");
+      comentarioTextoElement.innerText = valueComentario;
+      comentarioElement.appendChild(comentarioTextoElement);
+    
       comentariosContainer.appendChild(comentarioElement);
     });
   } catch (error) {
