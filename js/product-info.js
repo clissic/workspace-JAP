@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         .replace("T", " ")
         .slice(0, 19)}</h5>
         <p class="mb-1">Puntuación: <span class="estrellas">${stars(valuePuntuacion)}</span></p>
-        <p id="comentarioTexto" class="mb-1">${valueComentario}</p>
       `;
 
       const comentarioTextoElement = document.createElement("p");
