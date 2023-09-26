@@ -8,7 +8,7 @@ function mostrarComentarios(comentarios) {
     comentarioElement.classList.add("list-group-item");
     comentarioElement.innerHTML = `
         <h5 class="mb-1 userYfecha">${comentario.user} - ${comentario.dateTime}</h5>
-        <p class="mb-1" estrellas>Puntuación: <span class="estrellas">${stars(comentario.score)}</span></p>
+        <p class="mb-1" estrellas>Puntuación: <span class="estrellas">${putStars(comentario.score)}</span></p>
         <p class="mb-1">${comentario.description}</p>
       `;
     comentariosContainer.appendChild(comentarioElement);
@@ -16,7 +16,7 @@ function mostrarComentarios(comentarios) {
 }
 
 // FUNCIÓN PARA OBTENER EL FORMATO DE ESTRELLAS PARA LA PUNTUACIÓN
-function stars(cantidadStars) {
+function putStars(cantidadStars) {
   const filledStars = '★'.repeat(cantidadStars);
   const emptyStars = '☆'.repeat(5 - cantidadStars);
   return `<span class="checked">${filledStars}</span>${emptyStars}`;
@@ -55,19 +55,28 @@ async function getComments() {
   return comentarios;
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  producto = await getProduct();
-  comentarios = await getComments();
-  console.log(producto);
-  console.log(comentarios);
-});
+// FUNCIÓN QUE DEFINE EL DISEÑO DE LA FECHA EN HTML
+function getDate() {
+  const valuePuntuacion = document.getElementById("puntuacion").value;
+  const fecha = new Date();
+  const usuario = JSON.parse(localStorage.getItem("usuario")).mail;
+  const fechaObtenida = `
+        <h5 class="mb-1 userYfecha">${usuario} - ${fecha
+        .toISOString()
+        .replace("T", " ")
+        .slice(0, 19)}</h5>
+        <p class="mb-1">Puntuación: <span class="estrellas">${putStars(valuePuntuacion)}</span></p>
+      `;
+  return fechaObtenida;
+}
 
 //  OBTIENE LA INFORMACIÓN DE DICHO PRODUCTO Y LA PRESENTA
 document.addEventListener("DOMContentLoaded", async () => {
+  let comentarios
   try {
     // OBTENER EL PRODUCTO Y LOS COMENTARIOS
     const producto = await getProduct();
-    const comentarios = await getComments();
+    comentarios = await getComments();
 
     // ACTUALIZAR LOS ELEMENTOS HTML EN PRODUCT-INFO.HTML CON LOS DATOS DEL PRODUCTO
     document.getElementById("nombre-producto").textContent = producto.name;
@@ -95,19 +104,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     botonComentario.addEventListener("click", (e) => {
       e.preventDefault();
       const valueComentario = document.getElementById("comentario").value;
-      const valuePuntuacion = document.getElementById("puntuacion").value;
-      const usuario = JSON.parse(localStorage.getItem("usuario")).mail;
+      
       const comentarioElement = document.createElement("div");
-      const fecha = new Date();
       const comentariosContainer = document.getElementById("comentarios-producto");
       comentarioElement.classList.add("list-group-item");
-      comentarioElement.innerHTML = `
-        <h5 class="mb-1 userYfecha">${usuario} - ${fecha
-        .toISOString()
-        .replace("T", " ")
-        .slice(0, 19)}</h5>
-        <p class="mb-1">Puntuación: <span class="estrellas">${stars(valuePuntuacion)}</span></p>
-      `;
+      comentarioElement.innerHTML = getDate();
 
       const comentarioTextoElement = document.createElement("p");
       comentarioTextoElement.classList.add("mb-1");
