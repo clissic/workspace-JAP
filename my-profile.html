@@ -44,9 +44,20 @@
           <li class="nav-item">
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
-          <li class="nav-item">
-            <a id="mailUsuario" class="nav-link" href="">mail</a>
-          </li>
+          <!-- Usuario y menú desplegable -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span id="mailUsuario">Nombre de Usuario</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="cart.html">Mi carrito</a>
+                <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" id="logoutLink" href="login.html">Cerrar sesión</a>
+            </div>
+        </li>
+        <!-- Fin del menú desplegable -->
         </ul>
       </div>
     </div>

@@ -48,12 +48,6 @@ mailUsuario.innerText = usuarioLogin.mail;
 const logoutLink = document.getElementById("logoutLink");
 
 logoutLink.addEventListener("click", function (e) {
-    e.preventDefault(); // Evita la navegación predeterminada
-
-    // Redirige al usuario a la página de inicio de sesión
-    window.location.href = "login.html";
-
-    // Borra la información de autenticación almacenada en el localStorage
     localStorage.removeItem("usuario");
 });
 
