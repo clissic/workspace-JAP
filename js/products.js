@@ -76,7 +76,7 @@ function filtrarProductos(min, max) {
 // OBTENGO DEL DOM:
 // CONTENEDORES:
 const categoriaTitulo = document.getElementById("categoria-titulo");
-const contenedor = document.getElementById("contenedor-items");
+const contenedor = document.getElementById("contenedor-items"); // CUANDO SE HACE CLICK A contenedor-items REDIRIGE, Y TENDRIA QUE REDIRIGIR CUANDO SE HACE CLICK A LA CLASE item
 // INPUTS:
 const searchInput = document.getElementById("searchInput");
 // BOTONES:
@@ -100,7 +100,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 contenedor.addEventListener("click", (e) => {
   var productId = e.target.getAttribute("name");
   localStorage.setItem("productId", productId);
-  location.href = "./product-info.html";
+  if (productId) {
+    location.href = "./product-info.html";
+  }
 });
 // LISTENER DE LA BARRA DE BÚSQUEDA
 searchInput.addEventListener("input", async () => {

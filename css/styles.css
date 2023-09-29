@@ -5,6 +5,11 @@
   font-family: 'Verdana', serif !important;
 }
 
+.darkMode, .darkMode * {
+  background-color: rgb(32, 32, 30);
+  color: white;
+  border-color: white;
+}
 .jumbotron .display-4 {
   font-weight: bold;
 }
@@ -271,4 +276,18 @@ a.custom-card:hover {
 
 .userYfecha {
   font-size: small;
+}
+
+.infoRelacionado:hover {
+  cursor: pointer;
+}
+
+.imgRelacionados img{
+  width: 25vw;
+}
+
+#relatedProducts {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2vw;
 }
