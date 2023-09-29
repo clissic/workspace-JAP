@@ -123,3 +123,41 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   mostrarComentarios(comentarios);
 });
+
+
+
+//CONSTANTE NECESARIA PARA EJECUTAR FUNCIONES REFERIDAS A PRODUCTOS RELACIONADOS:
+const divProductosRel = document.getElementById("relatedProducts");
+
+//MOSTRAR PRODUCTOS RELACIONADOS
+async function listarProductosRelacionados() {
+  var productInfo = await getProduct();
+  divProductosRel.innerHTML= "";
+  
+  for (let product of productInfo.relatedProducts) {
+    divProductosRel.innerHTML += productoRelacionado(product);
+  }
+};
+
+// DISEÑO EN HTML DE PRODUCTOS RELACIONADOS
+function productoRelacionado(product) {
+  const relatedProductDiv = `
+  <div id="${product.id}" class="infoRelacionado">
+    <div class = "imgRelacionados" id="${product.id}">
+      <img src="${product.image}" alt="" id="${product.id}" class="infoRelacionado">
+    </div>
+    <p class= "nameRelacionados" id="${product.id}">${product.name}</p>
+  </div>`;
+
+  return relatedProductDiv;
+};
+
+listarProductosRelacionados()
+
+
+//LISTENER PARA GUARDAR EL ID DEL PRODUCTO SELECCIONADO Y REDIRECCIONAR A LA PÁGINA DE INFO DEL PRODUCTO
+divProductosRel.addEventListener("click", (e) => {
+  var productId = e.target.getAttribute("id");
+  localStorage.setItem("productId", productId);
+  location.href = "./product-info.html";
+});
