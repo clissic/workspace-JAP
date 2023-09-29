@@ -92,13 +92,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // ACTUALIZAR LAS IMÁGENES DEL PRODUCTO
     const contenedorImagenes = document.getElementById(
-      "contenedor-imagenes-producto"
+      "carousel-inner"
     );
     producto.images.forEach((imagen) => {
+      const divItemCarousel = document.createElement("div");
+      divItemCarousel.setAttribute("class", "carousel-item ")
       const imgElement = document.createElement("img");
       imgElement.src = imagen;
-      contenedorImagenes.appendChild(imgElement);
+      imgElement.setAttribute("class", "d-block w-100")
+      divItemCarousel.appendChild(imgElement);
+      contenedorImagenes.appendChild(divItemCarousel);
     });
+    const itemCeroCarousel = document.getElementsByClassName("carousel-item")[0];
+    itemCeroCarousel.className="carousel-item active";
+    console.log(itemCeroCarousel);
 
     const botonComentario = document.getElementById("botonComentario");
     botonComentario.addEventListener("click", (e) => {
