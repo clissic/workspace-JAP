@@ -5,6 +5,11 @@
   font-family: 'Verdana', serif !important;
 }
 
+.darkMode, .darkMode * {
+  background-color: rgb(32, 32, 30);
+  color: white;
+  border-color: white;
+}
 .jumbotron .display-4 {
   font-weight: bold;
 }
@@ -189,7 +194,7 @@ a.custom-card:hover {
   color: orange;
 }
 
-#searchInputContenedor{
+#searchInputContenedor {
   width: 40vw;
   margin: 1vh auto 0 auto;
   display: flex;
@@ -212,4 +217,63 @@ a.custom-card:hover {
   border: none;
   padding-left: 5px;
   border-radius: 0 20px 20px 0;
+}
+
+.container-infoProducto {
+  margin-top: 30px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 30px;
+  justify-content: space-evenly;
+  box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.71);
+  -webkit-box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.71);
+  -moz-box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.71);
+  opacity: 90%;
+}
+
+.titulos-info {
+  font-weight: bold;
+}
+
+.container-infoProducto img {
+  width: 20%;
+  margin: 10px;
+  border: 1px solid gray;
+}
+
+.imagen-info {
+  text-align: center;
+}
+
+#comentario {
+  padding: 12px;
+  width: 50%;
+
+  border-radius: 6px;
+}
+
+#puntuacion {
+  padding: 5px;
+  width: 12%;
+
+}
+
+#botonComentario {
+  width: 90px;
+  background: #1f53c5;
+  padding: 8px;
+  color: white;
+  margin: 16px 0;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.7);
+}
+
+.estrellas {
+  font-size: x-large;
+}
+
+.userYfecha {
+  font-size: small;
 }

@@ -10,6 +10,7 @@
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link href="css/style-categoria.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,18 +31,62 @@
           <li class="nav-item">
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
-          <li class="nav-item">
-            <a id="mailUsuario" class="nav-link" href="">mail</a>
-          </li>
+          <!-- Usuario y menú desplegable -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span id="mailUsuario">Nombre de Usuario</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="carrito.html">Mi carrito</a>
+                <a class="dropdown-item" href="perfil.html">Mi perfil</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" id="logoutLink" href="logout.html">Cerrar sesión</a>
+            </div>
+        </li>
+        <!-- Fin del menú desplegable -->
         </ul>
       </div>
     </div>
   </nav>
-  <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+  <main class="pb-5 container">
+    <div class="container-infoProducto">
+      <h1 id="nombre-producto"></h1>
+      <hr>
+      <h5 class="titulos-info">Precio</h5>
+      <p id="precio-producto"></p>
+      <h5 class="titulos-info">Descripción</h5>
+      <p id="descripcion-producto"></p>
+      <h5 class="titulos-info">Categoría</h5>
+      <p id="categoria-producto"></p>
+      <h5 class="titulos-info">Cantidad vendidos</h5>
+      <p id="vendidos-producto"></p>
+      <h5 class="titulos-info">Imagenes ilustrativas</h5>
+      <div id="contenedor-imagenes-producto" class="imagen-info">
+        <!--En este div van las imagenes del producto-->
       </div>
+      <h5 class="titulos-info">Comentarios</h5>
+      <div class="list-group" id="comentarios-producto">
+      </div>
+      <h5 class="titulos-info">Comentar</h5>
+      <form>
+        <label for="comentario">Tu opinión nos importa: </label>
+        <br> 
+        <textarea id="comentario" name="comentario"></textarea>
+        <br> 
+        <label for="puntuacion">Tu puntuación también: </label>
+        <br> 
+          <select id="puntuacion" name="puntuacion">
+            <option selected value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <br> 
+        <button type="submit" id="botonComentario"> Enviar </button>
+      </form>
+  </div>
     </div>
   </main>
   <footer class="text-muted">

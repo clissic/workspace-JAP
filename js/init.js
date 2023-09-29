@@ -43,3 +43,11 @@ let getJSONData = function(url){
 const usuarioLogin = JSON.parse(localStorage.getItem("usuario"));
 const mailUsuario = document.getElementById("mailUsuario");
 mailUsuario.innerText = usuarioLogin.mail;
+
+// Evento para el enlace "Cerrar sesión"
+const logoutLink = document.getElementById("logoutLink");
+
+logoutLink.addEventListener("click", function (e) {
+    localStorage.removeItem("usuario");
+});
+
