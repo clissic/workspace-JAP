@@ -7,8 +7,12 @@ function mostrarComentarios(comentarios) {
     const comentarioElement = document.createElement("div");
     comentarioElement.classList.add("list-group-item");
     comentarioElement.innerHTML = `
-        <h5 class="mb-1 userYfecha">${comentario.user} - ${comentario.dateTime}</h5>
-        <p class="mb-1" estrellas>Puntuación: <span class="estrellas">${putStars(comentario.score)}</span></p>
+        <h5 class="mb-1 userYfecha">${comentario.user} - ${
+      comentario.dateTime
+    }</h5>
+        <p class="mb-1" estrellas>Puntuación: <span class="estrellas">${putStars(
+          comentario.score
+        )}</span></p>
         <p class="mb-1">${comentario.description}</p>
       `;
     comentariosContainer.appendChild(comentarioElement);
@@ -17,8 +21,8 @@ function mostrarComentarios(comentarios) {
 
 // FUNCIÓN PARA OBTENER EL FORMATO DE ESTRELLAS PARA LA PUNTUACIÓN
 function putStars(cantidadStars) {
-  const filledStars = '★'.repeat(cantidadStars);
-  const emptyStars = '☆'.repeat(5 - cantidadStars);
+  const filledStars = "★".repeat(cantidadStars);
+  const emptyStars = "☆".repeat(5 - cantidadStars);
   return `<span class="checked">${filledStars}</span>${emptyStars}`;
 }
 
@@ -62,17 +66,19 @@ function getDate() {
   const usuario = JSON.parse(localStorage.getItem("usuario")).mail;
   const fechaObtenida = `
         <h5 class="mb-1 userYfecha">${usuario} - ${fecha
-        .toISOString()
-        .replace("T", " ")
-        .slice(0, 19)}</h5>
-        <p class="mb-1">Puntuación: <span class="estrellas">${putStars(valuePuntuacion)}</span></p>
+    .toISOString()
+    .replace("T", " ")
+    .slice(0, 19)}</h5>
+        <p class="mb-1">Puntuación: <span class="estrellas">${putStars(
+          valuePuntuacion
+        )}</span></p>
       `;
   return fechaObtenida;
 }
 
 //  OBTIENE LA INFORMACIÓN DE DICHO PRODUCTO Y LA PRESENTA
 document.addEventListener("DOMContentLoaded", async () => {
-  let comentarios
+  let comentarios;
   try {
     // OBTENER EL PRODUCTO Y LOS COMENTARIOS
     const producto = await getProduct();
@@ -90,30 +96,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("vendidos-producto").textContent =
       producto.soldCount;
 
-    // ACTUALIZAR LAS IMÁGENES DEL PRODUCTO
+    // ACTUALIZAR LAS IMÁGENES DEL PRODUCTO (CARRUSEL)
     const contenedorImagenes = document.getElementById(
       "carousel-inner"
     );
-    producto.images.forEach((imagen) => {
-      const divItemCarousel = document.createElement("div");
-      divItemCarousel.setAttribute("class", "carousel-item ")
+
+    contenedorImagenes.innerHTML = `
+      <div id="carouselExample" class="carousel slide">
+      <div class="carousel-inner">
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+          </button>
+          </div>
+          `;
+    const innerCarrusel = document.querySelector(".carousel-inner");
+
+    for (let i = 0; i < producto.images.length; i++) {
+      const carouselItem = document.createElement("div");
+      carouselItem.classList.add("carousel-item");
+
       const imgElement = document.createElement("img");
-      imgElement.src = imagen;
-      imgElement.setAttribute("class", "d-block w-100")
-      divItemCarousel.appendChild(imgElement);
-      contenedorImagenes.appendChild(divItemCarousel);
-    });
-    const itemCeroCarousel = document.getElementsByClassName("carousel-item")[0];
-    itemCeroCarousel.className="carousel-item active";
-    console.log(itemCeroCarousel);
+      imgElement.src = producto.images[i];
+      imgElement.classList.add("d-block", "w-100");
+      imgElement.alt = "Product Image";
+
+      carouselItem.appendChild(imgElement);
+      innerCarrusel.appendChild(carouselItem);
+
+      if (i === 0) {
+        carouselItem.classList.add("active");
+      }
+    }
 
     const botonComentario = document.getElementById("botonComentario");
     botonComentario.addEventListener("click", (e) => {
       e.preventDefault();
       const valueComentario = document.getElementById("comentario").value;
-      
+
       const comentarioElement = document.createElement("div");
-      const comentariosContainer = document.getElementById("comentarios-producto");
+      const comentariosContainer = document.getElementById(
+        "comentarios-producto"
+      );
       comentarioElement.classList.add("list-group-item");
       comentarioElement.innerHTML = getDate();
 
@@ -121,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       comentarioTextoElement.classList.add("mb-1");
       comentarioTextoElement.innerText = valueComentario;
       comentarioElement.appendChild(comentarioTextoElement);
-    
+
       comentariosContainer.appendChild(comentarioElement);
     });
   } catch (error) {
