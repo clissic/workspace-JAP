@@ -124,8 +124,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   mostrarComentarios(comentarios);
 });
 
-
-
 //CONSTANTE NECESARIA PARA EJECUTAR FUNCIONES REFERIDAS A PRODUCTOS RELACIONADOS:
 const divProductosRel = document.getElementById("relatedProducts");
 
