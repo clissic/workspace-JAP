@@ -278,6 +278,16 @@ a.custom-card:hover {
   font-size: small;
 }
 
-.imgRelacionados {
-  width: 80%px;
+.infoRelacionado:hover {
+  cursor: pointer;
+}
+
+.imgRelacionados img{
+  width: 25vw;
+}
+
+#relatedProducts {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2vw;
 }
