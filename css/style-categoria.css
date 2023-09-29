@@ -191,3 +191,8 @@ body{
     background-color: #ee5522;
     transform: scale(1.030);        /*Escala el boton*/
 }
+
+.carousel {
+    margin: auto;
+    width: 80%;
+}
