@@ -135,10 +135,7 @@ body{
 }
 
 #contenedor-imagenes-producto{
-    height: 35vw;
     margin-bottom: 2%;
-    padding: 15%;
-    padding-top: 0%;
 }
 
 /*Para quitar influencia de la otra hoja de estilos, aumento la especificidad*/
@@ -201,5 +198,5 @@ body{
 
 .carousel {
     margin: auto;
-    width: 60%;
+    width: 80%;
 }
