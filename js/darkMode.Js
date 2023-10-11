@@ -1,5 +1,5 @@
 addEventListener("DOMContentLoaded", () => {
-    const body = document.querySelector(".hidden");
+    const body = document.body
     const botonDarkMode = document.getElementById("darkBotton");
     
     botonDarkMode.addEventListener("click", () => {
