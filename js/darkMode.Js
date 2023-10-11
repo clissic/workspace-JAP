@@ -1,6 +1,7 @@
 addEventListener("DOMContentLoaded", () => {
-    const body = document.body
+    const body = document.body  
     const botonDarkMode = document.getElementById("darkBotton");
+    
     
     botonDarkMode.addEventListener("click", () => {
     body.classList.toggle("darkMode");
