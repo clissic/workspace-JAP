@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </td>
           <td class="tittles">${producto.name}</td>
           <td class="tittles">${producto.currency} ${producto.cost}</td>
-          <td class="tittles"><input id="count-${producto.id}" type="number" value="${productoEnCarrito.cantidad}" /></td>
+          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" /></td>
           <td class="tittles" id="subTotal-${producto.id}">${producto.currency} ${prodSubTotal}</td>
         </tr>`;
       tbodyContenedor.innerHTML += contenedorBody;
