@@ -318,3 +318,7 @@ padding-right: 12px;
 .margen{
   margin: auto; 
 }  
+
+.redirect img {
+  height: 5vw;
+}
