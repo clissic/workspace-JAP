@@ -231,6 +231,18 @@ a.custom-card:hover {
   opacity: 90%;
 }
 
+@media (max-width: 575px) {
+  .responsive-mobile-custom {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .container-infoProducto {
+    border-radius: 0;
+    margin: 0;
+  }
+}
+
 .titulos-info {
   font-weight: bold;
 }
