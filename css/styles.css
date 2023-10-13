@@ -290,3 +290,7 @@ a.custom-card:hover {
   flex-direction: row;
   column-gap: 2vw;
 }
+
+.redirect img {
+  height: 5vw;
+}
