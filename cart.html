@@ -48,20 +48,32 @@
     </div>
   </nav>
   <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
-      </div>
+  <div class="container">
+    <div class="card w-75 carta">
+        <h3 class="text-center card-header">Carrito de compras</h3>
+        <div class="card-body">
+          <h5 class="text-decoration-underline color">Articulos a comprar:</h5>
+          <div class="card w-100 margen mt-4">
+          <table class="">
+              <thead class="card-header">
+                  <tr>
+                  <th class="tittles">Producto</th>
+                  <th class="tittles">Nombre</th>
+                  <th class="tittles">Costo</th>
+                  <th class="tittles">Cantidad</th>
+                  <th class="tittles">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="contenedor">
+                <!--Se rellena desde el cart.js-->
+              </tbody>
+          </table>
+        </div>
+        </div>
     </div>
-  </main>
-  <footer class="text-muted">
-    <div class="container">
-      <p class="float-end">
-        <a href="#">Volver arriba</a>
-      </p>
-      <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
-    </div>
-  </footer>
+  </div>
+</main>
+  
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>
