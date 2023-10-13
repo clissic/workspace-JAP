@@ -68,7 +68,31 @@
                 <!--Se rellena desde el cart.js-->
               </tbody>
           </table>
+        </div class="mt-4"> 
+        <h5 class="text-decoration-underline color">Tipo de Envió</h5>
+        <label>
+          <input type="radio" name="tipoEnvio" value="estandar"> Standard 12 a 15 dias (5%)
+        </label>
+      </label>
+      <input type="radio" name="tipoEnvio" value="express"> Express 5 a 8 dias (7%)
+      </label>
+    </label>
+    <input type="radio" name="tipoEnvio" value="premium"> Premium 2 a 5 dias (15%)
+    </label>
+      <div class="mt-4">
+        <h5 class="text-decoration-underline color">Dirección de Envío</h5>
+        <div class="form-group">
+          <label for="calle">Calle:</label>
+          <input type="text" class="form-control" id="calle" name="calle">
         </div>
+        <div class="form-group">
+          <label for="numero">Número:</label>
+          <input type="text" class="form-control" id="numero" name="numero">
+        </div>
+        <div class="form-group">
+          <label for="esquina">Esquina:</label>
+          <input type="text" class="form-control" id="esquina" name="esquina">
+          </div>
         </div>
     </div>
   </div>
