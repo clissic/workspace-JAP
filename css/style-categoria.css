@@ -87,7 +87,7 @@ body{
     }
 }
 
-@media (max-width: 406px) {
+@media (max-width: 425px) {
     .mobile-grid{
         display: grid;
         grid-template-columns: auto ;
