@@ -34,18 +34,17 @@ nav a {
 }
 
 .jumbotron {
-  height: 50vh;
-  padding: 5em inherit;
+  height: 30vw;
+  padding: 10% 0; /* Ajusta el padding según tus preferencias */
   margin-bottom: 0;
   background-color: #53C0FB;
   background: url('../img/cover_back.png');
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   color: black;
   font-weight: bold;
 }
-
 @media (min-width: 768px) {
   .jumbotron {
     padding-top: 6rem;
@@ -231,6 +230,18 @@ a.custom-card:hover {
   opacity: 90%;
 }
 
+@media (max-width: 575px) {
+  .responsive-mobile-custom {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .container-infoProducto {
+    border-radius: 0;
+    margin: 0;
+  }
+}
+
 .titulos-info {
   font-weight: bold;
 }
@@ -238,7 +249,6 @@ a.custom-card:hover {
 .container-infoProducto img {
   width: 20%;
   margin: 10px;
-  border: 1px solid gray;
 }
 
 .imagen-info {
@@ -278,6 +288,63 @@ a.custom-card:hover {
   font-size: small;
 }
 
-.imgRelacionados {
-  width: 80%px;
+.infoRelacionado:hover {
+  cursor: pointer;
+}
+
+.imgRelacionados img{
+  width: 25vw;
+}
+
+#relatedProducts {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2vw;
+}
+
+.color { 
+  color: rgb(54, 53, 53);
+}
+.carta { 
+  margin: auto;
+  margin-top: 100px;
+}
+
+.tittles { 
+padding-left: 12px;
+padding-right: 12px;
+}
+.margen{
+  margin: auto; 
+}  
+
+.redirect img {
+  height: 5vw;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  .custom-card {
+    width: 100%;
+  }
+}
+
+/* Estilos para pantallas medianas y grandes */
+@media (min-width: 769px) {
+  .container {
+    padding: 30px;
+  }
+  .custom-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 908px) {
+  .jumbotron {
+    background: url('../img/logo.png');
+    background-size: cover; /* Ajusta la imagen al contenedor */
+  }
 }
