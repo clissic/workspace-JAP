@@ -334,7 +334,7 @@ padding-right: 12px;
 
 /* Estilos para pantallas medianas y grandes */
 @media (min-width: 769px) {
-  
+
   .custom-card {
     width: 100%;
   }
