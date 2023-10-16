@@ -7,8 +7,8 @@
 
 .darkMode, .darkMode * {
   background-color: rgb(32, 32, 30);
-  color: white;
-  border-color: white;
+  color: rgb(255, 255, 255);
+  border-color: rgb(131, 131, 131);
 }
 .jumbotron .display-4 {
   font-weight: bold;
