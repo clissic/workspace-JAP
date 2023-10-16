@@ -56,6 +56,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="cart.html">Mi carrito</a>
                 <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+                <button class="dropdown-item" id="darkBotton" >Modo oscuro</button>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" id="logoutLink" href="login.html"
                   >Cerrar sesión</a
@@ -69,13 +70,13 @@
     </nav>
     <main>
       <div class="container">
-        <div class="card w-75 carta">
+        <div class="card w-75 carta overflow-auto">
           <h3 class="text-center card-header">Carrito de compras</h3>
           <div class="card-body">
-            <h5 class="text-decoration-underline color">
+            <h5 class="text-decoration-underline">
               Artículos a comprar:
             </h5>
-            <div class="card w-100 margen mt-4">
+            <div class="card w-100 margen mt-4 overflow-auto">
               <table class="table">
                 <thead class="card-header">
                   <tr>
@@ -92,7 +93,7 @@
               </table>
             </div>
             <div class="mt-4">
-              <h5 class="text-decoration-underline color">Tipo de Envío</h5>
+              <h5 class="text-decoration-underline">Tipo de Envío</h5>
               <label>
                 <input type="radio" name="tipoEnvio" value="estandar" />
                 Standard 12 a 15 días (5%)
@@ -107,7 +108,7 @@
               </label>
             </div>
             <div class="mt-4">
-              <h5 class="text-decoration-underline color">
+              <h5 class="text-decoration-underline">
                 Dirección de Envío
               </h5>
               <div class="form-group">
@@ -150,6 +151,7 @@
         <div></div>
       </div>
     </div>
+    <script src="js/darkMode.Js"></script>
     <script src="js/validacion.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/init.js"></script>
