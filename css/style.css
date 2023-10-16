@@ -130,3 +130,17 @@ body {
     margin: 16px 0;
     font-size: 16px;
 }
+
+/* Media queries for responsiveness */
+@media (max-width: 576px) {
+    .ingreso, .form-register {
+        width: 40%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .ingreso, .form-register {
+        width: 95%;
+    }
+}

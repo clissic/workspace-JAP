@@ -23,7 +23,7 @@ body{
 
 /*Contenedor baner rojo que contiene el titulo*/
 .contenedor-baner{
-    width: 100vw;
+    width: 100%;
     height: auto;
     background-color: #330033;
     padding: 15px;
@@ -40,21 +40,65 @@ body{
 }
 
 /*Seccion de filtrados de busqueda*/
-.contenedor-div-filtros{
-    display: flex;
-    justify-content: center;
-}
 
 .contenedor-filtros{
-    display: flex;
-    justify-content:space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
     margin-top: 10px;
     width: 100%;
     background-color: #d8d8d8;
     padding: 4px;
     border-radius: 5px 5px 0 0;
 }
+
+@media (max-width: 1200px) {
+    .mobile-grid{
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+
+    }
+
+    .grid-filtros-orden {
+        grid-column: 5 / 5;
+    }
+}
+
+@media (max-width: 992px) {
+    .mobile-grid{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: auto auto;
+    }
+
+    .grid-filtros-orden {
+        grid-column: 1 / 4;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-grid{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: auto auto;
+    }
+
+    .grid-filtros-orden {
+        grid-column: 1 / 1;
+    }
+}
+
+@media (max-width: 425px) {
+    .mobile-grid{
+        display: grid;
+        grid-template-columns: auto ;
+        grid-template-rows: auto;
+    }
+
+    .orden-grid {
+        grid-column: 1 / 1;
+    }
+}
+
 
 .filtros-de-orden button{
     width: 110px;
@@ -133,6 +177,7 @@ body{
     height: 100%;
     object-fit: cover;
 }
+
 
 #contenedor-imagenes-producto {
     margin-bottom: 2%;

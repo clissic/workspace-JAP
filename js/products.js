@@ -59,7 +59,7 @@ function cartaProducto(producto) {
         <p class="vendidos" name="${producto.id}">Vendidos: <span class="cant-vendidos" name="${producto.id}">${producto.soldCount}</span></p>
       </div>
       <div class="contenedor-boton" name="${producto.id}">
-        <button class="botonComprar" id="boton${producto.id}" name="${producto.id}">Comprar</button>
+        <button onclick="addToCart(${producto.id})" class="botonComprar" id="boton${producto.id}" name="${producto.id}">Comprar</button>
       </div>
     </div>
   `;
@@ -71,6 +71,31 @@ function filtrarProductos(min, max) {
     const costo = parseFloat(producto.cost);
     return (isNaN(min) || costo >= min) && (isNaN(max) || costo <= max);
   });
+}
+
+// FUNCION QUE AGREGA AL CARRITO SIMULADO EN EL LOCAL STORAGE
+function addToCart(id) {
+  // Obtener el producto seleccionado
+  const productoSeleccionado = productosFiltrados.find(producto => producto.id === id);
+  if (productoSeleccionado) {
+    // Obtener el carrito simulado del Local Storage
+    let cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+    // Verificar si el producto ya está en el carrito
+    const productoEnCarrito = cartSim.find(producto => producto.id === id);
+    if (productoEnCarrito) {
+      // Si el producto ya está en el carrito, aumentar la cantidad en 1
+      productoEnCarrito.cantidad += 1;
+    } else {
+      // Si el producto no está en el carrito, agregarlo con cantidad 1
+      cartSim.push({
+        id: id,
+        cantidad: 1,
+        producto: productoSeleccionado
+      });
+    }
+    // Guardar el carrito simulado actualizado en el Local Storage
+    localStorage.setItem("cartSim", JSON.stringify(cartSim));
+  }
 }
 
 // OBTENGO DEL DOM:
@@ -100,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cartSim = [];
     localStorage.setItem("cartSim", JSON.stringify(cartSim));
   }
-})
+});
 // LISTENER QUE ESCUCHA LOS CLICKS EN LOS PRODUCTOS Y GUARDA EL ID EN EL LOCALSTORAGE
 contenedor.addEventListener("click", (e) => {
   var productId = e.target.getAttribute("name");
