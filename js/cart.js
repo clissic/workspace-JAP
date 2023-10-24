@@ -1,5 +1,6 @@
 const url = "https://japceibal.github.io/emercado-api/user_cart/25801.json";
-
+var total = 0;
+var ArraytotalActualizado = [];
 const tbodyContenedor = document.getElementById("contenedor");
 
 async function fetchData(url) {
@@ -42,18 +43,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function calcularSubtotal() {
     const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
     for (let dato of cartSim) {
-      const countConteiner = document.getElementById(
-        `count-${dato.producto.id}`
-      );
-      const subtotalConteiner = document.getElementById(
-        `subTotal-${dato.producto.id}`
-      );
+      const countConteiner = document.getElementById(`count-${dato.producto.id}`);
+
+      const subtotalConteiner = document.getElementById(`subTotal-${dato.producto.id}`);
+      
       countConteiner.addEventListener("input", () => {
         const valorSubTotal = countConteiner.value * dato.producto.cost;
+        dato.cantidad = countConteiner.value
         subtotalConteiner.innerHTML =
           dato.producto.currency + " " + valorSubTotal;
+          localStorage.setItem('cartSim', JSON.stringify(cartSim));
       });
     }
+    actualizarTotal()
   }
 
   // FUNCION QUE IMPRIME LOS PRODUCTOS EN EL CARRITO
@@ -63,6 +65,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       const producto = productoEnCarrito.producto;
       const productoImagen = producto.image || producto.images[0];
       const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
+      const id = `subTotal-${producto.id}`;
+      ArraytotalActualizado.push(id)
       const contenedorBody = `
         <tr>
           <td class="tittles">
@@ -71,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td class="tittles">${producto.name}</td>
           <td class="tittles">${producto.currency} ${producto.cost}</td>
           <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" /></td>
-          <td class="tittles" id="subTotal-${producto.id}">${producto.currency} ${prodSubTotal}</td>
+          <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
         </tr>`;
       tbodyContenedor.innerHTML += contenedorBody;
     }
@@ -115,3 +119,10 @@ debitRadio.addEventListener('change', function () {
 });
 
 });
+
+
+function actualizarTotal(){
+
+
+
+}

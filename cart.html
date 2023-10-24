@@ -1,160 +1,161 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>eMercado - Todo lo que busques está aquí</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i"
-      rel="stylesheet"
-    />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-      <div class="container">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav w-100 justify-content-between">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="categories.html">Categorías</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="sell.html">Vender</a>
-            </li>
-            <!-- Usuario y menú desplegable -->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <span id="mailUsuario">Nombre de Usuario</span>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="cart.html">Mi carrito</a>
-                <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
-                <button class="dropdown-item" id="darkBotton" >Modo oscuro</button>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" id="logoutLink" href="login.html"
-                  >Cerrar sesión</a
-                >
-              </div>
-            </li>
-            <!-- Fin del menú desplegable -->
-          </ul>
-        </div>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>eMercado - Todo lo que busques está aquí</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav w-100 justify-content-between">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="categories.html">Categorías</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sell.html">Vender</a>
+          </li>
+          <!-- Usuario y menú desplegable -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <span id="mailUsuario">Nombre de Usuario</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="cart.html">Mi carrito</a>
+              <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+              <button class="dropdown-item" id="darkBotton">Modo oscuro</button>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" id="logoutLink" href="login.html">Cerrar sesión</a>
+            </div>
+          </li>
+          <!-- Fin del menú desplegable -->
+        </ul>
       </div>
-    </nav>
-    <main>
-      <div class="container">
-        <div class="card w-75 carta overflow-auto">
-          <h3 class="text-center card-header">Carrito de compras</h3>
-          <div class="card-body">
+    </div>
+  </nav>
+  <main>
+    <div class="container">
+      <div class="card w-75 carta overflow-auto">
+        <h3 class="text-center card-header">Carrito de compras</h3>
+        <div class="card-body">
+          <h5 class="text-decoration-underline">
+            Artículos a comprar:
+          </h5>
+          <div class="card w-100 margen mt-4 overflow-auto">
+            <table class="table">
+              <thead class="card-header">
+                <tr>
+                  <th class="tittles">Producto</th>
+                  <th class="tittles">Nombre</th>
+                  <th class="tittles">Costo</th>
+                  <th class="tittles">Cantidad</th>
+                  <th class="tittles">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="contenedor">
+                <!-- Se rellena desde el cart.js -->
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-4">
+            <h5 class="text-decoration-underline">Tipo de Envío</h5>
+            <label>
+              <input type="radio" name="tipoEnvio" value="estandar" />
+              Standard 12 a 15 días (5%)
+            </label>
+            <label>
+              <input type="radio" name="tipoEnvio" value="express" /> Express
+              5 a 8 días (7%)
+            </label>
+            <label>
+              <input type="radio" name="tipoEnvio" value="premium" /> Premium
+              2 a 5 días (15%)
+            </label>
+          </div>
+          <div class="mt-4">
             <h5 class="text-decoration-underline">
-              Artículos a comprar:
+              Dirección de Envío
             </h5>
-            <div class="card w-100 margen mt-4 overflow-auto">
-              <table class="table">
-                <thead class="card-header">
-                  <tr>
-                    <th class="tittles">Producto</th>
-                    <th class="tittles">Nombre</th>
-                    <th class="tittles">Costo</th>
-                    <th class="tittles">Cantidad</th>
-                    <th class="tittles">Subtotal</th>
-                  </tr>
-                </thead>
-                <tbody id="contenedor">
-                  <!-- Se rellena desde el cart.js -->
-                </tbody>
-              </table>
+            <div class="form-group">
+              <label for="calle">Calle:</label>
+              <input type="text" class="form-control" id="calle" name="calle" />
             </div>
-            <div class="mt-4">
-              <h5 class="text-decoration-underline">Tipo de Envío</h5>
-              <label>
-                <input type="radio" name="tipoEnvio" value="estandar" />
-                Standard 12 a 15 días (5%)
-              </label>
-              <label>
-                <input type="radio" name="tipoEnvio" value="express" /> Express
-                5 a 8 días (7%)
-              </label>
-              <label>
-                <input type="radio" name="tipoEnvio" value="premium" /> Premium
-                2 a 5 días (15%)
-              </label>
+            <div class="form-group">
+              <label for="numero">Número:</label>
+              <input type="text" class="form-control" id="numero" name="numero" />
             </div>
-            <div class="mt-4">
-              <h5 class="text-decoration-underline">
-                Dirección de Envío
-              </h5>
-              <div class="form-group">
-                <label for="calle">Calle:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="calle"
-                  name="calle"
-                />
+            <div class="form-group">
+              <label for="esquina">Esquina:</label>
+              <input type="text" class="form-control" id="esquina" name="esquina" />
+            </div>
+          </div> <br>
+          <h5 class="text-decoration-underline">Costos</h5>
+
+          <div class="size">
+            <div class="border d-flex justify-content-between  ">
+              <div class="ms-4">
+                <h6 class="text-secondary"><strong>Subtotal</strong></h6>
+                <p class="text-secondary">Costo unitario del producto por cantidad</p>
               </div>
-              <div class="form-group">
-                <label for="numero">Número:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="numero"
-                  name="numero"
-                />
+              <div class="me-4 mt-4">
+                <p id="subTotal">precio</p>
               </div>
-              <div class="form-group">
-                <label for="esquina">Esquina:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="esquina"
-                  name="esquina"
-                />
+            </div>
+            <div class="border d-flex justify-content-between ">
+              <div class="ms-4" >
+                <h6 class="text-secondary"><strong>Costo de envío</strong></h6>
+                <p class="text-secondary">Segun el tipo de envío</p>
+              </div>
+              <div class="me-4 mt-4">
+                <p id="envio">precio</p>
+              </div>
+            </div>
+            <div>
+
+            </div>
+            <div class="border d-flex justify-content-between">
+              <h6 class="text-secondary ms-4"><strong>Total ($)</strong></h6>
+              <div class="me-4 mt-4">
+                <p id="precioFinal">precio</p>
               </div>
             </div>
           </div>
+
+
+
+
         </div>
       </div>
-    </main>
-    <div id="spinner-wrapper">
-      <div class="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
     </div>
-    <script src="js/darkMode.Js"></script>
-    <script src="js/validacion.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/init.js"></script>
-    <script src="js/cart.js"></script>
-  </body>
+  </main>
+  <div id="spinner-wrapper">
+    <div class="lds-ring">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <script src="js/darkMode.Js"></script>
+  <script src="js/validacion.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+
 </html>
