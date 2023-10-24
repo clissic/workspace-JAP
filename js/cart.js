@@ -41,9 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // FUNCION QUE CALCULA EL SUBTOTAL Y LO IMPRIME EN HTML
   async function calcularSubtotal() {
     const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    console.log(cartSim);
     for (let dato of cartSim) {
-      console.log(dato);
       const countConteiner = document.getElementById(
         `count-${dato.producto.id}`
       );
