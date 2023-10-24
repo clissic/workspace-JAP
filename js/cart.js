@@ -91,4 +91,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   colocarItemEnLS();
   mostrarProductosEnCarrito();
+
+  
+// Obtén referencias a los elementos que deseas mostrar u ocultar
+const creditFields = document.querySelector('.credit-fields');
+const debitFields = document.querySelector('.debit-fields');
+
+// Establece el estilo por defecto en "display: none" para ambos contenedores
+creditFields.style.display = 'none';
+debitFields.style.display = 'none';
+
+// Obtén referencias a los botones de radio
+const creditRadio = document.querySelector('input[value="credit"]');
+const debitRadio = document.querySelector('input[value="debit"]');
+
+// Agrega un evento change a los botones de radio
+creditRadio.addEventListener('change', function () {
+    creditFields.style.display = 'block';
+    debitFields.style.display = 'none';
+});
+
+debitRadio.addEventListener('change', function () {
+    creditFields.style.display = 'none';
+    debitFields.style.display = 'block';
+});
+
 });
