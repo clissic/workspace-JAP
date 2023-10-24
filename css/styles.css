@@ -342,3 +342,7 @@ padding-right: 12px;
 #modalTerminos{
   background-color: rgba(0, 0, 0, 0.5); 
 }
+
+.size {
+  font-size: 15px;
+}
