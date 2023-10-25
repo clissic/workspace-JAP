@@ -95,6 +95,22 @@
               <label for="calle">Calle:</label>
               <input type="text" class="form-control" id="calle" name="calle" />
             </div>
+            <div class="mt-4">
+              <h5 class="text-decoration-underline">Tipo de Envío</h5>
+              <label>
+                <input type="radio" name="tipoEnvio" value="estandar" />
+                Standard 12 a 15 días (5%)
+              </label>
+              <br>
+              <label>
+                <input type="radio" name="tipoEnvio" value="express" /> Express
+                5 a 8 días (7%)
+              </label>
+              <br>
+              <label>
+                <input type="radio" name="tipoEnvio" value="premium" /> Premium
+                2 a 5 días (15%)
+              </label>
             <div class="form-group">
               <label for="numero">Número:</label>
               <input type="text" class="form-control" id="numero" name="numero" />
@@ -115,6 +131,68 @@
               <div class="me-4 mt-4">
                 <p id="subTotal">precio</p>
               </div>
+              <div class="form-group">
+                <label for="esquina">Esquina:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="esquina"
+                  name="esquina"
+                />
+              </div>              
+            </div>
+            <h5 class="text-decoration-underline">Forma de pago:</h5>
+            <div class="col-sm-12">
+              <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal"
+                data-bs-target="#modalTerminos">seleccionar</button>
+            </div>
+          </div>
+          <div class="container m-1 w-25">
+            <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5">Forma de pago</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <input class="credit" type="radio" name="payment" value="credit"> Tarjeta de crédito
+                    <div class="credit-fields">
+                        <hr class="bg-secondary border-2 border-top border-secondary">
+                        <div class="form-group w-50">
+                            <label for="cardNumber">Número de tarjeta:</label>
+                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" />
+                        </div>
+                        <div class="form-group w-50">
+                            <label for="secCode">Código de seguridad:</label>
+                            <input type="text" class="form-control" id="secCode" name="secCode" />
+                        </div>
+                        <div class="form-group w-50">
+                            <label for="expDate">Vencimiento (mm/aa)</label>
+                            <input type="text" class="form-control" id="expDate" name="expDate" />
+                        </div>
+                    </div>
+                    <br>
+                    <input class="payment" type="radio" name="payment" value="debit"> Transferencia bancaria
+                    <div class="debit-fields">
+                        <hr class="bg-secondary border-2 border-top border-secondary">
+                        <div class="form-group w-50">
+                            <label for="countNumber">Número de cuenta</label>
+                            <input type="text" class="form-control" id="countNumber" name="countNumber" />
+                        </div>
+                    </div>
+                </div>
+                
+                  <div class="modal-footer">
+                    
+                    <button type="button" class="btn bg-primary btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
             </div>
             <div class="border d-flex justify-content-between ">
               <div class="ms-4" >

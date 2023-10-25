@@ -199,4 +199,3 @@ function actualizarTotal() {
  standard.addEventListener("change", escucharCostoEnvio)
  express.addEventListener("change", escucharCostoEnvio)
  premium.addEventListener("change", escucharCostoEnvio)
-
