@@ -76,10 +76,40 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td class="tittles">${producto.currency} ${producto.cost}</td>
           <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" /></td>
           <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
+          <td class="tittles">
+          <button class="eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
+        </td>
         </tr>`;
       tbodyContenedor.innerHTML += contenedorBody;
     }
   
+// Función para eliminar un producto del carrito por su ID
+function eliminarProductoDelCarrito(id) {
+  const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+  const nuevoCarrito = cartSim.filter((productoEnCarrito) => productoEnCarrito.producto.id !== id);
+  localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
+}
+
+// Función para manejar el clic en el botón "Eliminar"
+function clicEliminarProducto(event) {
+  const id = event.target.getAttribute("data-id");
+  eliminarProductoDelCarrito(id); 
+  const fila = event.target.closest("tr");
+  if (fila) {
+    fila.remove();
+  }
+  calcularSubtotal(); 
+}
+
+
+
+// Asociar manejador de eventos a los botones de "Eliminar"
+const botonesEliminar = document.querySelectorAll(".eliminar");
+botonesEliminar.forEach(boton => {
+  boton.addEventListener("click", clicEliminarProducto);
+});
+
+
     // Convertir la imagen del producto en un boton para ir a la informacion del producto:
     const productInfoButtons = document.getElementsByClassName("redirect");
     for (const productButton of productInfoButtons) {
