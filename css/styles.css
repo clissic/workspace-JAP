@@ -7,8 +7,8 @@
 
 .darkMode, .darkMode * {
   background-color: rgb(32, 32, 30);
-  color: white;
-  border-color: white;
+  color: rgb(255, 255, 255);
+  border-color: rgb(131, 131, 131);
 }
 .jumbotron .display-4 {
   font-weight: bold;
@@ -324,27 +324,25 @@ padding-right: 12px;
 
 /* Estilos para pantallas pequeñas */
 @media (max-width: 768px) {
-  .container {
-    padding: 10px;
-  }
+  
   .custom-card {
     width: 100%;
   }
 }
 
-/* Estilos para pantallas medianas y grandes */
-@media (min-width: 769px) {
-  .container {
-    padding: 30px;
-  }
-  .custom-card {
-    width: 100%;
-  }
-}
+
 
 @media (max-width: 908px) {
   .jumbotron {
     background: url('../img/logo.png');
     background-size: cover; /* Ajusta la imagen al contenedor */
   }
+}
+
+#modalTerminos{
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.size {
+  font-size: 15px;
 }
