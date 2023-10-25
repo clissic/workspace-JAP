@@ -75,25 +75,19 @@ function filtrarProductos(min, max) {
 
 // FUNCION QUE AGREGA AL CARRITO SIMULADO EN EL LOCAL STORAGE
 function addToCart(id) {
-  // Obtener el producto seleccionado
   const productoSeleccionado = productosFiltrados.find(producto => producto.id === id);
   if (productoSeleccionado) {
-    // Obtener el carrito simulado del Local Storage
     let cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    // Verificar si el producto ya está en el carrito
     const productoEnCarrito = cartSim.find(producto => producto.id === id);
     if (productoEnCarrito) {
-      // Si el producto ya está en el carrito, aumentar la cantidad en 1
       productoEnCarrito.cantidad += 1;
     } else {
-      // Si el producto no está en el carrito, agregarlo con cantidad 1
       cartSim.push({
         id: id,
         cantidad: 1,
         producto: productoSeleccionado
       });
     }
-    // Guardar el carrito simulado actualizado en el Local Storage
     localStorage.setItem("cartSim", JSON.stringify(cartSim));
   }
 }
