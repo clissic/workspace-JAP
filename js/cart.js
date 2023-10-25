@@ -167,30 +167,29 @@ function actualizarTotal() {
 
   let suma = 0;
   for (let producto of cartSim) {
-
     if (producto.producto.currency === "UYU") {
-      suma += producto.cantidad * (producto.producto.cost / dolar);
+      suma += producto.cantidad * Math.round(producto.producto.cost / dolar);
     } else {
-      suma += producto.cantidad * producto.producto.cost;
+      suma += producto.cantidad * Math.round(producto.producto.cost);
     }
   }
-  console.log(suma);
 
   let costoEnvio = 0;
   if (standard.checked) {
-    costoEnvio = suma * 0.05
+    costoEnvio = Math.round(suma * 0.05);
   } else if (express.checked) {
-    costoEnvio = suma * 0.07
+    costoEnvio = Math.round(suma * 0.07);
   } else if (premium.checked) {
-    costoEnvio = suma * 0.15
+    costoEnvio = Math.round(suma * 0.15);
   }
-  console.log(costoEnvio)
 
   let sumaTotal = costoEnvio + suma;
-  subTotal.innerText = suma;
-  envio.innerText = costoEnvio;
-  precioFinal.innerText = sumaTotal;
+  // Se usa 'en-US' y luego reemplaza la coma con un punto para asegurarte de que se muestre correctamente.
+  subTotal.innerText = suma.toLocaleString('en-US', { maximumFractionDigits: 0 }).replace(',', '.');
+  envio.innerText = costoEnvio.toLocaleString('en-US', { maximumFractionDigits: 0 }).replace(',', '.');
+  precioFinal.innerText = sumaTotal.toLocaleString('en-US', { maximumFractionDigits: 0 }).replace(',', '.');
 }
+
  function escucharCostoEnvio (){
   actualizarTotal();
 
