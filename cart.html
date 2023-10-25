@@ -161,15 +161,15 @@
                         <hr class="bg-secondary border-2 border-top border-secondary">
                         <div class="form-group w-50">
                             <label for="cardNumber">Número de tarjeta:</label>
-                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" />
+                            <input  type="text" class="form-control" id="cardNumber" name="cardNumber" required minlength="13" maxlength="19" />
                         </div>
                         <div class="form-group w-50">
-                            <label for="secCode">Código de seguridad:</label>
-                            <input type="text" class="form-control" id="secCode" name="secCode" />
+                            <label for="secCode">Código de seguridad: </label>
+                            <input type="text" class="form-control" id="secCode" name="secCode" required  minlength="3" maxlength="4" />
                         </div>
                         <div class="form-group w-50">
                             <label for="expDate">Vencimiento (mm/aa)</label>
-                            <input type="text" class="form-control" id="expDate" name="expDate" />
+                            <input type="text" class="form-control" id="expDate" name="expDate" required minlength="4" maxlength="5" />
                         </div>
                     </div>
                     <br>
