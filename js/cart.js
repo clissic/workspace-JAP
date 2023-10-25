@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" /></td>
           <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
           <td class="tittles">
-          <button class="eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-danger eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
         </td>
         </tr>`;
     tbodyContenedor.innerHTML += contenedorBody;
