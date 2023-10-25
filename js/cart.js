@@ -1,110 +1,141 @@
 const url = "https://japceibal.github.io/emercado-api/user_cart/25801.json";
-
+var total = 0;
+var ArraytotalActualizado = [];
 const tbodyContenedor = document.getElementById("contenedor");
 
-document.addEventListener("DOMContentLoaded", async () => {
 async function fetchData(url) {
-    try {
+  try {
     const response = await fetch(url);
 
     if (!response.ok) {
-        throw new Error(`Hubo un problema con la solicitud.`);
+      throw new Error(`Hubo un problema con la solicitud.`);
     }
 
     const data = await response.json();
     return data;
-    } catch (error) {
+  } catch (error) {
     console.error("Error al realizar la solicitud:", error);
-    }
+  }
 }
 
-async function chargeContent() {
-    const productoRel = await obtenerDatos(); // Obtener el producto relacionado
-    tbodyContenedor.innerHTML = productoRel; // Mostrar el producto relacionado
-}
-
-async function productoRelacionado() {
-    const resultado = await fetchData(url);
-    return resultado;
-}
-
-async function obtenerDatos() {
-    const datos = await productoRelacionado();
-    const contenedorTbody = `
-    <tr>
-        <td class="tittles">
-            <input id="productInfo" type="image" title="imagenProducto" alt="imagenProducto" style="height: 50px;" src="${
-                datos.articles[0].image
-            }" />
-    </td>
-        <td class="tittles">${datos.articles[0].name}</td>
-        <td class="tittles">${datos.articles[0].currency} ${
-    datos.articles[0].unitCost
-    }</td>
-        <td class="tittles">${datos.articles[0].count}</td>
-        <td class="tittles">${datos.articles[0].currency} ${
-      datos.articles[0].count * datos.articles[0].unitCost
-    }</td>
-    </tr>`;
-    return contenedorTbody;
-}
-
-async function botonAInfo() {
-    await chargeContent();
-    document
-    .getElementById("productInfo")
-    .addEventListener("click", async () => {
-        var datos = await productoRelacionado();
-        localStorage.setItem("productId", datos.articles[0].id);
-        if (datos.articles[0].id) {
-        location.href = "./product-info.html";
-        }
-    });
-}
-
-async function mostrarProductosEnCarrito() {
+document.addEventListener("DOMContentLoaded", async () => {
+  // FUNCION QUE CONVIERTE EL PRODUCTO QUE VIENE POR FETCH EN UN OBJETO CON LA ESTRUCTURA DE NUESTRO CARRITO (addToCart(id) en products.js:76)
+  async function colocarItemEnLS() {
     const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-
-    for (const productoEnCarrito of cartSim) {
-    const producto = productoEnCarrito.producto;
-    const contenedorBody = `
-        <tr>
-        <td class="tittles">
-            <input id="productInfo${producto.id}" type="image" title="imagenProducto" alt="imagenProducto" style="height: 50px;" src="${producto.image}" />
-        </td>
-        <td class="tittles">${producto.name}</td>
-        <td class="tittles">${producto.currency} ${producto.cost}</td>
-        <td class="tittles">${productoEnCarrito.cantidad}</td>
-          <td class="tittles">${producto.currency} ${productoEnCarrito.cantidad * producto.cost}</td>
-        </tr>`;
-    tbodyContenedor.innerHTML += contenedorBody;
-
-      // Agregar un listener al botón de la imagen para ir a la página "product-info.html"
-    const productInfoButton = document.getElementById(`productInfo${producto.id}`);
-    productInfoButton.addEventListener("click", () => {
-        localStorage.setItem("productId", producto.id);
-        location.href = "./product-info.html";
-    });
+    const data = await fetchData(url);
+    const carToFetchId = data.articles[0].id;
+    const carToPush = await fetchData(
+      `https://japceibal.github.io/emercado-api/products/${carToFetchId}.json`
+    );
+    const existingItem = cartSim.find((item) => item.id === carToPush.id);
+    if (!existingItem) {
+      const localStorageApiItem = {
+        id: carToPush.id,
+        cantidad: 1,
+        producto: carToPush,
+      };
+      cartSim.push(localStorageApiItem);
+      localStorage.setItem("cartSim", JSON.stringify(cartSim));
     }
+  }
+
+  // FUNCION QUE CALCULA EL SUBTOTAL Y LO IMPRIME EN HTML
+  async function calcularSubtotal() {
+    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+    for (let dato of cartSim) {
+      const countConteiner = document.getElementById(`count-${dato.producto.id}`);
+
+      const subtotalConteiner = document.getElementById(`subTotal-${dato.producto.id}`);
+      
+      countConteiner.addEventListener("input", () => {
+        const valorSubTotal = countConteiner.value * dato.producto.cost;
+        dato.cantidad = countConteiner.value
+        subtotalConteiner.innerHTML =
+          dato.producto.currency + " " + valorSubTotal;
+          localStorage.setItem('cartSim', JSON.stringify(cartSim));
+      });
+    }
+    actualizarTotal()
+  }
+
+  // FUNCION QUE IMPRIME LOS PRODUCTOS EN EL CARRITO
+  async function mostrarProductosEnCarrito() {
+    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+    for (const productoEnCarrito of cartSim) {
+      const producto = productoEnCarrito.producto;
+      const productoImagen = producto.image || producto.images[0];
+      const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
+      const id = `subTotal-${producto.id}`;
+      ArraytotalActualizado.push(id)
+      const contenedorBody = `
+        <tr>
+          <td class="tittles">
+            <input class="redirect" id="${producto.id}" type="image" title="imagenProducto" alt="imagenProducto" style="height: 50px;" src="${productoImagen}" />
+          </td>
+          <td class="tittles">${producto.name}</td>
+          <td class="tittles">${producto.currency} ${producto.cost}</td>
+          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" /></td>
+          <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
+          <td class="tittles">
+          <button class="eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
+        </td>
+        </tr>`;
+      tbodyContenedor.innerHTML += contenedorBody;
+    }
+  
+// Función para eliminar un producto del carrito por su ID
+function eliminarProductoDelCarrito(id) {
+  const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+  const nuevoCarrito = cartSim.filter((productoEnCarrito) => productoEnCarrito.producto.id !== id);
+  localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
 }
 
-chargeContent();
-botonAInfo();
-mostrarProductosEnCarrito();
+// Función para manejar el clic en el botón "Eliminar"
+function clicEliminarProducto(event) {
+  const id = event.target.getAttribute("data-id");
+  eliminarProductoDelCarrito(id); 
+  const fila = event.target.closest("tr");
+  if (fila) {
+    fila.remove();
+  }
+  calcularSubtotal(); 
+}
+
+
+
+// Asociar manejador de eventos a los botones de "Eliminar"
+const botonesEliminar = document.querySelectorAll(".eliminar");
+botonesEliminar.forEach(boton => {
+  boton.addEventListener("click", clicEliminarProducto);
 });
 
 
+    // Convertir la imagen del producto en un boton para ir a la informacion del producto:
+    const productInfoButtons = document.getElementsByClassName("redirect");
+    for (const productButton of productInfoButtons) {
+      productButton.addEventListener("click", (event) => {
+        const productoId = event.target.id;
+        localStorage.setItem("productId", productoId);
+        location.href = "./product-info.html";
+      });
+    }
+    calcularSubtotal();
+  }
+  colocarItemEnLS();
+  mostrarProductosEnCarrito();
+
+  
 // Obtén referencias a los elementos que deseas mostrar u ocultar
-var creditFields = document.querySelector('.credit-fields');
-var debitFields = document.querySelector('.debit-fields');
+const creditFields = document.querySelector('.credit-fields');
+const debitFields = document.querySelector('.debit-fields');
 
 // Establece el estilo por defecto en "display: none" para ambos contenedores
 creditFields.style.display = 'none';
 debitFields.style.display = 'none';
 
 // Obtén referencias a los botones de radio
-var creditRadio = document.querySelector('input[value="credit"]');
-var debitRadio = document.querySelector('input[value="debit"]');
+const creditRadio = document.querySelector('input[value="credit"]');
+const debitRadio = document.querySelector('input[value="debit"]');
 
 // Agrega un evento change a los botones de radio
 creditRadio.addEventListener('change', function () {
@@ -116,3 +147,12 @@ debitRadio.addEventListener('change', function () {
     creditFields.style.display = 'none';
     debitFields.style.display = 'block';
 });
+
+});
+
+
+function actualizarTotal(){
+
+
+
+}
