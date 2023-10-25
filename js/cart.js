@@ -84,8 +84,21 @@ document.addEventListener("DOMContentLoaded", async () => {
           <button class="eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
         </td>
         </tr>`;
-    tbodyContenedor.innerHTML += contenedorBody;
-  }
+
+      tbodyContenedor.innerHTML += contenedorBody;
+    }
+    document.getElementById('modalTerminos').addEventListener('hide.bs.modal', function (event) {
+      // Obtiene los campos de entrada
+      const cardNumber = document.getElementById('cardNumber');
+      const secCode = document.getElementById('secCode');
+      const expDate = document.getElementById('expDate');
+    
+      // Verifica si los campos requeridos están completos y son válidos
+      if (!cardNumber.checkValidity() || !secCode.checkValidity() || !expDate.checkValidity()) {
+        // Evita que el modal se cierre si los campos requeridos no están completos
+        event.preventDefault();
+      }
+    });
 
   // Función para eliminar un producto del carrito por su ID
   function eliminarProductoDelCarrito(id) {
