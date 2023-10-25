@@ -2,6 +2,7 @@ const url = "https://japceibal.github.io/emercado-api/user_cart/25801.json";
 var total = 0;
 var ArraytotalActualizado = [];
 const tbodyContenedor = document.getElementById("contenedor");
+const dolar = 40;
 
 async function fetchData(url) {
   try {
@@ -46,16 +47,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       const countConteiner = document.getElementById(`count-${dato.producto.id}`);
 
       const subtotalConteiner = document.getElementById(`subTotal-${dato.producto.id}`);
-      
+
       countConteiner.addEventListener("input", () => {
         const valorSubTotal = countConteiner.value * dato.producto.cost;
         dato.cantidad = countConteiner.value
         subtotalConteiner.innerHTML =
           dato.producto.currency + " " + valorSubTotal;
-          localStorage.setItem('cartSim', JSON.stringify(cartSim));
+        localStorage.setItem('cartSim', JSON.stringify(cartSim));
+        actualizarTotal()
       });
     }
-    actualizarTotal()
+
   }
 
   // FUNCION QUE IMPRIME LOS PRODUCTOS EN EL CARRITO
@@ -82,32 +84,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         </tr>`;
       tbodyContenedor.innerHTML += contenedorBody;
     }
-  
-// Función para eliminar un producto del carrito por su ID
-function eliminarProductoDelCarrito(id) {
-  const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-  const nuevoCarrito = cartSim.filter((productoEnCarrito) => productoEnCarrito.producto.id !== id);
-  localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
-}
 
-// Función para manejar el clic en el botón "Eliminar"
-function clicEliminarProducto(event) {
-  const id = event.target.getAttribute("data-id");
-  eliminarProductoDelCarrito(id); 
-  const fila = event.target.closest("tr");
-  if (fila) {
-    fila.remove();
-  }
-  calcularSubtotal(); 
-}
+    // Función para eliminar un producto del carrito por su ID
+    function eliminarProductoDelCarrito(id) {
+      const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+      const nuevoCarrito = cartSim.filter((productoEnCarrito) => productoEnCarrito.producto.id !== id);
+      localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
+    }
+
+    // Función para manejar el clic en el botón "Eliminar"
+    function clicEliminarProducto(event) {
+      const id = event.target.getAttribute("data-id");
+      eliminarProductoDelCarrito(id);
+      const fila = event.target.closest("tr");
+      if (fila) {
+        fila.remove();
+      }
+      calcularSubtotal();
+    }
 
 
 
-// Asociar manejador de eventos a los botones de "Eliminar"
-const botonesEliminar = document.querySelectorAll(".eliminar");
-botonesEliminar.forEach(boton => {
-  boton.addEventListener("click", clicEliminarProducto);
-});
+    // Asociar manejador de eventos a los botones de "Eliminar"
+    const botonesEliminar = document.querySelectorAll(".eliminar");
+    botonesEliminar.forEach(boton => {
+      boton.addEventListener("click", clicEliminarProducto);
+    });
 
 
     // Convertir la imagen del producto en un boton para ir a la informacion del producto:
@@ -120,39 +122,80 @@ botonesEliminar.forEach(boton => {
       });
     }
     calcularSubtotal();
+    actualizarTotal()
   }
+  
   colocarItemEnLS();
   mostrarProductosEnCarrito();
 
-  
-// Obtén referencias a los elementos que deseas mostrar u ocultar
-const creditFields = document.querySelector('.credit-fields');
-const debitFields = document.querySelector('.debit-fields');
 
-// Establece el estilo por defecto en "display: none" para ambos contenedores
-creditFields.style.display = 'none';
-debitFields.style.display = 'none';
+  // Obtén referencias a los elementos que deseas mostrar u ocultar
+  const creditFields = document.querySelector('.credit-fields');
+  const debitFields = document.querySelector('.debit-fields');
 
-// Obtén referencias a los botones de radio
-const creditRadio = document.querySelector('input[value="credit"]');
-const debitRadio = document.querySelector('input[value="debit"]');
+  // Establece el estilo por defecto en "display: none" para ambos contenedores
+  creditFields.style.display = 'none';
+  debitFields.style.display = 'none';
 
-// Agrega un evento change a los botones de radio
-creditRadio.addEventListener('change', function () {
+  // Obtén referencias a los botones de radio
+  const creditRadio = document.querySelector('input[value="credit"]');
+  const debitRadio = document.querySelector('input[value="debit"]');
+
+  // Agrega un evento change a los botones de radio
+  creditRadio.addEventListener('change', function () {
     creditFields.style.display = 'block';
     debitFields.style.display = 'none';
-});
+  });
 
-debitRadio.addEventListener('change', function () {
+  debitRadio.addEventListener('change', function () {
     creditFields.style.display = 'none';
     debitFields.style.display = 'block';
-});
+  });
 
 });
 
 
-function actualizarTotal(){
+const standard = document.getElementById("standard") // 5%
+const express = document.getElementById("express") // 7%
+const premium = document.getElementById("premium") // 15%
 
+function actualizarTotal() {
+  const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+  const subTotal = document.getElementById("subTotal");
+  const envio = document.getElementById("envio");
+  const precioFinal = document.getElementById("precioFinal");
 
+  let suma = 0;
+  for (let producto of cartSim) {
 
+    if (producto.producto.currency === "UYU") {
+      suma += producto.cantidad * (producto.producto.cost / dolar);
+    } else {
+      suma += producto.cantidad * producto.producto.cost;
+    }
+  }
+  console.log(suma);
+
+  let costoEnvio = 0;
+  if (standard.checked) {
+    costoEnvio = suma * 0.05
+  } else if (express.checked) {
+    costoEnvio = suma * 0.07
+  } else if (premium.checked) {
+    costoEnvio = suma * 0.15
+  }
+  console.log(costoEnvio)
+
+  let sumaTotal = costoEnvio + suma;
+  subTotal.innerText = suma;
+  envio.innerText = costoEnvio;
+  precioFinal.innerText = sumaTotal;
 }
+ function escucharCostoEnvio (){
+  actualizarTotal();
+
+ };
+
+ standard.addEventListener("change", escucharCostoEnvio)
+ express.addEventListener("change", escucharCostoEnvio)
+ premium.addEventListener("change", escucharCostoEnvio)
