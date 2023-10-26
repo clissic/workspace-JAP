@@ -64,14 +64,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // FUNCION QUE IMPRIME LOS PRODUCTOS EN EL CARRITO
-  const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-  for (const productoEnCarrito of cartSim) {
-    const producto = productoEnCarrito.producto;
-    const productoImagen = producto.image || producto.images[0];
-    const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
-    const id = `subTotal-${producto.id}`;
-    ArraytotalActualizado.push(id);
-    const contenedorBody = `
+  async function mostrarProductosEnCarrito() {
+    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+    for (const productoEnCarrito of cartSim) {
+      const producto = productoEnCarrito.producto;
+      const productoImagen = producto.image || producto.images[0];
+      const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
+      const id = `subTotal-${producto.id}`;
+      ArraytotalActualizado.push(id);
+      const contenedorBody = `
         <tr>
           <td class="tittles">
             <input class="redirect" id="${producto.id}" type="image" title="imagenProducto" alt="imagenProducto" style="height: 50px;" src="${productoImagen}" />
@@ -84,50 +85,48 @@ document.addEventListener("DOMContentLoaded", async () => {
           <button class="btn btn-danger eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
         </td>
         </tr>`;
-    tbodyContenedor.innerHTML += contenedorBody;
-  }
+      tbodyContenedor.innerHTML += contenedorBody;
+    }
 
-  // Función para eliminar un producto del carrito por su ID
-  function eliminarProductoDelCarrito(id) {
-    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    const nuevoCarrito = cartSim.filter(
-      (productoEnCarrito) => productoEnCarrito.id != id
-    );
-    localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
-  }
+    // Función para eliminar un producto del carrito por su ID
+    function eliminarProductoDelCarrito(id) {
+      const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+      const nuevoCarrito = cartSim.filter(
+        (productoEnCarrito) => productoEnCarrito.id != id
+      );
+      localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
+    }
 
-  // Función para manejar el clic en el botón "Eliminar"
-
-
-  // Asociar manejador de eventos a los botones de "Eliminar"
-  const botonesEliminar = document.querySelectorAll(".eliminar");
-  botonesEliminar.forEach((boton) => {
-    boton.addEventListener("click", (event) => {
-      const id = event.currentTarget.getAttribute("data-id");
-      console.log(id);
+    // Asociar manejador de eventos a los botones de "Eliminar"
+    const botonesEliminar = document.querySelectorAll(".eliminar");
+    botonesEliminar.forEach((boton) => {
+      boton.addEventListener("click", async (event) => {
+        const id = event.currentTarget.getAttribute("data-id");
       eliminarProductoDelCarrito(id);
       const fila = event.currentTarget.closest("tr");
       if (fila) {
         fila.remove();
       }
-      actualizarTotal();
       calcularSubtotal();
+      actualizarTotal();
+      });
     });
-  });
 
-  // Convertir la imagen del producto en un boton para ir a la informacion del producto:
-  const productInfoButtons = document.getElementsByClassName("redirect");
-  for (const productButton of productInfoButtons) {
-    productButton.addEventListener("click", (event) => {
-      const productoId = event.currentTarget.id;
-      localStorage.setItem("productId", productoId);
-      location.href = "./product-info.html";
-    });
+    // Convertir la imagen del producto en un boton para ir a la informacion del producto:
+    const productInfoButtons = document.getElementsByClassName("redirect");
+    for (const productButton of productInfoButtons) {
+      productButton.addEventListener("click", (event) => {
+        const productoId = event.target.id;
+        localStorage.setItem("productId", productoId);
+        location.href = "./product-info.html";
+      });
+    }
+    calcularSubtotal();
+    actualizarTotal();
   }
-  calcularSubtotal();
-  actualizarTotal();
 
   colocarItemEnLS();
+  mostrarProductosEnCarrito();
 
   // Obtén referencias a los elementos que deseas mostrar u ocultar
   const creditFields = document.querySelector(".credit-fields");
@@ -192,28 +191,24 @@ function escucharCostoEnvio() {
   actualizarTotal();
 }
 
- };
-
- standard.addEventListener("change", escucharCostoEnvio)
- express.addEventListener("change", escucharCostoEnvio)
- premium.addEventListener("change", escucharCostoEnvio)
-
+standard.addEventListener("change", escucharCostoEnvio);
+express.addEventListener("change", escucharCostoEnvio);
+premium.addEventListener("change", escucharCostoEnvio);
 
 const btnFinalzarCompra = document.getElementById("finalizarCompra");
 
 // listener para el botón finalizar compra
-btnFinalzarCompra.addEventListener("click", (e) => {
-
+btnFinalzarCompra.addEventListener("submit", (e) => {
   e.preventDefault();
   const idProdEnCarrito = document.getElementsByName("prodEnCarrito");
-  var prodEnCarrito= Array.from(idProdEnCarrito);
+  var prodEnCarrito = Array.from(idProdEnCarrito);
   var cantProdEnCarrito = [];
   var cantCeros = 0;
   const creditCard = document.getElementById("creditCard");
   const debitCard = document.getElementById("debitCard");
   const feedBack = document.getElementById("feedBack");
   const divProductos = document.getElementById("errorProductos");
-  const form = document.getElementById("loc")
+  const form = document.getElementById("loc");
 
   // Trae los id de los inputs de los productos en el carrito
   for (let idProducto of prodEnCarrito) {
@@ -238,22 +233,22 @@ btnFinalzarCompra.addEventListener("click", (e) => {
     divProductos.classList.add("text-success");
     divProductos.classList.remove("text-danger");
     divProductos.innerHTML = "";
-  
+
     form.submit();
   } else {
-    if (cantCeros > 0 && (!creditCard.checked && !debitCard.checked)) {
+    if (cantCeros > 0 && !creditCard.checked && !debitCard.checked) {
       feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
-      divProductos.innerHTML = "Ingrese una cantidad válida de producto o elimínelo del carrito";
+      divProductos.innerHTML =
+        "Ingrese una cantidad válida de producto o elimínelo del carrito";
       divProductos.classList.add("text-danger");
     } else {
-      if (cantCeros === 0 && (!creditCard.checked && !debitCard.checked)) {
+      if (cantCeros === 0 && !creditCard.checked && !debitCard.checked) {
         feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
       } else {
-        divProductos.innerHTML = "Ingrese una cantidad válida de producto o elimínelo del carrito";
+        divProductos.innerHTML =
+          "Ingrese una cantidad válida de producto o elimínelo del carrito";
         divProductos.classList.add("text-danger");
       }
-
-    } 
+    }
   }
-
 });
