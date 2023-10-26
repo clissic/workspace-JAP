@@ -44,32 +44,34 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function calcularSubtotal() {
     const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
     for (let dato of cartSim) {
-      const countConteiner = document.getElementById(`count-${dato.producto.id}`);
+      const countConteiner = document.getElementById(
+        `count-${dato.producto.id}`
+      );
 
-      const subtotalConteiner = document.getElementById(`subTotal-${dato.producto.id}`);
+      const subtotalConteiner = document.getElementById(
+        `subTotal-${dato.producto.id}`
+      );
 
       countConteiner.addEventListener("input", () => {
         const valorSubTotal = countConteiner.value * dato.producto.cost;
-        dato.cantidad = countConteiner.value
+        dato.cantidad = countConteiner.value;
         subtotalConteiner.innerHTML =
           dato.producto.currency + " " + valorSubTotal;
-        localStorage.setItem('cartSim', JSON.stringify(cartSim));
-        actualizarTotal()
+        localStorage.setItem("cartSim", JSON.stringify(cartSim));
+        actualizarTotal();
       });
     }
-
   }
 
   // FUNCION QUE IMPRIME LOS PRODUCTOS EN EL CARRITO
-  async function mostrarProductosEnCarrito() {
-    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    for (const productoEnCarrito of cartSim) {
-      const producto = productoEnCarrito.producto;
-      const productoImagen = producto.image || producto.images[0];
-      const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
-      const id = `subTotal-${producto.id}`;
-      ArraytotalActualizado.push(id)
-      const contenedorBody = `
+  const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+  for (const productoEnCarrito of cartSim) {
+    const producto = productoEnCarrito.producto;
+    const productoImagen = producto.image || producto.images[0];
+    const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
+    const id = `subTotal-${producto.id}`;
+    ArraytotalActualizado.push(id);
+    const contenedorBody = `
         <tr>
           <td class="tittles">
             <input class="redirect" id="${producto.id}" type="image" title="imagenProducto" alt="imagenProducto" style="height: 50px;" src="${productoImagen}" />
@@ -79,85 +81,81 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" name = "prodEnCarrito"/></td>
           <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
           <td class="tittles">
-          <button class="eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-danger eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
         </td>
         </tr>`;
-      tbodyContenedor.innerHTML += contenedorBody;
-    }
+    tbodyContenedor.innerHTML += contenedorBody;
+  }
 
-    // Función para eliminar un producto del carrito por su ID
-    function eliminarProductoDelCarrito(id) {
-      const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-      const nuevoCarrito = cartSim.filter((productoEnCarrito) => productoEnCarrito.producto.id !== id);
-      localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
-    }
+  // Función para eliminar un producto del carrito por su ID
+  function eliminarProductoDelCarrito(id) {
+    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+    const nuevoCarrito = cartSim.filter(
+      (productoEnCarrito) => productoEnCarrito.id != id
+    );
+    localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
+  }
 
-    // Función para manejar el clic en el botón "Eliminar"
-    function clicEliminarProducto(event) {
-      const id = event.target.getAttribute("data-id");
+  // Función para manejar el clic en el botón "Eliminar"
+
+
+  // Asociar manejador de eventos a los botones de "Eliminar"
+  const botonesEliminar = document.querySelectorAll(".eliminar");
+  botonesEliminar.forEach((boton) => {
+    boton.addEventListener("click", (event) => {
+      const id = event.currentTarget.getAttribute("data-id");
+      console.log(id);
       eliminarProductoDelCarrito(id);
-      const fila = event.target.closest("tr");
+      const fila = event.currentTarget.closest("tr");
       if (fila) {
         fila.remove();
       }
+      actualizarTotal();
       calcularSubtotal();
-    }
-
-
-
-    // Asociar manejador de eventos a los botones de "Eliminar"
-    const botonesEliminar = document.querySelectorAll(".eliminar");
-    botonesEliminar.forEach(boton => {
-      boton.addEventListener("click", clicEliminarProducto);
     });
+  });
 
-
-    // Convertir la imagen del producto en un boton para ir a la informacion del producto:
-    const productInfoButtons = document.getElementsByClassName("redirect");
-    for (const productButton of productInfoButtons) {
-      productButton.addEventListener("click", (event) => {
-        const productoId = event.target.id;
-        localStorage.setItem("productId", productoId);
-        location.href = "./product-info.html";
-      });
-    }
-    calcularSubtotal();
-    actualizarTotal()
+  // Convertir la imagen del producto en un boton para ir a la informacion del producto:
+  const productInfoButtons = document.getElementsByClassName("redirect");
+  for (const productButton of productInfoButtons) {
+    productButton.addEventListener("click", (event) => {
+      const productoId = event.currentTarget.id;
+      localStorage.setItem("productId", productoId);
+      location.href = "./product-info.html";
+    });
   }
-  
-  colocarItemEnLS();
-  mostrarProductosEnCarrito();
+  calcularSubtotal();
+  actualizarTotal();
 
+  colocarItemEnLS();
 
   // Obtén referencias a los elementos que deseas mostrar u ocultar
-  const creditFields = document.querySelector('.credit-fields');
-  const debitFields = document.querySelector('.debit-fields');
+  const creditFields = document.querySelector(".credit-fields");
+  const debitFields = document.querySelector(".debit-fields");
 
   // Establece el estilo por defecto en "display: none" para ambos contenedores
-  creditFields.style.display = 'none';
-  debitFields.style.display = 'none';
+  creditFields.style.display = "none";
+  debitFields.style.display = "none";
 
   // Obtén referencias a los botones de radio
   const creditRadio = document.querySelector('input[value="credit"]');
   const debitRadio = document.querySelector('input[value="debit"]');
 
   // Agrega un evento change a los botones de radio
-  creditRadio.addEventListener('change', function () {
-    creditFields.style.display = 'block';
-    debitFields.style.display = 'none';
+  creditRadio.addEventListener("change", function () {
+    creditFields.style.display = "block";
+    debitFields.style.display = "none";
   });
 
-  debitRadio.addEventListener('change', function () {
-    creditFields.style.display = 'none';
-    debitFields.style.display = 'block';
+  debitRadio.addEventListener("change", function () {
+    creditFields.style.display = "none";
+    debitFields.style.display = "block";
   });
-
 });
 
-
-const standard = document.getElementById("standard") // 5%
-const express = document.getElementById("express") // 7%
-const premium = document.getElementById("premium") // 15%
+const standard = document.getElementById("standard"); // 5%
+const express = document.getElementById("express"); // 7%
+const premium = document.getElementById("premium"); // 15%
 
 function actualizarTotal() {
   const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
@@ -167,7 +165,6 @@ function actualizarTotal() {
 
   let suma = 0;
   for (let producto of cartSim) {
-
     if (producto.producto.currency === "UYU") {
       suma += producto.cantidad * (producto.producto.cost / dolar);
     } else {
@@ -178,21 +175,22 @@ function actualizarTotal() {
 
   let costoEnvio = 0;
   if (standard.checked) {
-    costoEnvio = suma * 0.05
+    costoEnvio = suma * 0.05;
   } else if (express.checked) {
-    costoEnvio = suma * 0.07
+    costoEnvio = suma * 0.07;
   } else if (premium.checked) {
-    costoEnvio = suma * 0.15
+    costoEnvio = suma * 0.15;
   }
-  console.log(costoEnvio)
+  console.log(costoEnvio);
 
   let sumaTotal = costoEnvio + suma;
   subTotal.innerText = suma;
   envio.innerText = costoEnvio;
   precioFinal.innerText = sumaTotal;
 }
- function escucharCostoEnvio (){
+function escucharCostoEnvio() {
   actualizarTotal();
+}
 
  };
 

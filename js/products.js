@@ -80,7 +80,7 @@ function addToCart(id) {
     let cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
     const productoEnCarrito = cartSim.find(producto => producto.id === id);
     if (productoEnCarrito) {
-      productoEnCarrito.cantidad += 1;
+      productoEnCarrito.cantidad ++;
     } else {
       cartSim.push({
         id: id,
