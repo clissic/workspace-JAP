@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </td>
           <td class="tittles">${producto.name}</td>
           <td class="tittles">${producto.currency} ${producto.cost}</td>
-          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" /></td>
+          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" name = "prodEnCarrito"/></td>
           <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
           <td class="tittles">
           <button class="eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
@@ -199,3 +199,63 @@ function actualizarTotal() {
  standard.addEventListener("change", escucharCostoEnvio)
  express.addEventListener("change", escucharCostoEnvio)
  premium.addEventListener("change", escucharCostoEnvio)
+
+
+const btnFinalzarCompra = document.getElementById("finalizarCompra");
+
+// listener para el botón finalizar compra
+btnFinalzarCompra.addEventListener("click", (e) => {
+
+  e.preventDefault();
+  const idProdEnCarrito = document.getElementsByName("prodEnCarrito");
+  var prodEnCarrito= Array.from(idProdEnCarrito);
+  var cantProdEnCarrito = [];
+  var cantCeros = 0;
+  const creditCard = document.getElementById("creditCard");
+  const debitCard = document.getElementById("debitCard");
+  const feedBack = document.getElementById("feedBack");
+  const divProductos = document.getElementById("errorProductos");
+  const form = document.getElementById("loc")
+
+  // Trae los id de los inputs de los productos en el carrito
+  for (let idProducto of prodEnCarrito) {
+    var prod = idProducto.attributes.id.nodeValue;
+    cantProdEnCarrito.push(prod);
+  }
+
+  // Trae el valor de cada input y chequea si alguno es igual a cero
+  for (let idProducto of cantProdEnCarrito) {
+    var valorProducto = document.getElementById(idProducto).value;
+    if (valorProducto == 0) {
+      cantCeros += 1;
+    }
+  }
+
+  // Validaciones previas a enviar el formulario
+  if (cantCeros === 0 && (creditCard.checked || debitCard.checked)) {
+    feedBack.classList.add("text-success");
+    feedBack.classList.remove("text-danger");
+    feedBack.innerHTML = "Método de pago seleccionado";
+
+    divProductos.classList.add("text-success");
+    divProductos.classList.remove("text-danger");
+    divProductos.innerHTML = "";
+  
+    form.submit();
+  } else {
+    if (cantCeros > 0 && (!creditCard.checked && !debitCard.checked)) {
+      feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
+      divProductos.innerHTML = "Ingrese una cantidad válida de producto o elimínelo del carrito";
+      divProductos.classList.add("text-danger");
+    } else {
+      if (cantCeros === 0 && (!creditCard.checked && !debitCard.checked)) {
+        feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
+      } else {
+        divProductos.innerHTML = "Ingrese una cantidad válida de producto o elimínelo del carrito";
+        divProductos.classList.add("text-danger");
+      }
+
+    } 
+  }
+
+});
