@@ -97,6 +97,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         </tr>`;
       tbodyContenedor.innerHTML += contenedorBody;
     }
+    document
+      .getElementById("modalTerminos")
+      .addEventListener("hide.bs.modal", function (event) {
+        // Obtiene los campos de entrada
+        const cardNumber = document.getElementById("cardNumber");
+        const secCode = document.getElementById("secCode");
+        const expDate = document.getElementById("expDate");
+
+        // Verifica si los campos requeridos están completos y son válidos
+        if (
+          !cardNumber.checkValidity() ||
+          !secCode.checkValidity() ||
+          !expDate.checkValidity()
+        ) {
+          // Evita que el modal se cierre si los campos requeridos no están completos
+          event.preventDefault();
+        }
+      });
 
     // Función para eliminar un producto del carrito por su ID
     function eliminarProductoDelCarrito(id) {
@@ -205,6 +223,37 @@ standard.addEventListener("change", escucharCostoEnvio);
 express.addEventListener("change", escucharCostoEnvio);
 premium.addEventListener("change", escucharCostoEnvio);
 
+
+
+
+const buttonPago = document.getElementById("Boton")
+buttonPago.addEventListener("click", ()=> {
+  
+const creditCard = document.getElementById("creditCard");
+const debitCard = document.getElementById("debitCard");
+const feedBack = document.getElementById("feedBack");
+const feedbackChecked = document.getElementById("feedBackChecked")
+if (!creditCard.checked && !debitCard.checked) {
+  feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
+} else {
+  console.log("hola")
+  if (creditCard.checked) {
+    feedbackChecked.classList.add("text-success");
+    feedbackChecked.classList.remove("text-danger");
+    feedbackChecked.innerHTML = "creditCard";
+    feedBack.innerHTML = "";
+    
+  } else { 
+    feedbackChecked.classList.add("text-success");
+    feedbackChecked.classList.remove("text-danger");git 
+    feedbackChecked.innerHTML = "debitCard";
+    feedBack.innerHTML = "";
+    
+  }
+}}
+) 
+
+
 const btnFinalzarCompra = document.getElementById("finalizarCompra");
 
 // Función que chequea datos de dirección
@@ -214,16 +263,15 @@ btnFinalzarCompra.addEventListener("click", (e) => {
   /* e.preventDefault() */
   const creditCard = document.getElementById("creditCard");
   const debitCard = document.getElementById("debitCard");
-  const feedBack = document.getElementById("feedBack");
+  const feedbackChecked = document.getElementById("feedBackChecked")
   const form = document.getElementById("loc");
   // Validaciones previas a enviar el formulario
   if (creditCard.checked || debitCard.checked) {
-    feedBack.classList.add("text-success");
-    feedBack.classList.remove("text-danger");
-    feedBack.innerHTML = "Método de pago seleccionado";
+    
     form.submit();
   } else {
-    feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
+    feedbackChecked.classList.add("text-danger");
+    feedbackChecked.innerHTML = "Debe de seleccionar un metodo de pago";
   }
 });
 
