@@ -74,6 +74,7 @@
                       <th class="tittles">Costo</th>
                       <th class="tittles">Cantidad</th>
                       <th class="tittles">Subtotal</th>
+                      <th class="tittles"></th>
                     </tr>
                   </thead>
                   <tbody id="contenedor">
@@ -82,8 +83,8 @@
                 </table>
               </div>
               <div class="mt-4">
-                <form id="loc">
-                  <h5 class="text-decoration-underline">Tipo de Envío</h5>
+                <form action="#" id="loc">
+                  <h5 class="text-decoration-underline">Tipo de Envío:</h5>
                   <label
                     ><input
                       id="standard"
@@ -114,7 +115,7 @@
                   >
                   <div class="mt-4">
                     <h5 class="text-decoration-underline">
-                      Dirección de Envío
+                      Dirección de Envío:
                     </h5>
                     <div class="form-group">
                       <label for="calle">Calle:</label>
@@ -123,6 +124,7 @@
                         class="form-control"
                         id="calle"
                         name="calle"
+                        required
                       />
                       <label for="numero">Número:</label>
                       <input
@@ -130,6 +132,7 @@
                         class="form-control"
                         id="numero"
                         name="numero"
+                        required
                       />
                       <label for="esquina">Esquina:</label>
                       <input
@@ -137,7 +140,11 @@
                         class="form-control"
                         id="esquina"
                         name="esquina"
+                        required
                       />
+                    </div>
+                    <div id="mensaje-error">
+                      <!-- se llena con js-->
                     </div>
                   </div>
                   <br />
@@ -150,7 +157,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#modalTerminos"
                       >
-                        seleccionar
+                        Seleccionar
                       </button>
                       <span id="feedBackChecked" class=""></span>
                     </div>
@@ -205,7 +212,7 @@
                                     class="form-control"
                                     id="cardNumber"
                                     name="cardNumber"
-                                    required
+                                    required=""
                                     minlength="13"
                                     maxlength="19"
                                   />
@@ -219,7 +226,7 @@
                                     class="form-control"
                                     id="secCode"
                                     name="secCode"
-                                    required
+                                    required=""
                                     minlength="3"
                                     maxlength="4"
                                   />
@@ -233,7 +240,7 @@
                                     class="form-control"
                                     id="expDate"
                                     name="expDate"
-                                    required
+                                    required=""
                                     minlength="4"
                                     maxlength="5"
                                   />
@@ -301,7 +308,7 @@
                     </div>
                   </div>
                   <button
-                    type="button"
+                    type="submit"
                     id="finalizarCompra"
                     class="btn btn-primary w-100"
                   >

@@ -54,11 +54,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       countConteiner.addEventListener("input", () => {
         const valorSubTotal = countConteiner.value * dato.producto.cost;
-        dato.cantidad = countConteiner.value;
+        let valorProducto = 0;
+        if (countConteiner.value <= 1) {
+          dato.cantidad = 1;
+          countConteiner.value = 1;
+          valorProducto = dato.producto.cost;
+          console.log("Entro aca");
+          actualizarTotal();
+        } else {
+          dato.cantidad = countConteiner.value;
+          valorProducto = countConteiner.value * dato.producto.cost;
+          actualizarTotal();
+        }
         subtotalConteiner.innerHTML =
-          dato.producto.currency + " " + valorSubTotal;
+          dato.producto.currency + " " + valorProducto;
         localStorage.setItem("cartSim", JSON.stringify(cartSim));
-        actualizarTotal();
       });
     }
   }
@@ -82,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" name = "prodEnCarrito"/></td>
           <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
           <td class="tittles">
-          <button class="eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-danger eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
         </td>
         </tr>`;
       tbodyContenedor.innerHTML += contenedorBody;
@@ -110,26 +120,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     function eliminarProductoDelCarrito(id) {
       const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
       const nuevoCarrito = cartSim.filter(
-        (productoEnCarrito) => productoEnCarrito.producto.id !== id
+        (productoEnCarrito) => productoEnCarrito.id != id
       );
       localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
-    }
-
-    // Función para manejar el clic en el botón "Eliminar"
-    function clicEliminarProducto(event) {
-      const id = event.target.getAttribute("data-id");
-      eliminarProductoDelCarrito(id);
-      const fila = event.target.closest("tr");
-      if (fila) {
-        fila.remove();
-      }
-      calcularSubtotal();
     }
 
     // Asociar manejador de eventos a los botones de "Eliminar"
     const botonesEliminar = document.querySelectorAll(".eliminar");
     botonesEliminar.forEach((boton) => {
-      boton.addEventListener("click", clicEliminarProducto);
+      boton.addEventListener("click", async (event) => {
+        const id = event.currentTarget.getAttribute("data-id");
+        eliminarProductoDelCarrito(id);
+        const fila = event.currentTarget.closest("tr");
+        if (fila) {
+          fila.remove();
+        }
+        calcularSubtotal();
+        actualizarTotal();
+      });
     });
 
     // Convertir la imagen del producto en un boton para ir a la informacion del producto:
@@ -215,26 +223,45 @@ standard.addEventListener("change", escucharCostoEnvio);
 express.addEventListener("change", escucharCostoEnvio);
 premium.addEventListener("change", escucharCostoEnvio);
 
-// listener para el botón finalizar compra
+
+
+document
+  .getElementById("modalTerminos")
+  .addEventListener("hide.bs.modal", function (event) {
+    const cardNumber = document.getElementById("cardNumber");
+    const secCode = document.getElementById("secCode");
+    const expDate = document.getElementById("expDate");
+
+    if (
+      !cardNumber.checkValidity() ||
+      !secCode.checkValidity() ||
+      !expDate.checkValidity()
+    ) {
+      event.preventDefault();
+    }
+  });
 
 const buttonPago = document.getElementById("Boton")
 buttonPago.addEventListener("click", ()=> {
-
+  
 const creditCard = document.getElementById("creditCard");
 const debitCard = document.getElementById("debitCard");
 const feedBack = document.getElementById("feedBack");
 const feedbackChecked = document.getElementById("feedBackChecked")
 if (!creditCard.checked && !debitCard.checked) {
-  console.log("chau")
   feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
 } else {
   console.log("hola")
   if (creditCard.checked) {
     feedbackChecked.classList.add("text-success");
     feedbackChecked.innerHTML = "creditCard";
+    feedBack.innerHTML = "";
+    form.submit();
   } else {
     feedbackChecked.classList.add("text-success");
     feedbackChecked.innerHTML = "debitCard";
+    feedBack.innerHTML = "";
+    form.submit();
   }
 }}
 ) 
