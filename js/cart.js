@@ -297,12 +297,3 @@ document.getElementById("modalTerminos").addEventListener("hide.bs.modal", funct
     feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
   }
 });
-
-creditCardRadio.addEventListener("change", function () {
-  document.querySelector(".credit-fields").style.display = "block";
-  document.querySelector(".debit-fields").style.display = "none";
-});
-debitCardRadio.addEventListener("change", function () {
-  document.querySelector(".debit-fields").style.display = "block";
-  document.querySelector(".credit-fields").style.display = "none";
-});
