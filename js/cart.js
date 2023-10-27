@@ -230,15 +230,31 @@ btnFinalzarCompra.addEventListener("click", (e) => {
 document
   .getElementById("modalTerminos")
   .addEventListener("hide.bs.modal", function (event) {
-    const cardNumber = document.getElementById("cardNumber");
-    const secCode = document.getElementById("secCode");
-    const expDate = document.getElementById("expDate");
-
-    if (
-      !cardNumber.checkValidity() ||
-      !secCode.checkValidity() ||
-      !expDate.checkValidity()
-    ) {
-      event.preventDefault();
+    const creditCardRadio = document.getElementById("creditCard");
+    const debitCardRadio = document.getElementById("debitCard");
+    if (creditCardRadio.checked) {
+      const cardNumber = document.getElementById("cardNumber");
+      const secCode = document.getElementById("secCode");
+      const expDate = document.getElementById("expDate");
+      if (
+        !cardNumber.checkValidity() ||
+        !secCode.checkValidity() ||
+        !expDate.checkValidity()
+      ) {
+        event.preventDefault();
+      }
+    } else if (debitCardRadio.checked) {
+      const countNumber = document.getElementById("countNumber");
+      if (countNumber.value.trim() === "") {
+        event.preventDefault();
+      }
     }
   });
+creditCardRadio.addEventListener("change", function () {
+  document.querySelector(".credit-fields").style.display = "block";
+  document.querySelector(".debit-fields").style.display = "none";
+});
+debitCardRadio.addEventListener("change", function () {
+  document.querySelector(".debit-fields").style.display = "block";
+  document.querySelector(".credit-fields").style.display = "none";
+});
