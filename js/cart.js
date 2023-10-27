@@ -9,7 +9,7 @@ async function fetchData(url) {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Hubo un problema con la solicitud.`);
+      throw Error(`Hubo un problema con la solicitud.`);
     }
 
     const data = await response.json();
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </td>
           <td class="tittles">${producto.name}</td>
           <td class="tittles">${producto.currency} ${producto.cost}</td>
-          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" name = "prodEnCarrito"/></td>
+          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" name="prodEnCarrito"/></td>
           <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
           <td class="tittles">
           <button class="btn btn-danger eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
@@ -104,15 +104,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         const cardNumber = document.getElementById("cardNumber");
         const secCode = document.getElementById("secCode");
         const expDate = document.getElementById("expDate");
+        const countNumber = document.getElementById("countNumber");
 
         // Verifica si los campos requeridos están completos y son válidos
-        if (
-          !cardNumber.checkValidity() ||
-          !secCode.checkValidity() ||
-          !expDate.checkValidity()
-        ) {
-          // Evita que el modal se cierre si los campos requeridos no están completos
+        const creditCardRadio = document.getElementById("creditCard");
+        const debitCardRadio = document.getElementById("debitCard");
+
+        if (creditCardRadio.checked) {
+          if (!cardNumber.checkValidity() || !secCode.checkValidity() || !expDate.checkValidity()) {
+            event.preventDefault();
+          }
+        } else if (debitCardRadio.checked) {
+          if (countNumber.value.trim() === "") {
+            event.preventDefault();
+          }
+        } else {
+          // Si no se selecciona ningún método de pago, evita cerrar el modal y muestra un mensaje de error
           event.preventDefault();
+          const feedbackChecked = document.getElementById("feedBackChecked");
+          feedbackChecked.classList.add("text-danger");
+          feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
         }
       });
 
@@ -140,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // Convertir la imagen del producto en un boton para ir a la informacion del producto:
+    // Convertir la imagen del producto en un botón para ir a la información del producto:
     const productInfoButtons = document.getElementsByClassName("redirect");
     for (const productButton of productInfoButtons) {
       productButton.addEventListener("click", (event) => {
@@ -215,6 +226,7 @@ function actualizarTotal() {
   envio.innerText = costoEnvio;
   precioFinal.innerText = sumaTotal;
 }
+
 function escucharCostoEnvio() {
   actualizarTotal();
 }
@@ -223,81 +235,69 @@ standard.addEventListener("change", escucharCostoEnvio);
 express.addEventListener("change", escucharCostoEnvio);
 premium.addEventListener("change", escucharCostoEnvio);
 
-
-
-
-const buttonPago = document.getElementById("Boton")
-buttonPago.addEventListener("click", ()=> {
-  
-const creditCard = document.getElementById("creditCard");
-const debitCard = document.getElementById("debitCard");
-const feedBack = document.getElementById("feedBack");
-const feedbackChecked = document.getElementById("feedBackChecked")
-if (!creditCard.checked && !debitCard.checked) {
-  feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
-} else {
-  console.log("hola")
-  if (creditCard.checked) {
-    feedbackChecked.classList.add("text-success");
-    feedbackChecked.classList.remove("text-danger");
-    feedbackChecked.innerHTML = "creditCard";
-    feedBack.innerHTML = "";
-    
-  } else { 
-    feedbackChecked.classList.add("text-success");
-    feedbackChecked.classList.remove("text-danger");git 
-    feedbackChecked.innerHTML = "debitCard";
-    feedBack.innerHTML = "";
-    
-  }
-}}
-) 
-
-
-const btnFinalzarCompra = document.getElementById("finalizarCompra");
-
-// Función que chequea datos de dirección
-
-// listener para el botón finalizar compra
-btnFinalzarCompra.addEventListener("click", (e) => {
-  /* e.preventDefault() */
+const buttonPago = document.getElementById("Boton");
+buttonPago.addEventListener("click", () => {
   const creditCard = document.getElementById("creditCard");
   const debitCard = document.getElementById("debitCard");
-  const feedbackChecked = document.getElementById("feedBackChecked")
-  const form = document.getElementById("loc");
-  // Validaciones previas a enviar el formulario
-  if (creditCard.checked || debitCard.checked) {
-    
-    form.submit();
+  const feedBack = document.getElementById("feedBack");
+  const feedbackChecked = document.getElementById("feedBackChecked");
+  if (!creditCard.checked && !debitCard.checked) {
+    feedBack.innerHTML = "Debe seleccionar un método de pago";
   } else {
-    feedbackChecked.classList.add("text-danger");
-    feedbackChecked.innerHTML = "Debe de seleccionar un metodo de pago";
+    if (creditCard.checked) {
+      feedbackChecked.classList.add("text-success");
+      feedbackChecked.classList.remove("text-danger");
+      feedbackChecked.innerHTML = "creditCard";
+      feedBack.innerHTML = "";
+    } else {
+      feedbackChecked.classList.add("text-success");
+      feedbackChecked.classList.remove("text-danger");
+      feedbackChecked.innerHTML = "debitCard";
+      feedBack.innerHTML = "";
+    }
   }
 });
 
-document
-  .getElementById("modalTerminos")
-  .addEventListener("hide.bs.modal", function (event) {
-    const creditCardRadio = document.getElementById("creditCard");
-    const debitCardRadio = document.getElementById("debitCard");
-    if (creditCardRadio.checked) {
-      const cardNumber = document.getElementById("cardNumber");
-      const secCode = document.getElementById("secCode");
-      const expDate = document.getElementById("expDate");
-      if (
-        !cardNumber.checkValidity() ||
-        !secCode.checkValidity() ||
-        !expDate.checkValidity()
-      ) {
-        event.preventDefault();
-      }
-    } else if (debitCardRadio.checked) {
-      const countNumber = document.getElementById("countNumber");
-      if (countNumber.value.trim() === "") {
-        event.preventDefault();
-      }
+const btnFinalzarCompra = document.getElementById("finalizarCompra");
+
+btnFinalzarCompra.addEventListener("click", (e) => {
+  const creditCard = document.getElementById("creditCard");
+  const debitCard = document.getElementById("debitCard");
+  const feedbackChecked = document.getElementById("feedBackChecked");
+  const form = document.getElementById("loc");
+  if (creditCard.checked || debitCard.checked) {
+    form.submit();
+  } else {
+    feedbackChecked.classList.add("text-danger");
+    feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
+  }
+});
+
+document.getElementById("modalTerminos").addEventListener("hide.bs.modal", function (event) {
+  const creditCardRadio = document.getElementById("creditCard");
+  const debitCardRadio = document.getElementById("debitCard");
+  if (creditCardRadio.checked) {
+    const cardNumber = document.getElementById("cardNumber");
+    const secCode = document.getElementById("secCode");
+    const expDate = document.getElementById("expDate");
+    if (!cardNumber.checkValidity() || !secCode.checkValidity() || !expDate.checkValidity()) {
+      event.preventDefault();
     }
-  });
+  } else if (debitCardRadio.checked) {
+    const countNumber = document.getElementById("countNumber");
+    if (countNumber.value.trim() === "") {
+      event.preventDefault();
+    }
+  }
+  // Si no se selecciona ningún método de pago, evita cerrar el modal y muestra un mensaje de error
+  if (!creditCardRadio.checked && !debitCardRadio.checked) {
+    event.preventDefault();
+    const feedbackChecked = document.getElementById("feedBackChecked");
+    feedbackChecked.classList.add("text-danger");
+    feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
+  }
+});
+
 creditCardRadio.addEventListener("change", function () {
   document.querySelector(".credit-fields").style.display = "block";
   document.querySelector(".debit-fields").style.display = "none";
