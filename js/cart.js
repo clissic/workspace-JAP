@@ -54,11 +54,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       countConteiner.addEventListener("input", () => {
         const valorSubTotal = countConteiner.value * dato.producto.cost;
-        dato.cantidad = countConteiner.value;
+        let valorProducto = 0;
+        if (countConteiner.value <= 1) {
+          dato.cantidad = 1;
+          countConteiner.value = 1;
+          valorProducto = dato.producto.cost;
+          console.log("Entro aca");
+          actualizarTotal();
+        } else {
+          dato.cantidad = countConteiner.value;
+          valorProducto = countConteiner.value * dato.producto.cost;
+          actualizarTotal();
+        }
         subtotalConteiner.innerHTML =
-          dato.producto.currency + " " + valorSubTotal;
+          dato.producto.currency + " " + valorProducto;
         localStorage.setItem("cartSim", JSON.stringify(cartSim));
-        actualizarTotal();
       });
     }
   }
@@ -102,13 +112,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     botonesEliminar.forEach((boton) => {
       boton.addEventListener("click", async (event) => {
         const id = event.currentTarget.getAttribute("data-id");
-      eliminarProductoDelCarrito(id);
-      const fila = event.currentTarget.closest("tr");
-      if (fila) {
-        fila.remove();
-      }
-      calcularSubtotal();
-      actualizarTotal();
+        eliminarProductoDelCarrito(id);
+        const fila = event.currentTarget.closest("tr");
+        if (fila) {
+          fila.remove();
+        }
+        calcularSubtotal();
+        actualizarTotal();
       });
     });
 
@@ -197,58 +207,38 @@ premium.addEventListener("change", escucharCostoEnvio);
 
 const btnFinalzarCompra = document.getElementById("finalizarCompra");
 
+// Función que chequea datos de dirección
+
 // listener para el botón finalizar compra
-btnFinalzarCompra.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const idProdEnCarrito = document.getElementsByName("prodEnCarrito");
-  var prodEnCarrito = Array.from(idProdEnCarrito);
-  var cantProdEnCarrito = [];
-  var cantCeros = 0;
+btnFinalzarCompra.addEventListener("click", (e) => {
+  /* e.preventDefault() */
   const creditCard = document.getElementById("creditCard");
   const debitCard = document.getElementById("debitCard");
   const feedBack = document.getElementById("feedBack");
-  const divProductos = document.getElementById("errorProductos");
   const form = document.getElementById("loc");
-
-  // Trae los id de los inputs de los productos en el carrito
-  for (let idProducto of prodEnCarrito) {
-    var prod = idProducto.attributes.id.nodeValue;
-    cantProdEnCarrito.push(prod);
-  }
-
-  // Trae el valor de cada input y chequea si alguno es igual a cero
-  for (let idProducto of cantProdEnCarrito) {
-    var valorProducto = document.getElementById(idProducto).value;
-    if (valorProducto == 0) {
-      cantCeros += 1;
-    }
-  }
-
   // Validaciones previas a enviar el formulario
-  if (cantCeros === 0 && (creditCard.checked || debitCard.checked)) {
+  if (creditCard.checked || debitCard.checked) {
     feedBack.classList.add("text-success");
     feedBack.classList.remove("text-danger");
     feedBack.innerHTML = "Método de pago seleccionado";
-
-    divProductos.classList.add("text-success");
-    divProductos.classList.remove("text-danger");
-    divProductos.innerHTML = "";
-
     form.submit();
   } else {
-    if (cantCeros > 0 && !creditCard.checked && !debitCard.checked) {
-      feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
-      divProductos.innerHTML =
-        "Ingrese una cantidad válida de producto o elimínelo del carrito";
-      divProductos.classList.add("text-danger");
-    } else {
-      if (cantCeros === 0 && !creditCard.checked && !debitCard.checked) {
-        feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
-      } else {
-        divProductos.innerHTML =
-          "Ingrese una cantidad válida de producto o elimínelo del carrito";
-        divProductos.classList.add("text-danger");
-      }
-    }
+    feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
   }
 });
+
+document
+  .getElementById("modalTerminos")
+  .addEventListener("hide.bs.modal", function (event) {
+    const cardNumber = document.getElementById("cardNumber");
+    const secCode = document.getElementById("secCode");
+    const expDate = document.getElementById("expDate");
+
+    if (
+      !cardNumber.checkValidity() ||
+      !secCode.checkValidity() ||
+      !expDate.checkValidity()
+    ) {
+      event.preventDefault();
+    }
+  });
