@@ -217,47 +217,24 @@ premium.addEventListener("change", escucharCostoEnvio);
 
 // listener para el botón finalizar compra
 
-const btnFinalizarCompra = document.getElementById("finalizarCompra");
+const buttonPago = document.getElementById("Boton")
+buttonPago.addEventListener("click", ()=> {
 
-btnFinalizarCompra.addEventListener("click", (e) => {
-
-  e.preventDefault();
-  const idProdEnCarrito = document.getElementsByName("prodEnCarrito");
-  var prodEnCarrito= Array.from(idProdEnCarrito);
-  var cantProdEnCarrito = [];
-  let hayCeros = 0;
-
-  // Trae los id de los inputs
-  for (let idProducto of prodEnCarrito) {
-    var prod = idProducto.attributes.id.nodeValue;
-    cantProdEnCarrito.push(prod);
-  }
-
-  // Trae el valor de cada input y chequea si alguno es igual a cero
-  for (let idProducto of cantProdEnCarrito) {
-    var valorProducto = document.getElementById("idProducto").value;
-    if (valorProducto === 0) {
-      hayCeros += 1;
-    }
-  }
-
-  const creditCard = document.getElementById("creditCard");
-  const debitCard = document.getElementById("debitCard");
-  const feedBack = document.getElementById("feedBack");
-  if (!creditCard.checked && !debitCard.checked && hayCeros === 0) {
-    feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
+const creditCard = document.getElementById("creditCard");
+const debitCard = document.getElementById("debitCard");
+const feedBack = document.getElementById("feedBack");
+const feedbackChecked = document.getElementById("feedBackChecked")
+if (!creditCard.checked && !debitCard.checked) {
+  console.log("chau")
+  feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
+} else {
+  console.log("hola")
+  if (creditCard.checked) {
+    feedbackChecked.classList.add("text-success");
+    feedbackChecked.innerHTML = "creditCard";
   } else {
-    Form.submit 
-    if (creditCard.checked) {
-      feedBack.classList.add("text-success");
-      feedBack.classList.remove("text-danger");
-      feedBack.innerHTML = "creditCard";
-    } else {
-      feedBack.classList.add("text-success");
-      feedBack.classList.remove("text-danger");
-      feedBack.innerHTML = "debitCard";
-    }
+    feedbackChecked.classList.add("text-success");
+    feedbackChecked.innerHTML = "debitCard";
   }
-
-
-});
+}}
+) 

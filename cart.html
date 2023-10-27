@@ -152,7 +152,7 @@
                       >
                         seleccionar
                       </button>
-                      <span id="feedBack" class="text-danger"></span>
+                      <span id="feedBackChecked" class=""></span>
                     </div>
                   </div>
                   <br />
@@ -205,7 +205,7 @@
                                     class="form-control"
                                     id="cardNumber"
                                     name="cardNumber"
-                                    required=""
+                                    required
                                     minlength="13"
                                     maxlength="19"
                                   />
@@ -219,7 +219,7 @@
                                     class="form-control"
                                     id="secCode"
                                     name="secCode"
-                                    required=""
+                                    required
                                     minlength="3"
                                     maxlength="4"
                                   />
@@ -233,7 +233,7 @@
                                     class="form-control"
                                     id="expDate"
                                     name="expDate"
-                                    required=""
+                                    required
                                     minlength="4"
                                     maxlength="5"
                                   />
@@ -266,10 +266,12 @@
                               </div>
                             </div>
                             <div class="modal-footer">
+                              <span id="feedBack" class="text-danger margen"></span>
                               <button
                                 type="button"
                                 class="btn bg-primary btn-primary"
                                 data-bs-dismiss="modal"
+                                id="Boton"
                               >
                                 Cerrar
                               </button>
