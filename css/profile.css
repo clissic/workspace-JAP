@@ -1,0 +1,21 @@
+body {
+    background: rgb(250, 112, 0)
+}
+
+.profile-button {
+    background-color: #ff8b64;
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background-color:  #ee5522;
+}
+
+.labels {
+    font-size: 11px
+}
+
+.form-group {
+    font-size: 11px
+}
