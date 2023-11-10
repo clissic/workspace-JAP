@@ -1,0 +1,38 @@
+[
+  {
+      "nombre": "Argentina",
+      "codigo": "PAIS1"
+  },
+  {
+      "nombre": "Brasil",
+      "codigo": "PAIS2"
+  },
+  {
+      "nombre": "Chile",
+      "codigo": "PAIS3"
+  },
+  {
+      "nombre": "Colombia",
+      "codigo": "PAIS4"
+  },
+  {
+      "nombre": "Ecuador",
+      "codigo": "PAIS5"
+  },
+  {
+      "nombre": "Paraguay",
+      "codigo": "PAIS6"
+  },
+  {
+      "nombre": "Perú",
+      "codigo": "PAIS7"
+  },
+  {
+      "nombre": "Uruguay",
+      "codigo": "PAIS8"
+  },
+  {
+      "nombre": "Venezuela",
+      "codigo": "PAIS9"
+  }
+]

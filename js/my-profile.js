@@ -119,8 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
-
 //* Cargar la lista de países desde el archivo "paises.json"
 fetch('json/paises.json')
   .then(response => response.json())
@@ -161,18 +159,3 @@ document.getElementById('userPais').addEventListener('change', (event) => {
       console.error('Error al cargar la lista de ciudades', error);
     });
 });
-
-// Funcion que guarda en el localstorage los datos del usuario (punto 2, entrega 7)
-
-const form = document.getElementById("datosUsuario");
-
-form.addEventListener("submit", (e) => {
-  const name= document.getElementById("primerNombre").value;
-  const lastName = document.getElementById("primerApellido").value;
-  const email = document.getElementById("userEmail").value;
-
-  localStorage.setItem("nombre", name);
-  localStorage.setItem("apellido", lastName);
-  localStorage.setItem("email", email);
-
-})
