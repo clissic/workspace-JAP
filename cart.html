@@ -1,171 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>eMercado - Todo lo que busques está aquí</title>
-  <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-  <link href="css/styles.css" rel="stylesheet" />
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav w-100 justify-content-between">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="categories.html">Categorías</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="sell.html">Vender</a>
-          </li>
-          <!-- Usuario y menú desplegable -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <span id="mailUsuario">Nombre de Usuario</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="cart.html">Mi carrito</a>
-              <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
-              <button class="dropdown-item" id="darkBotton">Modo oscuro</button>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" id="logoutLink" href="login.html">Cerrar sesión</a>
-            </div>
-          </li>
-          <!-- Fin del menú desplegable -->
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <main>
-    <div class="container">
-      <div class="card w-75 carta overflow-auto">
-        <h3 class="text-center card-header">Carrito de compras</h3>
-        <div class="card-body">
-          <h5 class="text-decoration-underline">
-            Artículos a comprar:
-          </h5>
-          <div class="card w-100 margen mt-4 overflow-auto">
-            <table class="table">
-              <thead class="card-header">
-                <tr>
-                  <th class="tittles">Producto</th>
-                  <th class="tittles">Nombre</th>
-                  <th class="tittles">Costo</th>
-                  <th class="tittles">Cantidad</th>
-                  <th class="tittles">Subtotal</th>
-                  <th class="tittles"></th>
-                </tr>
-              </thead>
-              <tbody id="contenedor">
-                <!-- Se rellena desde el cart.js -->
-              </tbody>
-            </table>
-          </div>
-          <div class="mt-4">
-            <h5 class="text-decoration-underline">Tipo de Envío</h5>
-            <label>
-              <input id="standard" type="radio" name="tipoEnvio" value="estandar" checked />
-              Standard 12 a 15 días (5%)
-            </label>
-            <label>
-              <input id="express" type="radio" name="tipoEnvio" value="express" /> Express
-              5 a 8 días (7%)
-            </label>
-            <label>
-              <input id="premium" type="radio" name="tipoEnvio" value="premium" /> Premium
-              2 a 5 días (15%)
-            </label>
-          </div>
-          <div class="mt-4">
-            <h5 class="text-decoration-underline">
-              Dirección de Envío
-            </h5>
-            <div class="form-group">
-              <label for="calle">Calle:</label>
-              <input type="text" class="form-control" id="calle" name="calle" />
-            </div>
-            <div class="form-group">
-              <label for="numero">Número:</label>
-              <input type="text" class="form-control" id="numero" name="numero" />
-            </div>
-            <div class="form-group">
-              <label for="esquina">Esquina:</label>
-              <input type="text" class="form-control" id="esquina" name="esquina" />
-            </div>
-          </div> <br>
-          <h5 class="text-decoration-underline">Costos</h5>
-
-          <div class="size">
-            <div class="border d-flex justify-content-between  ">
-              <div class="ms-4">
-                <h6 class="text-secondary"><strong>Subtotal</strong></h6>
-                <p class="text-secondary">Costo unitario del producto por cantidad</p>
-              </div>
-              <div class="me-4 mt-4">
-                <p id="subTotal">precio</p>
-              </div>
-              <div class="form-group">
-                <label for="esquina">Esquina:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="esquina"
-                  name="esquina"
-                />
-              </div>              
-            </div>
-            <h5 class="text-decoration-underline">Forma de pago:</h5>
-            <div class="col-sm-12">
-              <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal"
-                data-bs-target="#modalTerminos">seleccionar</button>
-            </div>
-          </div>
-          <div class="container m-1 w-25">
-            <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5">Forma de pago</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <input class="credit" type="radio" name="payment" value="credit"> Tarjeta de crédito
-                    <div class="credit-fields">
-                        <hr class="bg-secondary border-2 border-top border-secondary">
-                        <div class="form-group w-50">
-                            <label for="cardNumber">Número de tarjeta:</label>
-                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" />
-                        </div>
-                        <div class="form-group w-50">
-                            <label for="secCode">Código de seguridad:</label>
-                            <input type="text" class="form-control" id="secCode" name="secCode" />
-                        </div>
-                        <div class="form-group w-50">
-                            <label for="expDate">Vencimiento (mm/aa)</label>
-                            <input type="text" class="form-control" id="expDate" name="expDate" />
-                        </div>
-                    </div>
-                    <br>
-                    <input class="payment" type="radio" name="payment" value="debit"> Transferencia bancaria
-                    <div class="debit-fields">
-                        <hr class="bg-secondary border-2 border-top border-secondary">
-                        <div class="form-group w-50">
-                            <label for="countNumber">Número de cuenta</label>
-                            <input type="text" class="form-control" id="countNumber" name="countNumber" />
-                        </div>
-                    </div>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>eMercado - Todo lo que busques está aquí</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i"
+      rel="stylesheet"
+    />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+        <div class="container">
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav w-100 justify-content-between">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="categories.html">Categorías</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sell.html">Vender</a>
+              </li>
+              <!-- Usuario y menú desplegable -->
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  ><span id="mailUsuario">Nombre de Usuario</span></a
+                >
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="cart.html">Mi carrito</a>
+                  <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+                  <button class="dropdown-item" id="darkBotton">
+                    Modo oscuro
+                  </button>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" id="logoutLink" href="login.html"
+                    >Cerrar sesión</a
+                  >
                 </div>
               </li>
               <!-- Fin del menú desplegable -->
@@ -188,6 +74,7 @@
                       <th class="tittles">Costo</th>
                       <th class="tittles">Cantidad</th>
                       <th class="tittles">Subtotal</th>
+                      <th class="tittles"></th>
                     </tr>
                   </thead>
                   <tbody id="contenedor">
@@ -195,12 +82,9 @@
                   </tbody>
                 </table>
               </div>
-              <div id="errorProductos">
-                <!--- Se llena con js desde el cart.js-->
-              </div>
               <div class="mt-4">
-                <form id="loc" action="#">
-                  <h5 class="text-decoration-underline">Tipo de Envío</h5>
+                <form action="#" id="loc">
+                  <h5 class="text-decoration-underline">Tipo de Envío:</h5>
                   <label
                     ><input
                       id="standard"
@@ -231,7 +115,7 @@
                   >
                   <div class="mt-4">
                     <h5 class="text-decoration-underline">
-                      Dirección de Envío
+                      Dirección de Envío:
                     </h5>
                     <div class="form-group">
                       <label for="calle">Calle:</label>
@@ -240,6 +124,7 @@
                         class="form-control"
                         id="calle"
                         name="calle"
+                        required
                       />
                       <label for="numero">Número:</label>
                       <input
@@ -247,6 +132,7 @@
                         class="form-control"
                         id="numero"
                         name="numero"
+                        required
                       />
                       <label for="esquina">Esquina:</label>
                       <input
@@ -254,7 +140,11 @@
                         class="form-control"
                         id="esquina"
                         name="esquina"
+                        required
                       />
+                    </div>
+                    <div id="mensaje-error">
+                      <!-- se llena con js-->
                     </div>
                   </div>
                   <br />
@@ -267,9 +157,9 @@
                         data-bs-toggle="modal"
                         data-bs-target="#modalTerminos"
                       >
-                        seleccionar
+                        Seleccionar
                       </button>
-                      <span id="feedBack" class="text-danger"></span>
+                      <span id="feedBackChecked" class=""></span>
                     </div>
                   </div>
                   <br />
@@ -383,10 +273,12 @@
                               </div>
                             </div>
                             <div class="modal-footer">
+                              <span id="feedBack" class="text-danger margen"></span>
                               <button
                                 type="button"
                                 class="btn bg-primary btn-primary"
                                 data-bs-dismiss="modal"
+                                id="Boton"
                               >
                                 Cerrar
                               </button>
@@ -416,7 +308,7 @@
                     </div>
                   </div>
                   <button
-                    type="button"
+                    type="submit"
                     id="finalizarCompra"
                     class="btn btn-primary w-100"
                   >

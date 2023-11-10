@@ -7,13 +7,19 @@ function ValidarUsuario(){
     if(mail && password){
         const usuario = {
             mail: mail,
-            password: password
+            primerNombre: "",
+            segundoNombre: "",
+            primerApellido: "",
+            segundoApellido: "",
+            avatarImg: "",
+            userTelefono: "",
+            userPais: "",
+            userCiudad: "",
         }
-        console.log(usuario);
         const usuarioJSON = JSON.stringify(usuario);
         localStorage.setItem("usuario", usuarioJSON);
         window.location.href = "index.html";
-    }else{
+    } else {
         alert("¡Debes llenar todos los campos!");
     }
 }

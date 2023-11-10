@@ -9,7 +9,7 @@ async function fetchData(url) {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Hubo un problema con la solicitud.`);
+      throw Error(`Hubo un problema con la solicitud.`);
     }
 
     const data = await response.json();
@@ -54,80 +54,118 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       countConteiner.addEventListener("input", () => {
         const valorSubTotal = countConteiner.value * dato.producto.cost;
-        dato.cantidad = countConteiner.value;
+        let valorProducto = 0;
+        if (countConteiner.value <= 1) {
+          dato.cantidad = 1;
+          countConteiner.value = 1;
+          valorProducto = dato.producto.cost;
+          console.log("Entro aca");
+          actualizarTotal();
+        } else {
+          dato.cantidad = countConteiner.value;
+          valorProducto = countConteiner.value * dato.producto.cost;
+          actualizarTotal();
+        }
         subtotalConteiner.innerHTML =
-          dato.producto.currency + " " + valorSubTotal;
+          dato.producto.currency + " " + valorProducto;
         localStorage.setItem("cartSim", JSON.stringify(cartSim));
-        actualizarTotal();
       });
     }
   }
 
   // FUNCION QUE IMPRIME LOS PRODUCTOS EN EL CARRITO
-  const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-  for (const productoEnCarrito of cartSim) {
-    const producto = productoEnCarrito.producto;
-    const productoImagen = producto.image || producto.images[0];
-    const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
-    const id = `subTotal-${producto.id}`;
-    ArraytotalActualizado.push(id);
-    const contenedorBody = `
+  async function mostrarProductosEnCarrito() {
+    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+    for (const productoEnCarrito of cartSim) {
+      const producto = productoEnCarrito.producto;
+      const productoImagen = producto.image || producto.images[0];
+      const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
+      const id = `subTotal-${producto.id}`;
+      ArraytotalActualizado.push(id);
+      const contenedorBody = `
         <tr>
           <td class="tittles">
             <input class="redirect" id="${producto.id}" type="image" title="imagenProducto" alt="imagenProducto" style="height: 50px;" src="${productoImagen}" />
           </td>
           <td class="tittles">${producto.name}</td>
           <td class="tittles">${producto.currency} ${producto.cost}</td>
-          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" name = "prodEnCarrito"/></td>
+          <td class="tittles"><input id="count-${producto.id}" type="number" min="1" value="${productoEnCarrito.cantidad}" name="prodEnCarrito"/></td>
           <td class="tittles" id="${id}">${producto.currency} ${prodSubTotal}</td>
           <td class="tittles">
           <button class="btn btn-danger eliminar" data-id="${producto.id}"><i class="fas fa-trash"></i></button>
         </td>
         </tr>`;
-    tbodyContenedor.innerHTML += contenedorBody;
-  }
+      tbodyContenedor.innerHTML += contenedorBody;
+    }
+    document
+      .getElementById("modalTerminos")
+      .addEventListener("hide.bs.modal", function (event) {
+        // Obtiene los campos de entrada
+        const cardNumber = document.getElementById("cardNumber");
+        const secCode = document.getElementById("secCode");
+        const expDate = document.getElementById("expDate");
+        const countNumber = document.getElementById("countNumber");
 
-  // Función para eliminar un producto del carrito por su ID
-  function eliminarProductoDelCarrito(id) {
-    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    const nuevoCarrito = cartSim.filter(
-      (productoEnCarrito) => productoEnCarrito.id != id
-    );
-    localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
-  }
+        // Verifica si los campos requeridos están completos y son válidos
+        const creditCardRadio = document.getElementById("creditCard");
+        const debitCardRadio = document.getElementById("debitCard");
 
-  // Función para manejar el clic en el botón "Eliminar"
+        if (creditCardRadio.checked) {
+          if (!cardNumber.checkValidity() || !secCode.checkValidity() || !expDate.checkValidity()) {
+            event.preventDefault();
+          }
+        } else if (debitCardRadio.checked) {
+          if (countNumber.value.trim() === "") {
+            event.preventDefault();
+          }
+        } else {
+          // Si no se selecciona ningún método de pago, evita cerrar el modal y muestra un mensaje de error
+          event.preventDefault();
+          const feedbackChecked = document.getElementById("feedBackChecked");
+          feedbackChecked.classList.add("text-danger");
+          feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
+        }
+      });
 
+    // Función para eliminar un producto del carrito por su ID
+    function eliminarProductoDelCarrito(id) {
+      const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+      const nuevoCarrito = cartSim.filter(
+        (productoEnCarrito) => productoEnCarrito.id != id
+      );
+      localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
+    }
 
-  // Asociar manejador de eventos a los botones de "Eliminar"
-  const botonesEliminar = document.querySelectorAll(".eliminar");
-  botonesEliminar.forEach((boton) => {
-    boton.addEventListener("click", (event) => {
-      const id = event.currentTarget.getAttribute("data-id");
-      console.log(id);
-      eliminarProductoDelCarrito(id);
-      const fila = event.currentTarget.closest("tr");
-      if (fila) {
-        fila.remove();
-      }
-      actualizarTotal();
-      calcularSubtotal();
+    // Asociar manejador de eventos a los botones de "Eliminar"
+    const botonesEliminar = document.querySelectorAll(".eliminar");
+    botonesEliminar.forEach((boton) => {
+      boton.addEventListener("click", async (event) => {
+        const id = event.currentTarget.getAttribute("data-id");
+        eliminarProductoDelCarrito(id);
+        const fila = event.currentTarget.closest("tr");
+        if (fila) {
+          fila.remove();
+        }
+        calcularSubtotal();
+        actualizarTotal();
+      });
     });
-  });
 
-  // Convertir la imagen del producto en un boton para ir a la informacion del producto:
-  const productInfoButtons = document.getElementsByClassName("redirect");
-  for (const productButton of productInfoButtons) {
-    productButton.addEventListener("click", (event) => {
-      const productoId = event.currentTarget.id;
-      localStorage.setItem("productId", productoId);
-      location.href = "./product-info.html";
-    });
+    // Convertir la imagen del producto en un botón para ir a la información del producto:
+    const productInfoButtons = document.getElementsByClassName("redirect");
+    for (const productButton of productInfoButtons) {
+      productButton.addEventListener("click", (event) => {
+        const productoId = event.target.id;
+        localStorage.setItem("productId", productoId);
+        location.href = "./product-info.html";
+      });
+    }
+    calcularSubtotal();
+    actualizarTotal();
   }
-  calcularSubtotal();
-  actualizarTotal();
 
   colocarItemEnLS();
+  mostrarProductosEnCarrito();
 
   // Obtén referencias a los elementos que deseas mostrar u ocultar
   const creditFields = document.querySelector(".credit-fields");
@@ -188,72 +226,74 @@ function actualizarTotal() {
   envio.innerText = costoEnvio;
   precioFinal.innerText = sumaTotal;
 }
+
 function escucharCostoEnvio() {
   actualizarTotal();
 }
 
- };
+standard.addEventListener("change", escucharCostoEnvio);
+express.addEventListener("change", escucharCostoEnvio);
+premium.addEventListener("change", escucharCostoEnvio);
 
- standard.addEventListener("change", escucharCostoEnvio)
- express.addEventListener("change", escucharCostoEnvio)
- premium.addEventListener("change", escucharCostoEnvio)
-
-
-const btnFinalzarCompra = document.getElementById("finalizarCompra");
-
-// listener para el botón finalizar compra
-btnFinalzarCompra.addEventListener("click", (e) => {
-
-  e.preventDefault();
-  const idProdEnCarrito = document.getElementsByName("prodEnCarrito");
-  var prodEnCarrito= Array.from(idProdEnCarrito);
-  var cantProdEnCarrito = [];
-  var cantCeros = 0;
+const buttonPago = document.getElementById("Boton");
+buttonPago.addEventListener("click", () => {
   const creditCard = document.getElementById("creditCard");
   const debitCard = document.getElementById("debitCard");
   const feedBack = document.getElementById("feedBack");
-  const divProductos = document.getElementById("errorProductos");
-  const form = document.getElementById("loc")
-
-  // Trae los id de los inputs de los productos en el carrito
-  for (let idProducto of prodEnCarrito) {
-    var prod = idProducto.attributes.id.nodeValue;
-    cantProdEnCarrito.push(prod);
-  }
-
-  // Trae el valor de cada input y chequea si alguno es igual a cero
-  for (let idProducto of cantProdEnCarrito) {
-    var valorProducto = document.getElementById(idProducto).value;
-    if (valorProducto == 0) {
-      cantCeros += 1;
+  const feedbackChecked = document.getElementById("feedBackChecked");
+  if (!creditCard.checked && !debitCard.checked) {
+    feedBack.innerHTML = "Debe seleccionar un método de pago";
+  } else {
+    if (creditCard.checked) {
+      feedbackChecked.classList.add("text-success");
+      feedbackChecked.classList.remove("text-danger");
+      feedbackChecked.innerHTML = "creditCard";
+      feedBack.innerHTML = "";
+    } else {
+      feedbackChecked.classList.add("text-success");
+      feedbackChecked.classList.remove("text-danger");
+      feedbackChecked.innerHTML = "debitCard";
+      feedBack.innerHTML = "";
     }
   }
+});
 
-  // Validaciones previas a enviar el formulario
-  if (cantCeros === 0 && (creditCard.checked || debitCard.checked)) {
-    feedBack.classList.add("text-success");
-    feedBack.classList.remove("text-danger");
-    feedBack.innerHTML = "Método de pago seleccionado";
+const btnFinalzarCompra = document.getElementById("finalizarCompra");
 
-    divProductos.classList.add("text-success");
-    divProductos.classList.remove("text-danger");
-    divProductos.innerHTML = "";
-  
+btnFinalzarCompra.addEventListener("click", (e) => {
+  const creditCard = document.getElementById("creditCard");
+  const debitCard = document.getElementById("debitCard");
+  const feedbackChecked = document.getElementById("feedBackChecked");
+  const form = document.getElementById("loc");
+  if (creditCard.checked || debitCard.checked) {
     form.submit();
   } else {
-    if (cantCeros > 0 && (!creditCard.checked && !debitCard.checked)) {
-      feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
-      divProductos.innerHTML = "Ingrese una cantidad válida de producto o elimínelo del carrito";
-      divProductos.classList.add("text-danger");
-    } else {
-      if (cantCeros === 0 && (!creditCard.checked && !debitCard.checked)) {
-        feedBack.innerHTML = "Debe de seleccionar un metodo de pago";
-      } else {
-        divProductos.innerHTML = "Ingrese una cantidad válida de producto o elimínelo del carrito";
-        divProductos.classList.add("text-danger");
-      }
-
-    } 
+    feedbackChecked.classList.add("text-danger");
+    feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
   }
+});
 
+document.getElementById("modalTerminos").addEventListener("hide.bs.modal", function (event) {
+  const creditCardRadio = document.getElementById("creditCard");
+  const debitCardRadio = document.getElementById("debitCard");
+  if (creditCardRadio.checked) {
+    const cardNumber = document.getElementById("cardNumber");
+    const secCode = document.getElementById("secCode");
+    const expDate = document.getElementById("expDate");
+    if (!cardNumber.checkValidity() || !secCode.checkValidity() || !expDate.checkValidity()) {
+      event.preventDefault();
+    }
+  } else if (debitCardRadio.checked) {
+    const countNumber = document.getElementById("countNumber");
+    if (countNumber.value.trim() === "") {
+      event.preventDefault();
+    }
+  }
+  // Si no se selecciona ningún método de pago, evita cerrar el modal y muestra un mensaje de error
+  if (!creditCardRadio.checked && !debitCardRadio.checked) {
+    event.preventDefault();
+    const feedbackChecked = document.getElementById("feedBackChecked");
+    feedbackChecked.classList.add("text-danger");
+    feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
+  }
 });
