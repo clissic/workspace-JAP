@@ -57,9 +57,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       primerNombre: primerNombreValue,
       segundoApellido: segundoApellidoValue,
       segundoNombre: segundoNombreValue,
-      ciudad: userCiudadValue,  // Cambiar de userCiudad a ciudad
+      ciudad: userCiudadValue, 
       pais: userPaisValue,
-      telefono: userTelefonoValue,  // Cambiar userTelefono a telefono
+      telefono: userTelefonoValue,  
     };
 
     localStorage.setItem("usuario", JSON.stringify(user))
@@ -75,40 +75,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// Obtén el elemento de entrada de archivo
+
 const avatarInput = document.getElementById("avatarImg");
 
-// Obtén el elemento de imagen para mostrar la imagen seleccionada
+
 const profileImage = document.getElementById("profileImage");
 
-// Agrega un evento change al elemento de entrada de archivo
-avatarInput.addEventListener("change", function () {
-  const file = avatarInput.files[0]; // Obtiene el primer archivo seleccionado
+
+avatarInput.addEventListener("change", ()=> {
+  const file = avatarInput.files[0]; 
 
   if (file) {
-    // Si se seleccionó un archivo
+    
     const reader = new FileReader();
 
-    reader.onload = function (e) {
-      // Cuando se carga la imagen, establece la fuente de la imagen de perfil
+    reader.onload =  (e)=> {
+      
       profileImage.src = e.target.result;
 
-      // Guarda la imagen en el localStorage
+      
       localStorage.setItem("avatarImage", e.target.result);
     };
 
-    reader.readAsDataURL(file); // Lee el archivo como una URL de datos
+    reader.readAsDataURL(file); 
   }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Recupera la imagen del localStorage
+  
   const avatarImage = localStorage.getItem("avatarImage");
-
-  // Verifica si hay una imagen en el localStorage
   if (avatarImage) {
-    // Establece la imagen de perfil
     profileImage.src = avatarImage;
   }
 });
