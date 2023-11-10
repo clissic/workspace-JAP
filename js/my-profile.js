@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userPaisValue = userPais.value;
     const userCiudadValue = userCiudad.value;
 
+
     let user = {
       avatarImg: avatarImgValue,
       mail: userMailValue,
@@ -50,9 +51,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       primerNombre: primerNombreValue,
       segundoApellido: segundoApellidoValue,
       segundoNombre: segundoNombreValue,
-      userCiudad: userCiudadValue,
-      userPais: userPaisValue,
-      userTelefono: userTelefonoValue,
+      ciudad: userCiudadValue,  // Cambiar de userCiudad a ciudad
+      pais: userPaisValue,
+      telefono: userTelefonoValue,  // Cambiar userTelefono a telefono
     };
 
     localStorage.setItem("usuario", JSON.stringify(user))
@@ -62,24 +63,101 @@ document.addEventListener("DOMContentLoaded", async () => {
     mensaje.innerText = "INFORMACIÓN ACTUALIZADA"
 
     setTimeout(() => {
-        mensaje.classList.remove("text-success", "text-center", "fw-bold", "mb-5")
-        mensaje.innerText = ""
+      mensaje.classList.remove("text-success", "text-center", "fw-bold", "mb-5")
+      mensaje.innerText = ""
     }, 5000)
   });
 });
 
+// Obtén el elemento de entrada de archivo
+const avatarInput = document.getElementById("avatarImg");
 
-// Funcion que guarda en el localstorage los datos del usuario (punto 2, entrega 7)
+// Obtén el elemento de imagen para mostrar la imagen seleccionada
+const profileImage = document.getElementById("profileImage");
 
-const form = document.getElementById("datosUsuario");
+// Agrega un evento change al elemento de entrada de archivo
+avatarInput.addEventListener("change", function () {
+  const file = avatarInput.files[0]; // Obtiene el primer archivo seleccionado
 
-form.addEventListener("submit", (e) => {
-  const name= document.getElementById("primerNombre").value;
-  const lastName = document.getElementById("primerApellido").value;
-  const email = document.getElementById("userEmail").value;
+  if (file) {
+    // Si se seleccionó un archivo
+    const reader = new FileReader();
 
-  localStorage.setItem("nombre", name);
-  localStorage.setItem("apellido", lastName);
-  localStorage.setItem("email", email);
+    reader.onload = function (e) {
+      // Cuando se carga la imagen, establece la fuente de la imagen de perfil
+      profileImage.src = e.target.result;
 
-})
+      // Guarda la imagen en el localStorage
+      localStorage.setItem("avatarImage", e.target.result);
+    };
+
+    reader.readAsDataURL(file); // Lee el archivo como una URL de datos
+  }
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+
+  // Verifica si hay información de usuario en el Local Storage
+  if (localStorage.getItem("usuario")) {
+    user = JSON.parse(localStorage.getItem("usuario"));
+
+    // Establece los valores de país y ciudad desde el Local Storage
+    userPais.value = user.pais;
+    userCiudad.value = user.ciudad;
+  }
+
+
+  // Recupera la imagen del localStorage
+  const avatarImage = localStorage.getItem("avatarImage");
+
+  // Verifica si hay una imagen en el localStorage
+  if (avatarImage) {
+    // Establece la imagen de perfil
+    profileImage.src = avatarImage;
+  }
+});
+
+
+
+//* Cargar la lista de países desde el archivo "paises.json"
+fetch('json/paises.json')
+  .then(response => response.json())
+  .then(data => {
+    const userPais = document.getElementById('userPais');
+
+    data.forEach(pais => {
+      const option = document.createElement('option');
+      option.value = pais.codigo;
+      option.textContent = pais.nombre;
+      userPais.appendChild(option);
+    });
+  })
+  .catch(error => {
+    console.error('Error al cargar la lista de países', error);
+  });
+
+// Cuando se selecciona un país, cargar la lista de ciudades correspondientes desde el archivo "ciudades.json"
+document.getElementById('userPais').addEventListener('change', (event) => {
+  const selectedCountry = event.target.value;
+  const userCiudad = document.getElementById('userCiudad');
+
+  // Cargar la lista de ciudades desde el archivo "ciudades.json" basado en el país seleccionado
+  fetch('json/ciudades.json')
+    .then(response => response.json())
+    .then(data => {
+      userCiudad.innerHTML = '<option value="">Selecciona tu ciudad</option>';
+      const cities = data[selectedCountry] || [];
+
+      cities.forEach(ciudad => {
+        const option = document.createElement('option');
+        option.value = ciudad;
+        option.textContent = ciudad;
+        userCiudad.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.error('Error al cargar la lista de ciudades', error);
+    });
+});
