@@ -12,6 +12,8 @@ const userTelefono = document.getElementById("userTelefono");
 const userPais = document.getElementById("userPais");
 const userCiudad = document.getElementById("userCiudad");
 const botonGuardar = document.getElementById("botonGuardar");
+const userEmail = document.getElementById("userEmail");
+const userNombre = document.getElementById("userNombre");
 
 document.addEventListener("DOMContentLoaded", async () => {
   // PUNTO 3 DEL ENTREGABLE:
@@ -32,6 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     userTelefono.value = user.telefono ? user.telefono : userTelefono.value;
     userPais.value = user.pais ? user.pais : userPais.value;
     userCiudad.value = user.ciudad ? user.ciudad : userCiudad.value;
+    userNombre.innerText = user.primerNombre;
+    userEmail.innerText = user.mail;
   }
 
   botonGuardar.addEventListener("click", async () => {
