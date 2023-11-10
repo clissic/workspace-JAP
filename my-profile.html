@@ -14,57 +14,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/profile.css" rel="stylesheet" />
   </head>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>eMercado - Todo lo que busques está aquí</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i"
-      rel="stylesheet"
-    />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/profile.css" rel="stylesheet" />
-  </head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-      <div class="container">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav w-100 justify-content-between">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="categories.html">Categorías</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="sell.html">Vender</a>
-            </li>
-            <!-- Usuario y menú desplegable -->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
       <div class="container">
@@ -104,8 +54,6 @@
                 <span id="mailUsuario">Nombre de Usuario</span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="cart.html">Mi carrito</a>
                 <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
                 <div class="dropdown-divider"></div>
@@ -122,144 +70,133 @@
 
     <main>
       <div class="container rounded bg-white mt-5 mb-5">
-        <form id="datosUsuario">
-          <div class="row">
-            <div class="col-md-3 border-right">
-              <div
-                class="d-flex flex-column align-items-center text-center p-3 py-5"
-              >
-                <img
-                  class="rounded-circle mt-5"
-                  width="150px"
-                  src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                /><span class="font-weight-bold">Edogaru</span
-                ><span class="text-black-50">edogaru@mail.com.my</span
-                ><span> </span>
-              </div>
+        <div class="row">
+          <div class="col-md-3 border-right">
+            <div
+              class="d-flex flex-column align-items-center text-center p-3 py-5"
+            >
+              <img
+                class="rounded-circle mt-5"
+                width="150px"
+                src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                id="profileImage"
+              /><span class="font-weight-bold">Edogaru</span
+              ><span id="userEmail" class="text-black-50">edogaru@mail.com.my</span
+              ><span> </span>
             </div>
-            <div class="col-md-8 border-right">
-              <div class="p-3 py-5">
-                <div
-                  class="d-flex justify-content-between align-items-center mb-3"
-                >
-                  <h4 class="text-right">Perfil</h4>
+          </div>
+          <div class="col-md-8 border-right">
+            <div class="p-3 py-5">
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <h4 class="text-right">Perfil</h4>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <label class="labels">Primer nombre</label
+                  ><input
+                    id="primerNombre"
+                    type="text"
+                    class="form-control"
+                    placeholder="Primer nombre"
+                    value=""
+                  />
                 </div>
-                <div class="row mt-2">
-                  <div class="col-md-6">
-                    <label class="labels" for="primerNombre">Primer nombre</label
-                    ><input
-                      id="primerNombre"
-                      type="text"
-                      class="form-control"
-                      placeholder="Primer nombre"
-                      value=""
-                      required
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label class="labels" for="segundoNombre">Segundo nombre</label
-                    ><input
-                      id="segundoNombre"
-                      type="text"
-                      class="form-control"
-                      value=""
-                      placeholder="Segundo nombre"
-                    />
-                  </div>
+                <div class="col-md-6">
+                  <label class="labels">Segundo nombre</label
+                  ><input
+                    id="segundoNombre"
+                    type="text"
+                    class="form-control"
+                    value=""
+                    placeholder="Segundo nombre"
+                  />
                 </div>
-                <div class="row mt-3">
-                  <div class="col-md-6">
-                    <label class="labels" for="primerApellido">Primer apellido</label
-                    ><input
-                      id="primerApellido"
-                      type="text"
-                      class="form-control"
-                      placeholder="Primer apellido"
-                      value=""
-                      required
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label class="labels" for="segundoApellido">Segundo apellido</label
-                    ><input
-                      id="segundoApellido"
-                      type="text"
-                      class="form-control"
-                      placeholder="Segundo apellido"
-                      value=""
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label class="labels" for="userEmail">E-mail</label
-                    ><input
-                      id="userEmail"
-                      type="text"
-                      class="form-control"
-                      placeholder="ejemplo3@gmail.com"
-                      value=""
-                      required
-                    />
-                  </div>
-                  <div class="col-md-6">
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="labels">Primer apellido</label
+                  ><input
+                    id="primerApellido"
+                    type="text"
+                    class="form-control"
+                    placeholder="Primer apellido"
+                    value=""
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label class="labels">Segundo apellido</label
+                  ><input
+                    id="segundoApellido"
+                    type="text"
+                    class="form-control"
+                    placeholder="Segundo apellido"
+                    value=""
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label class="labels">E-mail</label
+                  ><input
+                    id="userEmail"
+                    type="text"
+                    class="form-control"
+                    placeholder="ejemplo3@gmail.com"
+                    value=""
+                  />
+                </div>
+                <div class="col-md-6">
+                  <form>
                     <div class="form-group">
-                      <label class="labels" for="avatarImg">Imagen de perfil</label>
+                      <label class="labels">Imagen de perfil</label>
                       <input
                         id="avatarImg"
                         type="file"
                         class="form-control"
                         id="exampleFormControlFile1"
+                        accept="image/*"
                       />
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="labels" for="userTelefono">Telefono de contacto</label
-                    ><input
-                      id="userTelefono"
-                      type="text"
-                      class="form-control"
-                      placeholder="Número de telefóno"
-                      value=""
-                    />
-                  </div>
+                  </form>
                 </div>
-                <div class="row mt-3">
-                  <div class="col-md-6">
-                    <label class="labels" for="userPais">Pais</label
-                    ><input
-                      id="userPais"
-                      type="text"
-                      class="form-control"
-                      placeholder="Ingresa tu pais"
-                      value=""
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label class="labels" for="userCiudad">Ciudad</label
-                    ><input
-                      id="userCiudad"
-                      type="text"
-                      class="form-control"
-                      value=""
-                      placeholder="Ingresa tu ciudad"
-                    />
-                  </div>
-                </div>
-                <div class="mt-5 text-center">
-                  <button
-                    id="botonGuardar"
-                    class="btn btn-primary profile-button"
-                    type="submit"
-                  >
-                    Guardar cambios
-                  </button>
+                <div class="col-md-6">
+                  <label class="labels">Telefono de contacto</label
+                  ><input
+                    id="userTelefono"
+                    type="text"
+                    class="form-control"
+                    placeholder="Número de telefóno"
+                    value=""
+                  />
                 </div>
               </div>
-              <p id="mensaje">
-                <!-- SE COMPLETA CON JS -->
-              </p>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="labels">Pais</label
+                  ><select id="userPais" class="form-control">
+                    <option value="">Selecciona tu país</option>
+                    <!-- Opciones de países que pueden cargarse desde la API o definirse estáticamente -->
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="labels">Ciudad</label
+                  ><select id="userCiudad" class="form-control">
+                    <option value="">Selecciona tu ciudad</option>
+                    <!-- Opciones de ciudades que se cargarán dinámicamente según el país seleccionado -->
+                  </select>
+                </div>
+              </div>
+              <div class="mt-5 text-center">
+                <button id="botonGuardar" class="btn btn-primary profile-button" type="button">
+                  Guardar cambios
+                </button>
+              </div>
             </div>
+            <p id="mensaje">
+              <!-- SE COMPLETA CON JS -->
+            </p>
           </div>
-        </form>
+        </div>
       </div>
     </main>
 
