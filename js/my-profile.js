@@ -119,8 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
-
 //* Cargar la lista de países desde el archivo "paises.json"
 fetch('json/paises.json')
   .then(response => response.json())

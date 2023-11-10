@@ -70,133 +70,150 @@
 
     <main>
       <div class="container rounded bg-white mt-5 mb-5">
-        <div class="row">
-          <div class="col-md-3 border-right">
-            <div
-              class="d-flex flex-column align-items-center text-center p-3 py-5"
-            >
-              <img
-                class="rounded-circle mt-5"
-                width="150px"
-                src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                id="profileImage"
-              /><span class="font-weight-bold">Edogaru</span
-              ><span id="userEmail" class="text-black-50">edogaru@mail.com.my</span
-              ><span> </span>
-            </div>
-          </div>
-          <div class="col-md-8 border-right">
-            <div class="p-3 py-5">
+        <form id="datosUsuario">
+          <div class="row">
+            <div class="col-md-3 border-right">
               <div
-                class="d-flex justify-content-between align-items-center mb-3"
+                class="d-flex flex-column align-items-center text-center p-3 py-5"
               >
-                <h4 class="text-right">Perfil</h4>
-              </div>
-              <div class="row mt-2">
-                <div class="col-md-6">
-                  <label class="labels">Primer nombre</label
-                  ><input
-                    id="primerNombre"
-                    type="text"
-                    class="form-control"
-                    placeholder="Primer nombre"
-                    value=""
-                  />
-                </div>
-                <div class="col-md-6">
-                  <label class="labels">Segundo nombre</label
-                  ><input
-                    id="segundoNombre"
-                    type="text"
-                    class="form-control"
-                    value=""
-                    placeholder="Segundo nombre"
-                  />
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">
-                  <label class="labels">Primer apellido</label
-                  ><input
-                    id="primerApellido"
-                    type="text"
-                    class="form-control"
-                    placeholder="Primer apellido"
-                    value=""
-                  />
-                </div>
-                <div class="col-md-6">
-                  <label class="labels">Segundo apellido</label
-                  ><input
-                    id="segundoApellido"
-                    type="text"
-                    class="form-control"
-                    placeholder="Segundo apellido"
-                    value=""
-                  />
-                </div>
-                <div class="col-md-6">
-                  <label class="labels">E-mail</label
-                  ><input
-                    id="userEmail"
-                    type="text"
-                    class="form-control"
-                    placeholder="ejemplo3@gmail.com"
-                    value=""
-                  />
-                </div>
-                <div class="col-md-6">
-                  <form>
-                    <div class="form-group">
-                      <label class="labels">Imagen de perfil</label>
-                      <input
-                        id="avatarImg"
-                        type="file"
-                        class="form-control"
-                        id="exampleFormControlFile1"
-                        accept="image/*"
-                      />
-                    </div>
-                  </form>
-                </div>
-                <div class="col-md-6">
-                  <label class="labels">Telefono de contacto</label
-                  ><input
-                    id="userTelefono"
-                    type="text"
-                    class="form-control"
-                    placeholder="Número de telefóno"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6">
-                  <label class="labels">Pais</label
-                  ><select id="userPais" class="form-control">
-                    <option value="">Selecciona tu país</option>
-                    <!-- Opciones de países que pueden cargarse desde la API o definirse estáticamente -->
-                  </select>
-                </div>
-                <div class="col-md-6">
-                  <label class="labels">Ciudad</label
-                  ><select id="userCiudad" class="form-control">
-                    <option value="">Selecciona tu ciudad</option>
-                    <!-- Opciones de ciudades que se cargarán dinámicamente según el país seleccionado -->
-                  </select>
-                </div>
-              </div>
-              <div class="mt-5 text-center">
-                <button id="botonGuardar" class="btn btn-primary profile-button" type="button">
-                  Guardar cambios
-                </button>
+                <img
+                  class="rounded-circle mt-5"
+                  width="150px"
+                  src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                  id="profileImage"
+                /><span class="font-weight-bold">Edogaru</span
+                ><span id="userEmail" class="text-black-50"
+                  >edogaru@mail.com.my</span
+                ><span> </span>
               </div>
             </div>
-            <p id="mensaje">
-              <!-- SE COMPLETA CON JS -->
-            </p>
+            <div class="col-md-8 border-right">
+              <div class="p-3 py-5">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <h4 class="text-right">Perfil</h4>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-md-6">
+                    <label class="labels" for="primerNombre"
+                      >Primer nombre</label
+                    ><input
+                      id="primerNombre"
+                      type="text"
+                      class="form-control"
+                      placeholder="Primer nombre"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="labels" for="segundoNombre"
+                      >Segundo nombre</label
+                    ><input
+                      id="segundoNombre"
+                      type="text"
+                      class="form-control"
+                      value=""
+                      placeholder="Segundo nombre"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <label class="labels" for="primerApellido"
+                      >Primer apellido</label
+                    ><input
+                      id="primerApellido"
+                      type="text"
+                      class="form-control"
+                      placeholder="Primer apellido"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="labels" for="segundoApellido"
+                      >Segundo apellido</label
+                    ><input
+                      id="segundoApellido"
+                      type="text"
+                      class="form-control"
+                      placeholder="Segundo apellido"
+                      value=""
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="labels" for="userEmail">E-mail</label
+                    ><input
+                      id="userEmail"
+                      type="text"
+                      class="form-control"
+                      placeholder="ejemplo3@gmail.com"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <form>
+                      <div class="form-group">
+                        <label class="labels" for="avatarImg"
+                          >Imagen de perfil</label
+                        >
+                        <input
+                          id="avatarImg"
+                          type="file"
+                          class="form-control"
+                          id="exampleFormControlFile1"
+                          accept="image/*"
+                        />
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="labels" for="userTelefono"
+                      >Telefono de contacto</label
+                    ><input
+                      id="userTelefono"
+                      type="text"
+                      class="form-control"
+                      placeholder="Número de telefóno"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <label class="labels" for="userPais">Pais</label
+                    ><select id="userPais" class="form-control">
+                      <option value="">Selecciona tu país</option>
+                      <!-- Opciones de países que pueden cargarse desde la API o definirse estáticamente -->
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="labels" for="userCiudad">Ciudad</label
+                    ><select id="userCiudad" class="form-control">
+                      <option value="">Selecciona tu ciudad</option>
+                      <!-- Opciones de ciudades que se cargarán dinámicamente según el país seleccionado -->
+                    </select>
+                  </div>
+                </div>
+                <div class="mt-5 text-center">
+                  <button
+                    id="botonGuardar"
+                    class="btn btn-primary profile-button"
+                    type="submit"
+                  >
+                    Guardar cambios
+                  </button>
+                </div>
+              </div>
+              <p id="mensaje">
+                <!-- SE COMPLETA CON JS -->
+              </p>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </main>
 
