@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     userTelefono.value = user.telefono ? user.telefono : userTelefono.value;
     userPais.value = user.pais ? user.pais : userPais.value;
     userCiudad.value = user.ciudad ? user.ciudad : userCiudad.value;
-    userNombre.innerText = user.primerNombre;
+    userNombre.innerText = user.primerNombre + " " + user.primerApellido;
     userEmail.innerText = user.mail;
   }
 
