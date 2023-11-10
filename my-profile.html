@@ -80,8 +80,10 @@
                   class="rounded-circle mt-5"
                   width="150px"
                   src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                  id="profileImage"
                 /><span class="font-weight-bold">Edogaru</span
-                ><span class="text-black-50">edogaru@mail.com.my</span
+                ><span id="userEmail" class="text-black-50"
+                  >edogaru@mail.com.my</span
                 ><span> </span>
               </div>
             </div>
@@ -94,8 +96,9 @@
                 </div>
                 <div class="row mt-2">
                   <div class="col-md-6">
-                    <label class="labels" for="primerNombre">Primer nombre</label
-                    ><img class="m-1" width="10" height="10" src="https://img.icons8.com/material-rounded/10/asterisk.png" alt="asterisk"/><input
+                    <label class="labels" for="primerNombre"
+                      >Primer nombre</label
+                    ><input
                       id="primerNombre"
                       type="text"
                       class="form-control"
@@ -105,7 +108,8 @@
                     />
                   </div>
                   <div class="col-md-6">
-                    <label class="labels" for="segundoNombre">Segundo nombre</label
+                    <label class="labels" for="segundoNombre"
+                      >Segundo nombre</label
                     ><input
                       id="segundoNombre"
                       type="text"
@@ -117,8 +121,9 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-md-6">
-                    <label class="labels" for="primerApellido">Primer apellido</label
-                    ><img class="m-1" width="10" height="10" src="https://img.icons8.com/material-rounded/10/asterisk.png" alt="asterisk"/><input
+                    <label class="labels" for="primerApellido"
+                      >Primer apellido</label
+                    ><input
                       id="primerApellido"
                       type="text"
                       class="form-control"
@@ -128,7 +133,8 @@
                     />
                   </div>
                   <div class="col-md-6">
-                    <label class="labels" for="segundoApellido">Segundo apellido</label
+                    <label class="labels" for="segundoApellido"
+                      >Segundo apellido</label
                     ><input
                       id="segundoApellido"
                       type="text"
@@ -139,7 +145,7 @@
                   </div>
                   <div class="col-md-6">
                     <label class="labels" for="userEmail">E-mail</label
-                    ><img class="m-1" width="10" height="10" src="https://img.icons8.com/material-rounded/10/asterisk.png" alt="asterisk"/><input
+                    ><input
                       id="userEmail"
                       type="text"
                       class="form-control"
@@ -149,18 +155,24 @@
                     />
                   </div>
                   <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="labels" for="avatarImg">Imagen de perfil</label>
-                      <input
-                        id="avatarImg"
-                        type="file"
-                        class="form-control"
-                        id="exampleFormControlFile1"
-                      />
-                    </div>
+                    <form>
+                      <div class="form-group">
+                        <label class="labels" for="avatarImg"
+                          >Imagen de perfil</label
+                        >
+                        <input
+                          id="avatarImg"
+                          type="file"
+                          class="form-control"
+                          id="exampleFormControlFile1"
+                          accept="image/*"
+                        />
+                      </div>
+                    </form>
                   </div>
                   <div class="col-md-6">
-                    <label class="labels" for="userTelefono">Telefono de contacto</label
+                    <label class="labels" for="userTelefono"
+                      >Telefono de contacto</label
                     ><input
                       id="userTelefono"
                       type="text"
@@ -173,23 +185,17 @@
                 <div class="row mt-3">
                   <div class="col-md-6">
                     <label class="labels" for="userPais">Pais</label
-                    ><input
-                      id="userPais"
-                      type="text"
-                      class="form-control"
-                      placeholder="Ingresa tu pais"
-                      value=""
-                    />
+                    ><select id="userPais" class="form-control">
+                      <option value="">Selecciona tu país</option>
+                      <!-- Opciones de países que pueden cargarse desde la API o definirse estáticamente -->
+                    </select>
                   </div>
                   <div class="col-md-6">
                     <label class="labels" for="userCiudad">Ciudad</label
-                    ><input
-                      id="userCiudad"
-                      type="text"
-                      class="form-control"
-                      value=""
-                      placeholder="Ingresa tu ciudad"
-                    />
+                    ><select id="userCiudad" class="form-control">
+                      <option value="">Selecciona tu ciudad</option>
+                      <!-- Opciones de ciudades que se cargarán dinámicamente según el país seleccionado -->
+                    </select>
                   </div>
                 </div>
                 <div class="mt-5 text-center">
