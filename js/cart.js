@@ -1,4 +1,4 @@
-const url = "https://japceibal.github.io/emercado-api/user_cart/25801.json";
+const url = "http://localhost:3000/emercado-api/user_cart/25801.json";
 var total = 0;
 var ArraytotalActualizado = [];
 const tbodyContenedor = document.getElementById("contenedor");
