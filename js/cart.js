@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await fetchData(url);
     const carToFetchId = data.articles[0].id;
     const carToPush = await fetchData(
-      `https://japceibal.github.io/emercado-api/products/${carToFetchId}.json`
+      `http://localhost:3000/emercado-api/products/${carToFetchId}.json`
     );
     const existingItem = cartSim.find((item) => item.id === carToPush.id);
     if (!existingItem) {
@@ -43,32 +43,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   // FUNCION QUE CALCULA EL SUBTOTAL Y LO IMPRIME EN HTML
   async function calcularSubtotal() {
     const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
+  
     for (let dato of cartSim) {
-      const countConteiner = document.getElementById(
-        `count-${dato.producto.id}`
-      );
-
-      const subtotalConteiner = document.getElementById(
-        `subTotal-${dato.producto.id}`
-      );
-
+      const countConteiner = document.getElementById(`count-${dato.producto.id}`);
+      const subtotalConteiner = document.getElementById(`subTotal-${dato.producto.id}`);
+  
       countConteiner.addEventListener("input", () => {
-        const valorSubTotal = countConteiner.value * dato.producto.cost;
         let valorProducto = 0;
+  
         if (countConteiner.value <= 1) {
           dato.cantidad = 1;
           countConteiner.value = 1;
           valorProducto = dato.producto.cost;
-          console.log("Entro aca");
-          actualizarTotal();
         } else {
           dato.cantidad = countConteiner.value;
           valorProducto = countConteiner.value * dato.producto.cost;
-          actualizarTotal();
         }
-        subtotalConteiner.innerHTML =
-          dato.producto.currency + " " + valorProducto;
+  
+        subtotalConteiner.innerHTML = dato.producto.currency + " " + valorProducto;
         localStorage.setItem("cartSim", JSON.stringify(cartSim));
+        actualizarTotal();
       });
     }
   }
