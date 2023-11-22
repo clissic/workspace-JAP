@@ -45,7 +45,7 @@ async function fetchData(url) {
 async function getProduct() {
   var selectedProductId = localStorage.getItem("productId");
   const producto = await fetchData(
-    `https://japceibal.github.io/emercado-api/products/${selectedProductId}.json`
+    `http://localhost:3000/emercado-api/products/${selectedProductId}.json`
   );
   return producto;
 }
@@ -54,7 +54,7 @@ async function getProduct() {
 async function getComments() {
   var selectedProductId = localStorage.getItem("productId");
   const comentarios = await fetchData(
-    `https://japceibal.github.io/emercado-api/products_comments/${selectedProductId}.json`
+    `http://localhost:3000/emercado-api/products_comments/${selectedProductId}.json`
   );
   return comentarios;
 }
