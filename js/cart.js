@@ -217,7 +217,6 @@ function actualizarTotal() {
       suma += producto.cantidad * producto.producto.cost;
     }
   }
-  console.log(suma);
 
   let costoEnvio = 0;
   if (standard.checked) {
@@ -227,7 +226,6 @@ function actualizarTotal() {
   } else if (premium.checked) {
     costoEnvio = suma * 0.15;
   }
-  console.log(costoEnvio);
 
   let sumaTotal = costoEnvio + suma;
   subTotal.innerText = suma;

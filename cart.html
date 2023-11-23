@@ -17,50 +17,64 @@
     <script src="js/validacion.js"></script>
   </head>
   <body>
-    <main>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-        <div class="container">
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav w-100 justify-content-between">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Inicio</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="categories.html">Categorías</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="sell.html">Vender</a>
-              </li>
-              <!-- Usuario y menú desplegable -->
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  ><span id="mailUsuario"></span></a
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav w-100 justify-content-between">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="categories.html">Categorías</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="sell.html">Vender</a>
+            </li>
+            <!-- Usuario y menú desplegable -->
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span id="mailUsuario"></span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="cart.html">Mi carrito</a>
+                <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+                <button class="dropdown-item" id="darkBotton">
+                  Modo oscuro
+                </button>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" id="logoutLink" href="login.html"
+                  >Cerrar sesión</a
                 >
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="cart.html">Mi carrito</a>
-                  <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
-                  <button class="dropdown-item" id="darkBotton">
-                    Modo oscuro
-                  </button>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" id="logoutLink" href="login.html"
-                    >Cerrar sesión</a
-                  >
-                </div>
-              </li>
-              <!-- Fin del menú desplegable -->
-            </ul>
-          </div>
+              </div>
+            </li>
+            <!-- Fin del menú desplegable -->
+          </ul>
         </div>
-      </nav>
-      <main>
+      </div>
+    </nav>
+    <!-- Fin de la barra de navegación -->
+    <main>
+      <div>
         <div class="container">
           <div class="card w-75 carta overflow-auto">
             <h3 class="text-center card-header">Carrito de compras</h3>
@@ -274,7 +288,10 @@
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <span id="feedBack" class="text-danger margen"></span>
+                              <span
+                                id="feedBack"
+                                class="text-danger margen"
+                              ></span>
                               <button
                                 type="button"
                                 class="btn bg-primary btn-primary"
@@ -320,7 +337,7 @@
             </div>
           </div>
         </div>
-      </main>
+      </div>
       <div id="spinner-wrapper">
         <div class="lds-ring">
           <div></div>

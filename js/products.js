@@ -59,7 +59,7 @@ function cartaProducto(producto) {
         <p class="vendidos" name="${producto.id}">Vendidos: <span class="cant-vendidos" name="${producto.id}">${producto.soldCount}</span></p>
       </div>
       <div class="contenedor-boton" name="${producto.id}">
-        <button onclick="addToCart(${producto.id})" class="botonComprar" id="boton${producto.id}" name="${producto.id}">Comprar</button>
+        <button onclick="addToCart(${producto.id}, event)" class="botonComprar" id="boton${producto.id}" name="${producto.id}">Comprar</button>
       </div>
     </div>
   `;
@@ -74,22 +74,33 @@ function filtrarProductos(min, max) {
 }
 
 // FUNCION QUE AGREGA AL CARRITO SIMULADO EN EL LOCAL STORAGE
-function addToCart(id) {
-  const productoSeleccionado = productosFiltrados.find(producto => producto.id === id);
-  if (productoSeleccionado) {
-    let cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    const productoEnCarrito = cartSim.find(producto => producto.id === id);
-    if (productoEnCarrito) {
-      productoEnCarrito.cantidad ++;
-    } else {
-      cartSim.push({
-        id: id,
-        cantidad: 1,
-        producto: productoSeleccionado
-      });
+
+function addToCart(id, e) {
+  const productoSeleccionado = productosFiltrados.find(
+    (producto) => producto.id === id
+  );
+  const token = localStorage.getItem("access-token");
+  fetch(
+    `http://localhost:3000/cart/addToCart/25801/${productoSeleccionado.id}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": token,
+      },
     }
-    localStorage.setItem("cartSim", JSON.stringify(cartSim));
-  }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      localStorage.setItem("cartSim", JSON.stringify(data));
+      window.location.href = "./cart.html";
+    })
+    .catch((error) => {
+      console.error("Error al realizar la solicitud:", error);
+    });
+
+  // Evitar que el evento se propague al contenedor
+  e.stopPropagation();
 }
 
 // OBTENGO DEL DOM:
@@ -110,7 +121,7 @@ const botonFiltrar = document.getElementById("rango-precios");
 document.addEventListener("DOMContentLoaded", async () => {
   const arrayProductos = await getCategory();
   // Cargar la lista completa de productos
-  productosFiltrados = arrayProductos.products; 
+  productosFiltrados = arrayProductos.products;
   categoriaTitulo.innerHTML = `CATEGORÍA ${arrayProductos.catName}`;
   // Cargar los productos en el HTML
   cargarProductosEnHTML(productosFiltrados);
@@ -177,29 +188,3 @@ botonLimpiar.addEventListener("click", async () => {
   productosFiltrados = arrayProductos.products;
   cargarProductosEnHTML(productosFiltrados);
 });
-
-// FUNCION QUE AGREGA AL CARRITO SIMULADO EN EL LOCAL STORAGE
-function addToCart(id) {
-  // Obtener el producto seleccionado
-  const productoSeleccionado = productosFiltrados.find(producto => producto.id === id);
-  if (productoSeleccionado) {
-    // Obtener el carrito simulado del Local Storage
-    let cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    // Verificar si el producto ya está en el carrito
-    const productoEnCarrito = cartSim.find(producto => producto.id === id);
-    if (productoEnCarrito) {
-      // Si el producto ya está en el carrito, aumentar la cantidad en 1
-      productoEnCarrito.cantidad += 1;
-    } else {
-      // Si el producto no está en el carrito, agregarlo con cantidad 1
-      cartSim.push({
-        id: id,
-        cantidad: 1,
-        producto: productoSeleccionado
-      });
-    }
-    // Guardar el carrito simulado actualizado en el Local Storage
-    localStorage.setItem("cartSim", JSON.stringify(cartSim));
-  }
-}
-// LISTENER DE INICIALIZACIÓN DE LA PÁGINA
