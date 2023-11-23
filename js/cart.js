@@ -1,65 +1,42 @@
-const url = "http://localhost:3000/emercado-api/user_cart/25801.json";
+const url = "http://localhost:3000/emercado-api/user_cart/25801";
 var total = 0;
 var ArraytotalActualizado = [];
 const tbodyContenedor = document.getElementById("contenedor");
 const dolar = 40;
 
-async function fetchData(url) {
-  // SE OBTIENE EL TOKEN DE JWT EN CASO DE LOGEADO:
-  const token = localStorage.getItem("access-token")
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'access-token': token,
-    },
-    });
-
-    if (!response.ok) {
-      throw Error(`Hubo un problema con la solicitud.`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error al realizar la solicitud:", error);
-  }
-}
-
 document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("access-token");
 
-  // FUNCION QUE CONVIERTE EL PRODUCTO QUE VIENE POR FETCH EN UN OBJETO CON LA ESTRUCTURA DE NUESTRO CARRITO (addToCart(id) en products.js:76)
-  async function colocarItemEnLS() {
-    const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-    const data = await fetchData(url);
-    const carToFetchId = data.articles[0].id;
-    const carToPush = await fetchData(
-      `http://localhost:3000/emercado-api/products/${carToFetchId}.json`
-    );
-    const existingItem = cartSim.find((item) => item.id === carToPush.id);
-    if (!existingItem) {
-      const localStorageApiItem = {
-        id: carToPush.id,
-        cantidad: 1,
-        producto: carToPush,
-      };
-      cartSim.push(localStorageApiItem);
-      localStorage.setItem("cartSim", JSON.stringify(cartSim));
-    }
-  }
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "access-token": token,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      localStorage.setItem("cartSim", JSON.stringify(data));
+    })
+    .catch((error) => {
+      console.error("Error al realizar la solicitud:", error);
+    });
 
   // FUNCION QUE CALCULA EL SUBTOTAL Y LO IMPRIME EN HTML
   async function calcularSubtotal() {
     const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-  
+
     for (let dato of cartSim) {
-      const countConteiner = document.getElementById(`count-${dato.producto.id}`);
-      const subtotalConteiner = document.getElementById(`subTotal-${dato.producto.id}`);
-  
+      const countConteiner = document.getElementById(
+        `count-${dato.producto.id}`
+      );
+      const subtotalConteiner = document.getElementById(
+        `subTotal-${dato.producto.id}`
+      );
+
       countConteiner.addEventListener("input", () => {
         let valorProducto = 0;
-  
+
         if (countConteiner.value <= 1) {
           dato.cantidad = 1;
           countConteiner.value = 1;
@@ -68,8 +45,28 @@ document.addEventListener("DOMContentLoaded", async () => {
           dato.cantidad = countConteiner.value;
           valorProducto = countConteiner.value * dato.producto.cost;
         }
-  
-        subtotalConteiner.innerHTML = dato.producto.currency + " " + valorProducto;
+        setTimeout(() => {
+          fetch(
+            `http://localhost:3000/cart/updateCartItemQuantity/25801/${dato.producto.id}/${countConteiner.value}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                "access-token": token,
+              },
+            }
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              localStorage.setItem("cartSim", JSON.stringify(data));
+            })
+            .catch((error) => {
+              console.error("Error al realizar la solicitud:", error);
+            });
+        }, 3000);
+
+        subtotalConteiner.innerHTML =
+          dato.producto.currency + " " + valorProducto;
         localStorage.setItem("cartSim", JSON.stringify(cartSim));
         actualizarTotal();
       });
@@ -114,7 +111,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         const debitCardRadio = document.getElementById("debitCard");
 
         if (creditCardRadio.checked) {
-          if (!cardNumber.checkValidity() || !secCode.checkValidity() || !expDate.checkValidity()) {
+          if (
+            !cardNumber.checkValidity() ||
+            !secCode.checkValidity() ||
+            !expDate.checkValidity()
+          ) {
             event.preventDefault();
           }
         } else if (debitCardRadio.checked) {
@@ -130,21 +131,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       });
 
-    // Función para eliminar un producto del carrito por su ID
-    function eliminarProductoDelCarrito(id) {
-      const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
-      const nuevoCarrito = cartSim.filter(
-        (productoEnCarrito) => productoEnCarrito.id != id
-      );
-      localStorage.setItem("cartSim", JSON.stringify(nuevoCarrito));
-    }
-
     // Asociar manejador de eventos a los botones de "Eliminar"
     const botonesEliminar = document.querySelectorAll(".eliminar");
     botonesEliminar.forEach((boton) => {
       boton.addEventListener("click", async (event) => {
         const id = event.currentTarget.getAttribute("data-id");
-        eliminarProductoDelCarrito(id);
+
+        fetch(`http://localhost:3000/cart/removeFromCart/25801/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "access-token": token,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            localStorage.setItem("cartSim", JSON.stringify(data));
+          })
+          .catch((error) => {
+            console.error("Error al realizar la solicitud:", error);
+          });
         const fila = event.currentTarget.closest("tr");
         if (fila) {
           fila.remove();
@@ -167,7 +173,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     actualizarTotal();
   }
 
-  colocarItemEnLS();
   mostrarProductosEnCarrito();
 
   // Obtén referencias a los elementos que deseas mostrar u ocultar
@@ -276,27 +281,33 @@ btnFinalzarCompra.addEventListener("click", (e) => {
   }
 });
 
-document.getElementById("modalTerminos").addEventListener("hide.bs.modal", function (event) {
-  const creditCardRadio = document.getElementById("creditCard");
-  const debitCardRadio = document.getElementById("debitCard");
-  if (creditCardRadio.checked) {
-    const cardNumber = document.getElementById("cardNumber");
-    const secCode = document.getElementById("secCode");
-    const expDate = document.getElementById("expDate");
-    if (!cardNumber.checkValidity() || !secCode.checkValidity() || !expDate.checkValidity()) {
-      event.preventDefault();
+document
+  .getElementById("modalTerminos")
+  .addEventListener("hide.bs.modal", function (event) {
+    const creditCardRadio = document.getElementById("creditCard");
+    const debitCardRadio = document.getElementById("debitCard");
+    if (creditCardRadio.checked) {
+      const cardNumber = document.getElementById("cardNumber");
+      const secCode = document.getElementById("secCode");
+      const expDate = document.getElementById("expDate");
+      if (
+        !cardNumber.checkValidity() ||
+        !secCode.checkValidity() ||
+        !expDate.checkValidity()
+      ) {
+        event.preventDefault();
+      }
+    } else if (debitCardRadio.checked) {
+      const countNumber = document.getElementById("countNumber");
+      if (countNumber.value.trim() === "") {
+        event.preventDefault();
+      }
     }
-  } else if (debitCardRadio.checked) {
-    const countNumber = document.getElementById("countNumber");
-    if (countNumber.value.trim() === "") {
+    // Si no se selecciona ningún método de pago, evita cerrar el modal y muestra un mensaje de error
+    if (!creditCardRadio.checked && !debitCardRadio.checked) {
       event.preventDefault();
+      const feedbackChecked = document.getElementById("feedBackChecked");
+      feedbackChecked.classList.add("text-danger");
+      feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
     }
-  }
-  // Si no se selecciona ningún método de pago, evita cerrar el modal y muestra un mensaje de error
-  if (!creditCardRadio.checked && !debitCardRadio.checked) {
-    event.preventDefault();
-    const feedbackChecked = document.getElementById("feedBackChecked");
-    feedbackChecked.classList.add("text-danger");
-    feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
-  }
-});
+  });
