@@ -5,8 +5,16 @@ const tbodyContenedor = document.getElementById("contenedor");
 const dolar = 40;
 
 async function fetchData(url) {
+  // SE OBTIENE EL TOKEN DE JWT EN CASO DE LOGEADO:
+  const token = localStorage.getItem("access-token")
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access-token': token,
+    },
+    });
 
     if (!response.ok) {
       throw Error(`Hubo un problema con la solicitud.`);
@@ -20,6 +28,7 @@ async function fetchData(url) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+
   // FUNCION QUE CONVIERTE EL PRODUCTO QUE VIENE POR FETCH EN UN OBJETO CON LA ESTRUCTURA DE NUESTRO CARRITO (addToCart(id) en products.js:76)
   async function colocarItemEnLS() {
     const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
