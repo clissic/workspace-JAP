@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userPaisValue = userPais.value;
     const userCiudadValue = userCiudad.value;
 
-
     let user = {
       avatarImg: avatarImgValue,
       mail: userMailValue,
@@ -75,35 +74,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-
 const avatarInput = document.getElementById("avatarImg");
-
-
 const profileImage = document.getElementById("profileImage");
-
 
 avatarInput.addEventListener("change", ()=> {
   const file = avatarInput.files[0]; 
-
   if (file) {
-    
     const reader = new FileReader();
-
     reader.onload =  (e)=> {
-      
       profileImage.src = e.target.result;
-
-      
       localStorage.setItem("avatarImage", e.target.result);
     };
-
     reader.readAsDataURL(file); 
   }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-
-  
   const avatarImage = localStorage.getItem("avatarImage");
   if (avatarImage) {
     profileImage.src = avatarImage;

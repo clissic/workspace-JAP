@@ -232,13 +232,9 @@ function actualizarTotal() {
   precioFinal.innerText = sumaTotal;
 }
 
-function escucharCostoEnvio() {
-  actualizarTotal();
-}
-
-standard.addEventListener("change", escucharCostoEnvio);
-express.addEventListener("change", escucharCostoEnvio);
-premium.addEventListener("change", escucharCostoEnvio);
+standard.addEventListener("change", actualizarTotal);
+express.addEventListener("change", actualizarTotal);
+premium.addEventListener("change", actualizarTotal);
 
 const buttonPago = document.getElementById("Boton");
 buttonPago.addEventListener("click", () => {
