@@ -1,25 +1,15 @@
-const url = "http://localhost:3000/emercado-api/user_cart/25801.json";
+const url = `${CART_INFO_URL}25801.json`;
 var total = 0;
 var ArraytotalActualizado = [];
 const tbodyContenedor = document.getElementById("contenedor");
 const dolar = 40;
 
 async function fetchData(url) {
-  // SE OBTIENE EL TOKEN DE JWT EN CASO DE LOGEADO:
-  const token = localStorage.getItem("access-token")
   try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'access-token': token,
-    },
-    });
-
+    const response = await fetch(url);
     if (!response.ok) {
       throw Error(`Hubo un problema con la solicitud.`);
     }
-
     const data = await response.json();
     return data;
   } catch (error) {
@@ -35,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await fetchData(url);
     const carToFetchId = data.articles[0].id;
     const carToPush = await fetchData(
-      `http://localhost:3000/emercado-api/products/${carToFetchId}.json`
+      `${PRODUCT_INFO_URL}${carToFetchId}.json`
     );
     const existingItem = cartSim.find((item) => item.id === carToPush.id);
     if (!existingItem) {
@@ -100,6 +90,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         </tr>`;
       tbodyContenedor.innerHTML += contenedorBody;
     }
+
+    // LOGICA GENERAL DEL MODAL DE METODO DE PAGO
     document
       .getElementById("modalTerminos")
       .addEventListener("hide.bs.modal", function (event) {
@@ -130,6 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       });
 
+      // MANEJO DEL BOTON ELIMINAR
     // Función para eliminar un producto del carrito por su ID
     function eliminarProductoDelCarrito(id) {
       const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
@@ -154,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // Convertir la imagen del producto en un botón para ir a la información del producto:
+    // CONVIERTE LA IMAGEN DEL PRODUCTO EN UN LINK A LA INFORMACION DEL MISMO
     const productInfoButtons = document.getElementsByClassName("redirect");
     for (const productButton of productInfoButtons) {
       productButton.addEventListener("click", (event) => {
@@ -170,6 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   colocarItemEnLS();
   mostrarProductosEnCarrito();
 
+  // LOGICA QUE OCULTA O MUESTRA LOS INPUTS DEPENDIENDO EL METODO DE PAGO
   // Obtén referencias a los elementos que deseas mostrar u ocultar
   const creditFields = document.querySelector(".credit-fields");
   const debitFields = document.querySelector(".debit-fields");
@@ -194,10 +188,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+// INPUTS DE ENVIOS
 const standard = document.getElementById("standard"); // 5%
 const express = document.getElementById("express"); // 7%
 const premium = document.getElementById("premium"); // 15%
 
+// FUNCION QUE ACTUALIZA LOS TOTALES EN EL CARRITO Y HACE EL CAMBIO DE DIVISAS
 function actualizarTotal() {
   const cartSim = JSON.parse(localStorage.getItem("cartSim")) || [];
   const subTotal = document.getElementById("subTotal");
@@ -230,14 +226,11 @@ function actualizarTotal() {
   precioFinal.innerText = sumaTotal;
 }
 
-function escucharCostoEnvio() {
-  actualizarTotal();
-}
+standard.addEventListener("change", actualizarTotal);
+express.addEventListener("change", actualizarTotal);
+premium.addEventListener("change", actualizarTotal);
 
-standard.addEventListener("change", escucharCostoEnvio);
-express.addEventListener("change", escucharCostoEnvio);
-premium.addEventListener("change", escucharCostoEnvio);
-
+// BOTON DEL MODAL QUE CHEQUEA SI SE ELEGIO METODO DE PAGO
 const buttonPago = document.getElementById("Boton");
 buttonPago.addEventListener("click", () => {
   const creditCard = document.getElementById("creditCard");
@@ -263,20 +256,8 @@ buttonPago.addEventListener("click", () => {
 
 const btnFinalzarCompra = document.getElementById("finalizarCompra");
 
-btnFinalzarCompra.addEventListener("click", (e) => {
-  const creditCard = document.getElementById("creditCard");
-  const debitCard = document.getElementById("debitCard");
-  const feedbackChecked = document.getElementById("feedBackChecked");
-  const form = document.getElementById("loc");
-  if (creditCard.checked || debitCard.checked) {
-    form.submit();
-  } else {
-    feedbackChecked.classList.add("text-danger");
-    feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
-  }
-});
-
-document.getElementById("modalTerminos").addEventListener("hide.bs.modal", function (event) {
+// LISTENER DEL MODAL QUE NO PERMITE QUE SE CONTINUE CON LA OPERACION SI NO SE LLENAN LOS CAMPOS
+document.getElementById("modalTerminos").addEventListener("hide.bs.modal", (event) => {
   const creditCardRadio = document.getElementById("creditCard");
   const debitCardRadio = document.getElementById("debitCard");
   if (creditCardRadio.checked) {
@@ -296,6 +277,20 @@ document.getElementById("modalTerminos").addEventListener("hide.bs.modal", funct
   if (!creditCardRadio.checked && !debitCardRadio.checked) {
     event.preventDefault();
     const feedbackChecked = document.getElementById("feedBackChecked");
+    feedbackChecked.classList.add("text-danger");
+    feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
+  }
+});
+
+// BOTON DE FINALIZAR COMPRA QUE HACE LA VALIDACION COMPLETA DEL FORMULARIO
+btnFinalzarCompra.addEventListener("click", (e) => {
+  const creditCard = document.getElementById("creditCard");
+  const debitCard = document.getElementById("debitCard");
+  const feedbackChecked = document.getElementById("feedBackChecked");
+  const form = document.getElementById("loc");
+  if (creditCard.checked || debitCard.checked) {
+    form.submit();
+  } else {
     feedbackChecked.classList.add("text-danger");
     feedbackChecked.innerHTML = "Debe seleccionar un método de pago";
   }

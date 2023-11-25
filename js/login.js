@@ -1,4 +1,4 @@
-/* const botonLogin = document.getElementById("botonLogin");
+const botonLogin = document.getElementById("botonLogin");
 botonLogin.addEventListener("click", ValidarUsuario);
 
 function ValidarUsuario(){
@@ -22,9 +22,9 @@ function ValidarUsuario(){
     } else {
         alert("¡Debes llenar todos los campos!");
     }
-} */
+}
 
-const botonLogin = document.getElementById("botonLogin");
+/* const botonLogin = document.getElementById("botonLogin");
 
 botonLogin.addEventListener("click", () => {
     const mail = document.getElementById("mail").value;
@@ -77,4 +77,4 @@ botonLogin.addEventListener("click", () => {
     } else {
         alert('¡Debes llenar todos los campos!');
     }
-});
+}); */
