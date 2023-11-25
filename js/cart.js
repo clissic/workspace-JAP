@@ -1,13 +1,12 @@
-const url = "http://localhost:3000/emercado-api/user_cart/25801";
 var total = 0;
-var ArraytotalActualizado = [];
-const tbodyContenedor = document.getElementById("contenedor");
+var arrayTotalActualizado = [];
 const dolar = 40;
+const tbodyContenedor = document.getElementById("contenedor");
 
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("access-token");
 
-  fetch(url, {
+  fetch(`${CART_INFO_URL}25801`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -81,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const productoImagen = producto.image || producto.images[0];
       const prodSubTotal = productoEnCarrito.cantidad * producto.cost;
       const id = `subTotal-${producto.id}`;
-      ArraytotalActualizado.push(id);
+      arrayTotalActualizado.push(id);
       const contenedorBody = `
         <tr>
           <td class="tittles">

@@ -19,7 +19,7 @@ async function fetchData(url) {
 async function getCategory() {
   var selectedCategoryId = localStorage.getItem("catID");
   const productos = await fetchData(
-    `http://localhost:3000/emercado-api/cats_products/${selectedCategoryId}`
+    `${PRODUCTS_URL}${selectedCategoryId}`
   );
   return productos;
 }
